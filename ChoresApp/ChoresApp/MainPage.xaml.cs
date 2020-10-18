@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ChoresApp.Controls.Fields;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -13,6 +14,12 @@ namespace ChoresApp
         public MainPage()
         {
             InitializeComponent();
+
+            var grr = new Entry();
+            sl.Children.Add(grr);
+
+            var rawr = new ChEntry();
+            sl.Children.Add(rawr);
         }
     }
 }

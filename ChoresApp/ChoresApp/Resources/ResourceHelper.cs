@@ -13,9 +13,23 @@ namespace ChoresApp.Resources
 
         // Properties ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+        //private static ResourceDictionary
+
+        public static ResourceDictionary CurrentTheme
+        {
+            get
+            {
+
+
+                return LoadLightTheme();
+            }
+        }
+
         // Events & Handlers ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
         // Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        private static ResourceDictionary LoadLightTheme()
+            => new ThemeLight().Load();
 
         private static Color GetColor(string _key) => (Color)App.Current.Resources[_key];
 

@@ -17,7 +17,7 @@ namespace ChoresApp.Helpers
 
         // Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-        public static View MakeHorizontalDivider(double _thickness = 1)
+        public static BoxView MakeHorizontalDivider(double _thickness = 1)
         {
             return new BoxView
             {
@@ -30,7 +30,7 @@ namespace ChoresApp.Helpers
             };
         }
 
-        public static View MakeVerticalDivider(double _thickness = 1)
+        public static BoxView MakeVerticalDivider(double _thickness = 1)
         {
             return new BoxView
             {
@@ -42,5 +42,40 @@ namespace ChoresApp.Helpers
                 VerticalOptions = LayoutOptions.FillAndExpand,
             };
         }
+
+        public static ColumnDefinition MakeAutoColumn() => new ColumnDefinition { Width = GridLength.Auto };
+        public static RowDefinition MakeAutoRow() => new RowDefinition { Height = GridLength.Auto };
+
+        public static ColumnDefinition MakeStarColumn(double _multiplier = 1)
+		{
+            return new ColumnDefinition
+            {
+                Width = new GridLength(_multiplier, GridUnitType.Star),
+            };
+        }
+
+        public static RowDefinition MakeStarRow(double _multiplier = 1)
+        {
+            return new RowDefinition
+            {
+                Height = new GridLength(_multiplier, GridUnitType.Star),
+            };
+        }
+
+        public static ColumnDefinition MakeStaticColomn(double _width)
+		{
+            return new ColumnDefinition
+            {
+				Width = _width,
+			};
+		}
+
+        public static RowDefinition MakeStaticRow(double _height)
+		{
+            return new RowDefinition
+            {
+                Height = _height,
+            };
+		}
     }
 }

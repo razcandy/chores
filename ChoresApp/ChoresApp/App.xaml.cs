@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ChoresApp.Resources;
+using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -9,6 +10,7 @@ namespace ChoresApp
         public App()
         {
             InitializeComponent();
+            Resources = ResourceHelper.CurrentTheme;
 
             MainPage = new MainPage();
         }
