@@ -1,4 +1,5 @@
 ﻿using ChoresApp.Helpers;
+using ChoresApp.Resources;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -14,7 +15,7 @@ namespace ChoresApp.Controls.Fields
         private static double multiplier = 1;
 
         private static Color underlineDefaultColor = Color.DarkGray;
-        private static Color accentColor = Color.Violet;
+        private static Color accentColor = ResourceHelper.SecondaryColor;
         private static Color defaultColor = Color.Black;
 
         // Fields ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -47,6 +48,7 @@ namespace ChoresApp.Controls.Fields
         {
             TitleLabel.Text = "Rawr";
             TitleLabelSmall.Text = "Rawr";
+            HelperTextLabel.Text = "Help meh plz";
         }
 
         // Properties ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -120,12 +122,7 @@ namespace ChoresApp.Controls.Fields
 
                 helperTextLabel = new Label
                 {
-                    //HorizontalOptions = LayoutOptions.Start,
-                    //HorizontalTextAlignment = TextAlignment.Start,
-                    TextColor = Color.Purple,
-                    FontSize = 12,
-                    Text = "RAWR",
-                    Padding = 0,
+                    Style = ResourceHelper.LabelFieldHelperTextStyle,
                 };
 
                 return helperTextLabel;
@@ -158,10 +155,6 @@ namespace ChoresApp.Controls.Fields
 
                 titleLabel = new Label
                 {
-                    //HorizontalOptions = LayoutOptions.Start,
-                    //HorizontalTextAlignment = TextAlignment.Start,
-                    TextColor = Color.White,
-                    BackgroundColor = Color.Blue,
                     FontSize = 20,
                     InputTransparent = true,
                 };
