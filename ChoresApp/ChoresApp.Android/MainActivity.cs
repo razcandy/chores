@@ -6,10 +6,19 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.OS;
+using System.Xml.Linq;
+using Android.Content.Res;
+using Xamarin.Essentials;
+using ChoresApp.Resources;
 
 namespace ChoresApp.Droid
 {
-    [Activity(Label = "ChoresApp", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize )]
+    [Activity(Label = "ChoresApp",
+        Icon = "@mipmap/icon",
+        Theme = "@style/MainTheme",
+        MainLauncher = true,
+        ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize | ConfigChanges.UiMode
+        )]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
         protected override void OnCreate(Bundle savedInstanceState)
@@ -23,11 +32,22 @@ namespace ChoresApp.Droid
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             LoadApplication(new App());
         }
+
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
         {
             Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
 
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
-    }
+
+		public override void OnConfigurationChanged(Configuration _newConfig)
+		{
+			base.OnConfigurationChanged(_newConfig);
+
+            if (AppInfo.RequestedTheme != ResourceHelper.CurrentAppTheme)
+			{
+                ResourceHelper.ThemeChangeRequested(AppInfo.RequestedTheme);
+			}
+		}
+	}
 }

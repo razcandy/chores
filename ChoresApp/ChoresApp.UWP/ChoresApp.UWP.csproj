@@ -130,6 +130,11 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\eco-black-48dp.svg" />
+    <AndroidResource Include="Assets\round_eco_rawr.xml" />
+    <Content Include="Assets\round_eco_black.png" />
+    <Content Include="Assets\test.jpg" />
+    <AndroidResource Include="Assets\test.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
@@ -138,7 +143,6 @@
     <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
     <Content Include="Assets\StoreLogo.png" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
-    <Content Include="Resources\Images\test.jpg" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">

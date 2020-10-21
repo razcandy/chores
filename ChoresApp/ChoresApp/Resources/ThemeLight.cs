@@ -10,25 +10,42 @@ namespace ChoresApp.Resources
         // Constants ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
         // Colors ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        protected override Color PrimaryColor => Color.FromHex("#f5f5f5");
-        protected override Color PrimaryLightColor => Color.FromHex("#ffffff");
-        protected override Color PrimaryDarkColor => Color.FromHex("#c2c2c2");
+        protected override Color PrimaryColor => Color.FromHex("#43a047");
+        protected override Color PrimaryLightColor => Color.FromHex("#76d275");
+        protected override Color PrimaryDarkColor => Color.FromHex("#00701a");
 
-        protected override Color SecondaryColor => Color.FromHex("#9e9d24");
-        protected override Color SecondaryLightColor => Color.FromHex("#d2ce56");
-        protected override Color SecondaryDarkColor => Color.FromHex("#6c6f00");
+        protected override Color SecondaryColor => Color.FromHex("#fdd835");
+        protected override Color SecondaryLightColor => Color.FromHex("#ffff6b");
+        protected override Color SecondaryDarkColor => Color.FromHex("#c6a700");
 
-        protected override Color PrimaryTextColor => Color.FromHex("#000000");
-        protected override Color PrimaryTextOnLightColor => Color.FromHex("#000000");
-        protected override Color PrimaryTextOnDarkColor => Color.FromHex("#000000");
+        protected override Color OnPrimaryColor => Color.FromHex("#FFFFFF");
+        protected override Color OnSecondaryColor => Color.FromHex("#000000");
+        protected override Color OnBackgroundColor => Color.FromHex("#000000");
+        protected override Color OnSurfaceColor => Color.FromHex("#000000");
+        protected override Color OnErrorColor => Color.FromHex("#FFFFFF");
 
-        protected override Color SecondaryTextColor => Color.FromHex("#000000");
-        protected override Color SecondaryTextOnLightColor => Color.FromHex("#000000");
-        protected override Color SecondaryTextOnDarkColor => Color.FromHex("#FFFFFF");
+        protected override Color BackgroundColor => Color.FromHex("#FFFFFF");
+        protected override Color SurfaceColor => Color.FromHex("#FFFFFF");
+        protected override Color ErrorColor => Color.FromHex("#B00020");
 
-        // Styles ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		// Styles ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-        // Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		protected override Style FrameCardStyle
+		{
+            get
+			{
+                var baseStyle = base.FrameCardStyle;
 
-    }
+                baseStyle.Setters.Add(new Setter
+                {
+                    Property = Frame.HasShadowProperty, Value = true
+                });
+
+                return baseStyle;
+			}
+		}
+
+		// Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+	}
 }

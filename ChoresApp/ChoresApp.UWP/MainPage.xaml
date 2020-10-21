@@ -10,4 +10,8 @@
     
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid Background="Green">
+        <Image Source="Assets\eco-black-48dp.svg" Width="30" Height="30"/>
+    </Grid>
 </forms:WindowsPage>

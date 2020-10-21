@@ -93,13 +93,19 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\Images\drawable-hdpi\test.jpg" />
-    <Content Include="Resources\Images\drawable-mdpi\test.jpg" />
-    <Content Include="Resources\Images\drawable-xhdpi\test.jpg" />
-    <Content Include="Resources\Images\drawable-xxhdpi\test.jpg" />
-    <Content Include="Resources\Images\drawable-xxxhdpi\test.jpg" />
-    <Content Include="Resources\Images\drawable\test.jpg" />
-    <Content Include="Resources\Images\test.jpg" />
+    <Content Include="Resources\drawable-hdpi\test.jpg" />
+    <AndroidResource Include="Resources\drawable-hdpi\test.png" />
+    <Content Include="Resources\drawable-mdpi\test.jpg" />
+    <AndroidResource Include="Resources\drawable-mdpi\test.png" />
+    <Content Include="Resources\drawable-xhdpi\test.jpg" />
+    <AndroidResource Include="Resources\drawable-xhdpi\test.png" />
+    <Content Include="Resources\drawable-xxhdpi\test.jpg" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\test.png" />
+    <Content Include="Resources\drawable-xxxhdpi\test.jpg" />
+    <AndroidResource Include="Resources\drawable\test.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\test.png" />
+    <AndroidResource Include="Resources\drawable\round_eco.xml" />
+    <Content Include="Resources\drawable\test.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>

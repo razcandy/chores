@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace ChoresApp.Resources
@@ -12,15 +13,15 @@ namespace ChoresApp.Resources
 
         // Properties ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-        public static ResourceDictionary CurrentTheme
-        {
-            get
-            {
-
-
-                return LoadLightTheme();
-            }
-        }
+        //public static ResourceDictionary CurrentTheme
+        //{
+        //    get
+        //    {
+        //        App.Current.UserAppTheme = OSAppTheme.Light;
+        //        return LoadLightTheme();
+        //        //return LoadDarkTheme();
+        //    }
+        //}
 
         //~~ Colors ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         public static Color PrimaryColor => GetColor(nameof(PrimaryColor));
@@ -28,14 +29,17 @@ namespace ChoresApp.Resources
 
         public static Color PrimaryTextColor => GetColor(nameof(PrimaryTextColor));
 
+        public static Color SurfaceColor => GetColor(nameof(SurfaceColor));
 
-		//~~ Styles ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        //~~ Styles ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-		public static Style LabelFieldHelperTextStyle => GetStyle(nameof(LabelFieldHelperTextStyle));
+        public static Style LabelFieldHelperTextStyle => GetStyle(nameof(LabelFieldHelperTextStyle));
 
-		// Events & Handlers ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        public static Style FrameCardStyle => GetStyle(nameof(FrameCardStyle));
 
-		// Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        // Events & Handlers ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+        // Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         private static Color GetColor(string _key) => GetResourceOrDefault<Color>(_key);
 
         private static T GetResourceOrDefault<T>(string _key)
@@ -65,6 +69,108 @@ namespace ChoresApp.Resources
 
         private static Style GetStyle(string _key) => GetResourceOrDefault<Style>(_key);
 
-        private static ResourceDictionary LoadLightTheme() => new ThemeLight().Load();
+        //private static ResourceDictionary LoadDarkTheme() => new ThemeDark().Load();
+        //private static ResourceDictionary LoadLightTheme() => new ThemeLight().Load();
+        
+        private static void LoadDarkTheme()
+		{
+            LoadTheme(new ThemeDark().Load());
+            CurrentTheme = OSAppTheme.Dark;
+
+            CurrentAppTheme = AppTheme.Dark;
+        }
+
+        private static void LoadLightTheme()
+		{
+            LoadTheme(new ThemeLight().Load());
+            CurrentTheme = OSAppTheme.Light;
+
+            CurrentAppTheme = AppTheme.Light;
+        }
+
+        private static void LoadTheme(AppTheme _newTheme)
+		{
+            if (_newTheme == AppTheme.Light)
+			{
+                LoadLightTheme();
+			}
+            else
+			{
+                LoadDarkTheme();
+            }
+		}
+
+        private static void LoadTheme(OSAppTheme _newTheme)
+        {
+            if (_newTheme == OSAppTheme.Light)
+            {
+                LoadLightTheme();
+            }
+            else
+            {
+                LoadDarkTheme();
+            }
+        }
+
+        private static void LoadTheme(ResourceDictionary _newTheme)
+        {
+            if (App.Current.Resources != null)
+            {
+                App.Current.Resources.Clear();
+            }
+
+            App.Current.Resources = _newTheme ?? new ResourceDictionary();
+        }
+
+        public static OSAppTheme CurrentTheme { get; private set; }
+
+        public static AppTheme CurrentAppTheme { get; private set; }
+
+        public static void LoadStartupTheme()
+		{
+            App.Current.UserAppTheme = (AppInfo.RequestedTheme == AppTheme.Light) ?
+                OSAppTheme.Light : OSAppTheme.Dark;
+
+            if (App.Current.UserAppTheme == OSAppTheme.Light)
+			{
+                LoadLightTheme();
+            }
+            else
+			{
+                LoadDarkTheme();
+            }
+        }
+
+        public static void ThemeChangeRequested(OSAppTheme _newTheme)
+		{
+            if (_newTheme == OSAppTheme.Unspecified) _newTheme = OSAppTheme.Dark;
+
+            if (_newTheme != CurrentTheme)
+			{
+                LoadTheme(_newTheme);
+            }
+		}
+
+        public static void ThemeChangeRequested(AppTheme _newTheme)
+		{
+            //Unspecified ?
+
+            if (_newTheme != CurrentAppTheme)
+			{
+                LoadTheme(_newTheme);
+			}
+        }
+
+        public static void ToggleTheme()
+		{
+            if (CurrentAppTheme == AppTheme.Light)
+			{
+                LoadDarkTheme();
+			}
+            else
+			{
+                LoadLightTheme();
+			}
+		}
     }
 }
