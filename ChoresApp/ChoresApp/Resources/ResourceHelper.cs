@@ -71,9 +71,12 @@ namespace ChoresApp.Resources
 
         private static Style GetStyle(string _key) => GetResourceOrDefault<Style>(_key);
 
+        public static bool IsDarkTheme() => CurrentAppTheme == AppTheme.Dark;
+        public static bool IsLightTheme() => CurrentAppTheme == AppTheme.Light;
+
         //private static ResourceDictionary LoadDarkTheme() => new ThemeDark().Load();
         //private static ResourceDictionary LoadLightTheme() => new ThemeLight().Load();
-        
+
         private static void LoadDarkTheme()
 		{
             LoadTheme(new ThemeDark().Load());

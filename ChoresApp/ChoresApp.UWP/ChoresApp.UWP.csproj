@@ -131,7 +131,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\eco-black-48dp.svg" />
-    <AndroidResource Include="Assets\round_eco_rawr.xml" />
     <Content Include="Assets\round_eco.png" />
     <Content Include="Assets\test.jpg" />
     <AndroidResource Include="Assets\test.png" />

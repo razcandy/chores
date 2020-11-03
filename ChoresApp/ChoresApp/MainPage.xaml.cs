@@ -28,11 +28,13 @@ namespace ChoresApp
             var img = new Image
             {
                 Aspect = Aspect.AspectFit,
-                Source = ImageHelper.Eco,
+                //Source = ImageHelper.Eco,
+
+                Source = ImageHelper.EcoTest.AsErrored(),
 
                 WidthRequest = dimension,
-                HeightRequest = dimension,
-                BackgroundColor = Color.Red,
+                HeightRequest = 100,
+                BackgroundColor = Color.Blue,
             };
 
             sl.Children.Add(img);
