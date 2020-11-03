@@ -28,7 +28,7 @@ namespace ChoresApp
             var img = new Image
             {
                 Aspect = Aspect.AspectFit,
-                Source = ImageHelper.EcoSvg,
+                Source = ImageHelper.Eco,
 
                 WidthRequest = dimension,
                 HeightRequest = dimension,
@@ -77,6 +77,18 @@ namespace ChoresApp
             };
 
             sl.Children.Add(f);
+
+            var testButton = new Button
+            {
+                Text = "rawr",
+                ImageSource = ImageHelper.Eco,
+                WidthRequest = 120,
+                HeightRequest = 30,
+                HorizontalOptions = LayoutOptions.Center,
+                Style = ResourceHelper.ButtonEmptyStyle,
+            };
+
+            sl.Children.Add(testButton);
         }
     }
 }

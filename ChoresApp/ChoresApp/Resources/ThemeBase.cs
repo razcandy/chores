@@ -31,6 +31,20 @@ namespace ChoresApp.Resources
 
         // Styles ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+        protected Style ButtonEmptyStyle
+		{
+            get
+			{
+                return new Style(typeof(Button))
+                {
+                    Setters =
+					{
+                        new Setter { Property = Button.BackgroundColorProperty, Value = Color.Transparent },
+                    },
+                };
+			}
+		}
+
         protected Style LabelPageHeaderStyle
         {
             get
@@ -210,6 +224,7 @@ namespace ChoresApp.Resources
             rd.Add(nameof(LabelFieldHelperTextStyle), LabelFieldHelperTextStyle);
 
             rd.Add(nameof(ButtonFilledStyle), ButtonFilledStyle);
+            rd.Add(nameof(ButtonEmptyStyle), ButtonEmptyStyle);
 
             rd.Add(nameof(FrameCardStyle), FrameCardStyle);
 

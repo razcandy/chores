@@ -33,6 +33,8 @@ namespace ChoresApp.Resources
 
         //~~ Styles ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+        public static Style ButtonEmptyStyle => GetStyle(nameof(ButtonEmptyStyle));
+
         public static Style LabelFieldHelperTextStyle => GetStyle(nameof(LabelFieldHelperTextStyle));
 
         public static Style FrameCardStyle => GetStyle(nameof(FrameCardStyle));
