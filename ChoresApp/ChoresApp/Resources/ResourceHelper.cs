@@ -1,4 +1,6 @@
-﻿using ChoresApp.Helpers;
+﻿using ChoresApp.Data.Messaging;
+using ChoresApp.Helpers;
+using GalaSoft.MvvmLight.Messaging;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -22,6 +24,8 @@ namespace ChoresApp.Resources
         //        //return LoadDarkTheme();
         //    }
         //}
+
+        public static double DefaultIconSize = 30;
 
         //~~ Colors ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         public static Color PrimaryColor => GetColor(nameof(PrimaryColor));
@@ -103,7 +107,9 @@ namespace ChoresApp.Resources
 			{
                 LoadDarkTheme();
             }
-		}
+
+            Messenger.Default.Send(new ThemeChangedMessage(CurrentAppTheme));
+        }
 
         private static void LoadTheme(OSAppTheme _newTheme)
         {
@@ -115,6 +121,8 @@ namespace ChoresApp.Resources
             {
                 LoadDarkTheme();
             }
+
+            Messenger.Default.Send(new ThemeChangedMessage(CurrentAppTheme));
         }
 
         private static void LoadTheme(ResourceDictionary _newTheme)
@@ -170,11 +178,11 @@ namespace ChoresApp.Resources
 		{
             if (CurrentAppTheme == AppTheme.Light)
 			{
-                LoadDarkTheme();
+                ThemeChangeRequested(AppTheme.Dark);
 			}
             else
 			{
-                LoadLightTheme();
+                ThemeChangeRequested(AppTheme.Light);
 			}
 		}
     }

@@ -8,7 +8,10 @@ namespace ChoresApp.Resources
     public abstract class ThemeBase
     {
         // Constants ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        protected int DefaultCornerRadius = 3;
+        protected const int DefaultCornerRadius = 3;
+
+        protected abstract double IconDefaultOpacity { get; }
+        protected abstract double IconSelectedOpacity { get; }
 
         // Colors ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         protected abstract Color PrimaryColor { get; }

@@ -1,4 +1,6 @@
-﻿using ChoresApp.Controls.Fields;
+﻿using ChoresApp.Controls;
+using ChoresApp.Controls.Fields;
+using ChoresApp.Controls.Images;
 using ChoresApp.Helpers;
 using ChoresApp.Resources;
 using System;
@@ -30,7 +32,7 @@ namespace ChoresApp
                 Aspect = Aspect.AspectFit,
                 //Source = ImageHelper.Eco,
 
-                Source = ImageHelper.EcoTest.AsErrored(),
+                Source = ImageHelper.Eco,
 
                 WidthRequest = dimension,
                 HeightRequest = 100,
@@ -80,6 +82,14 @@ namespace ChoresApp
 
             sl.Children.Add(f);
 
+            icon = new ChIcon
+            {
+                IconSource = ImageHelper.NotFound,
+            };
+
+            sl.Children.Add(icon);
+
+
             var testButton = new Button
             {
                 Text = "rawr",
@@ -89,8 +99,46 @@ namespace ChoresApp
                 HorizontalOptions = LayoutOptions.Center,
                 Style = ResourceHelper.ButtonEmptyStyle,
             };
+			testButton.Clicked += TestButton_Clicked;
 
             sl.Children.Add(testButton);
         }
-    }
+
+        private ChIcon icon;
+        private int iconStateCount = 0;
+
+        private void TestButton_Clicked(object sender, EventArgs e)
+		{
+			// 0 reg
+			// 1 selected
+			// 2 selected & errored
+			// 3 errored
+			// 4 reg
+
+			switch (iconStateCount)
+			{
+                case 0:
+                    icon.IsSelected = true;
+                    break;
+
+                case 1:
+                    icon.IsErrored = true;
+                    break;
+
+                case 2:
+                    icon.IsSelected = false;
+                    break;
+
+                case 3:
+                    icon.IsErrored = false;
+                    iconStateCount = 0;
+                    return;
+
+				default:
+					break;
+			}
+
+            iconStateCount++;
+        }
+	}
 }

@@ -1,26 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Xamarin.Forms;
+﻿using GalaSoft.MvvmLight.Messaging;
+using Xamarin.Essentials;
 
-namespace ChoresApp.Controls
+namespace ChoresApp.Data.Messaging
 {
-	public class ChIcon : Image
+	public class ThemeChangedMessage : MessageBase
 	{
 		// Fields ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 		// Constructors ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		public ThemeChangedMessage(AppTheme _theme)
+		{
+			CurrentTheme = _theme;
+		}
 
 		// Properties ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-		public bool IsSelected { get; set; }
-		public bool IsErrored { get; set; }
-
-		public new ImageSource Source
-		{
-			get => base.Source;
-			set => base.Source = value;
-		}
+		public AppTheme CurrentTheme { get; private set; }
 
 		// Events & Handlers ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
