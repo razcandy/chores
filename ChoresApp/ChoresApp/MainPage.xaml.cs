@@ -1,4 +1,5 @@
 ﻿using ChoresApp.Controls;
+using ChoresApp.Controls.Buttons;
 using ChoresApp.Controls.Fields;
 using ChoresApp.Controls.Images;
 using ChoresApp.Helpers;
@@ -19,9 +20,6 @@ namespace ChoresApp
         {
             InitializeComponent();
 
-            var grr = new Entry();
-            sl.Children.Add(grr);
-
             var rawr = new ChEntry();
             sl.Children.Add(rawr);
 
@@ -40,22 +38,6 @@ namespace ChoresApp
             };
 
             sl.Children.Add(img);
-
-            sl.Children.Add(new BoxView
-            {
-                BackgroundColor = Color.Orange,
-                WidthRequest = dimension,
-                HeightRequest = dimension,
-                HorizontalOptions = LayoutOptions.Center,
-            });
-
-            sl.Children.Add(new Image
-            {
-                WidthRequest = dimension,
-                HeightRequest = dimension,
-                HorizontalOptions = LayoutOptions.Center,
-                Source = "Assets\\eco-black-48dp.svg",
-            });
 
             var but = new Button
             {
@@ -92,16 +74,72 @@ namespace ChoresApp
 
             var testButton = new Button
             {
-                Text = "rawr",
+                //Text = "rawr",
                 ImageSource = ImageHelper.Eco,
                 WidthRequest = 120,
-                HeightRequest = 30,
+                HeightRequest = 50,
                 HorizontalOptions = LayoutOptions.Center,
-                Style = ResourceHelper.ButtonEmptyStyle,
+                //Style = ResourceHelper.ButtonEmptyStyle,
+
+                ContentLayout = new Button.ButtonContentLayout(Button.ButtonContentLayout.ImagePosition.Right, 6),
             };
 			testButton.Clicked += TestButton_Clicked;
 
+            //testButton.IsEnabled = false;
+
             sl.Children.Add(testButton);
+
+
+
+            var rawrButton = new ChImageButton
+            {
+                BackgroundColor = Color.Green,
+            };
+
+            sl.Children.Add(rawrButton);
+
+            var imgButton = new ImageButton
+            {
+                Aspect = Aspect.AspectFit,
+                HeightRequest = 50,
+                Source = ImageHelper.Eco,
+                BackgroundColor = Color.Pink,
+            };
+
+            sl.Children.Add(imgButton);
+
+
+            var test0 = new ChTextButton
+            {
+                Style = ResourceHelper.ButtonTextStyle,
+                TranslationKey = ButtonTransKeyEnum.Back,
+            };
+
+            test0.Clicked += delegate
+            {
+                test0.Style = ResourceHelper.ButtonContainedStyle;
+            };
+
+            var test1 = new ChTextButton
+            {
+                Style = ResourceHelper.ButtonOutlinedStyle,
+                TranslationKey = ButtonTransKeyEnum.Save,
+            };
+
+            var test2 = new ChTextButton
+            {
+                Style = ResourceHelper.ButtonContainedStyle,
+                TranslationKey = ButtonTransKeyEnum.Cancel,
+            };
+
+            sl.Children.Add(test0);
+            sl.Children.Add(test1);
+            sl.Children.Add(test2);
+
+            var home = new ChIconButton();
+            home.Icon.IconSource = ImageHelper.Home;
+
+            sl.Children.Add(home);
         }
 
         private ChIcon icon;

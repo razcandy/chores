@@ -127,6 +127,8 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CustomRenderers\ChImageButtonCustomRenderer.cs" />
+    <Compile Include="CustomRenderers\ButtonCustomRenderer.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -145,6 +147,10 @@
     <Content Include="Assets\broken_image-selected.png" />
     <Content Include="Assets\broken_image.png" />
     <Content Include="Assets\eco-black-48dp.svg" />
+    <Content Include="Assets\home-dark-selected.png" />
+    <Content Include="Assets\home-dark.png" />
+    <Content Include="Assets\home-selected.png" />
+    <Content Include="Assets\home.png" />
     <Content Include="Assets\round_eco.png" />
     <Content Include="Assets\test.jpg" />
     <AndroidResource Include="Assets\test.png" />

@@ -87,7 +87,9 @@
     <AndroidResource Include="Resources\mipmap-xxxhdpi\icon.png" />
     <AndroidResource Include="Resources\mipmap-xxxhdpi\launcher_foreground.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="CustomRenderers\" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ChoresApp\ChoresApp.csproj">
       <Project>{EFE1E6C6-2238-438A-B4A1-B9E5CDE2356F}</Project>
@@ -111,6 +113,8 @@
       <Generator>MSBuild:UpdateGeneratedFiles</Generator>
       <SubType>Designer</SubType>
     </AndroidResource>
+    <AndroidResource Include="Resources\drawable\home.xml" />
+    <AndroidResource Include="Resources\drawable\home-dark.xml" />
     <Content Include="Resources\drawable\test.jpg" />
     <AndroidResourceAnalysisConfig Include="Resources\values\imageSVGs.xml">
       <SubType>Designer</SubType>

@@ -1,15 +1,16 @@
-﻿using System;
+﻿using ChoresApp.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using Xamarin.Forms;
 
 namespace ChoresApp.Controls.Buttons
 {
-	public abstract class ChButtonBase : ContentView
+	//public abstract class ChButtonBase : Button
+	public class ChButtonBase : Button
 	{
 		// Fields ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-		private Grid mainGrid;
-		private Button nativeButton;
+		private bool isSelectable;
 
 		// Constructors ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		public ChButtonBase() : base()
@@ -19,56 +20,47 @@ namespace ChoresApp.Controls.Buttons
 
 		private void Init()
 		{
-			Content = MainGrid;
 		}
 
 		// Properties ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-		private Grid MainGrid
+		public bool IsSelectable
 		{
-			get
+			get => isSelectable;
+			set
 			{
-				if (mainGrid != null) return mainGrid;
-
-				mainGrid = new Grid
-				{
-
-				};
-
-				mainGrid.Children.Add(MainContent, 0, 0);
-				mainGrid.Children.Add(NativeButton, 0, 0);
-
-				return mainGrid;
+				isSelectable = value;
 			}
 		}
-
-		protected abstract View MainContent { get; }
-
-		protected Button NativeButton
+		
+		public bool IsSelected
 		{
-			get
-			{
-				if (nativeButton != null) return nativeButton;
-
-				nativeButton = new Button
-				{
-
-				};
-				nativeButton.Clicked += NativeButton_Clicked;
-
-				return nativeButton;
-			}
+			get => (bool)GetValue(IsSelectedProperty);
+			set => SetValue(IsSelectedProperty, value);
 		}
+
+		public static readonly BindableProperty IsSelectedProperty = BindableProperty.Create
+		(
+			propertyName: nameof(IsSelected),
+			returnType: typeof(bool),
+			declaringType: typeof(ChButtonBase),
+			defaultValue: false,
+			propertyChanged: OnIsSelectedPropertyChanged
+		);
 
 		// Events & Handlers ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-		private void NativeButton_Clicked(object sender, EventArgs e)
+		private static void OnIsSelectedPropertyChanged(BindableObject bindable, object oldValue, object newValue)
 		{
+			// do I need to check if the values are diff?
+
+			((ChButtonBase)bindable).OnIsSelectedChanged();
 		}
 
 		// Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		protected virtual void OnIsSelectedChanged() { }
 
-		protected virtual void AnimateOnClick()
+		protected void ToggleSelected()
 		{
-
+			IsSelected = !IsSelected;
 		}
 	}
 }

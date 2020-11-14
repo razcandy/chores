@@ -8,8 +8,13 @@ namespace ChoresApp.Helpers
 	public static class Extensions
 	{
 
-		// String Extensions ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		// Enum Extensions ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		public static string ToUpper(this Enum _source)
+		{
+			return _source.ToString().ToUpper();
+		}
 
+		// String Extensions ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		public static bool IsNullOrEmpty(this string _value)
 		{
 			return string.IsNullOrEmpty(_value);

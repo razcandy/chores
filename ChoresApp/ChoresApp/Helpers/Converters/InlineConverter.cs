@@ -2,7 +2,7 @@
 using System.Globalization;
 using Xamarin.Forms;
 
-namespace PGApollo.Helpers.Converters
+namespace ChoresApp.Helpers.Converters
 {
 	/// <typeparam name="T">The Output, the type of the property being bound to</typeparam>
 	public class InlineConverter<T> : IValueConverter

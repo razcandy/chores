@@ -9,9 +9,10 @@ namespace ChoresApp.Resources
     {
         // Constants ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         protected const int DefaultCornerRadius = 3;
+        protected const int DefaultButtonHeight = 50;
 
-        protected abstract double IconDefaultOpacity { get; }
-        protected abstract double IconSelectedOpacity { get; }
+        protected virtual double IconDefaultOpacity { get; } = 1.0;
+        protected virtual double IconSelectedOpacity { get; } = 1.0;
 
         // Colors ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         protected abstract Color PrimaryColor { get; }
@@ -34,7 +35,7 @@ namespace ChoresApp.Resources
 
         // Styles ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-        protected Style ButtonEmptyStyle
+        protected Style ButtonBaseStyle
 		{
             get
 			{
@@ -42,11 +43,61 @@ namespace ChoresApp.Resources
                 {
                     Setters =
 					{
-                        new Setter { Property = Button.BackgroundColorProperty, Value = Color.Transparent },
+                        new Setter { Property = Button.HeightRequestProperty, Value = DefaultButtonHeight },
+                        new Setter { Property = Button.CornerRadiusProperty, Value = DefaultCornerRadius },
                     },
                 };
 			}
 		}
+
+        protected Style ButtonContainedStyle
+        {
+            get
+            {
+                return new Style(typeof(Button))
+                {
+                    BasedOn = ButtonBaseStyle,
+                    Setters =
+                    {
+                        new Setter { Property = Button.BackgroundColorProperty, Value = PrimaryColor },
+                        new Setter { Property = Button.TextColorProperty, Value = OnPrimaryColor },
+                    },
+                };
+            }
+        }
+
+        protected Style ButtonOutlinedStyle
+        {
+            get
+            {
+                return new Style(typeof(Button))
+                {
+                    BasedOn = ButtonBaseStyle,
+                    Setters =
+                    {
+                        new Setter { Property = Button.BackgroundColorProperty, Value = Color.Transparent },
+                        new Setter { Property = Button.TextColorProperty, Value = PrimaryColor },
+                        new Setter { Property = Button.BorderColorProperty, Value = PrimaryColor },
+                    },
+                };
+            }
+        }
+
+        protected Style ButtonTextStyle
+        {
+            get
+            {
+                return new Style(typeof(Button))
+                {
+                    BasedOn = ButtonBaseStyle,
+                    Setters =
+                    {
+                        new Setter { Property = Button.BackgroundColorProperty, Value = Color.Transparent },
+                        new Setter { Property = Button.TextColorProperty, Value = PrimaryColor },
+                    },
+                };
+            }
+        }
 
         protected Style LabelPageHeaderStyle
         {
@@ -120,22 +171,6 @@ namespace ChoresApp.Resources
                 };
             }
         }
-
-        protected Style ButtonFilledStyle
-        {
-            get
-            {
-                return new Style(typeof(Button))
-                {
-                    Setters =
-                    {
-                        new Setter { Property = Button.BackgroundColorProperty, Value = SecondaryColor },
-                        new Setter { Property = Button.TextColorProperty, Value = OnSecondaryColor },
-                        new Setter { Property = Button.CornerRadiusProperty, Value = DefaultCornerRadius },
-                    }
-                };
-            }
-        }
         
         protected virtual Style FrameCardStyle
 		{
@@ -183,7 +218,15 @@ namespace ChoresApp.Resources
             }
         }
 
-        protected Style ButtonDefaultStyle => ButtonFilledStyle;
+        protected Style ButtonDefaultStyle
+		{
+            get
+			{
+                var defaultStyle = ButtonTextStyle;
+                defaultStyle.ApplyToDerivedTypes = true;
+                return defaultStyle;
+			}
+		}
 
         protected Style FrameDefaultStyle
 		{
@@ -226,8 +269,9 @@ namespace ChoresApp.Resources
             rd.Add(nameof(LabelPageHeaderStyle), LabelPageHeaderStyle);
             rd.Add(nameof(LabelFieldHelperTextStyle), LabelFieldHelperTextStyle);
 
-            rd.Add(nameof(ButtonFilledStyle), ButtonFilledStyle);
-            rd.Add(nameof(ButtonEmptyStyle), ButtonEmptyStyle);
+            rd.Add(nameof(ButtonContainedStyle), ButtonContainedStyle);
+            rd.Add(nameof(ButtonOutlinedStyle), ButtonOutlinedStyle);
+            rd.Add(nameof(ButtonTextStyle), ButtonTextStyle);
 
             rd.Add(nameof(FrameCardStyle), FrameCardStyle);
 

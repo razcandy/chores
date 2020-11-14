@@ -2,7 +2,7 @@
 using System.Globalization;
 using Xamarin.Forms;
 
-namespace PGApollo.Helpers.Converters
+namespace ChoresApp.Helpers.Converters
 {
     public class BoolToTConverter<T> : IValueConverter
 	{

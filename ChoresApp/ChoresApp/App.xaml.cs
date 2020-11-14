@@ -1,4 +1,5 @@
-﻿using ChoresApp.Resources;
+﻿using ChoresApp.Helpers;
+using ChoresApp.Resources;
 using System;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -21,11 +22,14 @@ namespace ChoresApp
 
             Current.On<Windows>().SetImageDirectory("Assets");
 
-            MainPage = new MainPage();
+			TranslationHelper.InitTest();
+
+			MainPage = new MainPage();
 
 			// Events
 			//Current.RequestedThemeChanged += OnRequestedThemeChanged;
-        }
+			
+		}
 
 		// Properties ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

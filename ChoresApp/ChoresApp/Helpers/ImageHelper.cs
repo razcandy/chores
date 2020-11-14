@@ -24,6 +24,8 @@ namespace ChoresApp.Helpers
 
 		public static ChImageSource Clock { get; } = new ChImageSource("clock.png");
 
+		public static ChImageSource Home { get; } = new ChImageSource("home.png", true, false, true);
+
 		public static ChImageSource NotFound { get; } = new ChImageSource("broken_image.png", true, true, true);
 	}
 }
