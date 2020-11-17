@@ -37,7 +37,7 @@ namespace ChoresApp.Helpers
 			}
 			else
 			{
-				var error = string.Format(LogHelper.BrokenTranslation, _enumKey);
+				var error = string.Format(LogMessages.BrokenTranslation, _enumKey);
 				LogHelper.LogError(error, _enumKey.GetType().ToString(), LogErrorSeverity.Medium);
 
 				trans = "<" + _enumKey.ToUpper() + ">";

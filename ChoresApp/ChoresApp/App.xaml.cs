@@ -24,6 +24,8 @@ namespace ChoresApp
 
 			TranslationHelper.InitTest();
 
+			CheckFiles();
+
 			var mainPage = new MainPage();
 			MainPage = mainPage;
 
@@ -31,7 +33,8 @@ namespace ChoresApp
 
 			// Events
 			//Current.RequestedThemeChanged += OnRequestedThemeChanged;
-			
+
+			LogHelper.LogInfo("App Launched", typeof(App).ToString());
 		}
 
 		// Properties ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -50,6 +53,11 @@ namespace ChoresApp
 		}
 
 		// Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		private void CheckFiles()
+		{
+			//FileHelper.TryCreateFile(FileHelper.LogFilename);
+		}
+
 		protected override void OnStart() { }
         protected override void OnSleep() { }
         protected override void OnResume() { }
