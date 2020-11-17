@@ -1,9 +1,6 @@
 ﻿using ChoresApp.Data.Messaging;
 using ChoresApp.Helpers;
 using GalaSoft.MvvmLight.Messaging;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
@@ -14,35 +11,22 @@ namespace ChoresApp.Resources
         // Fields ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
         // Properties ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-        //public static ResourceDictionary CurrentTheme
-        //{
-        //    get
-        //    {
-        //        App.Current.UserAppTheme = OSAppTheme.Light;
-        //        return LoadLightTheme();
-        //        //return LoadDarkTheme();
-        //    }
-        //}
-
         public static double DefaultIconSize = 30;
+        public static double HeaderHeight = 50;
+        public static double FooterHeight = 50;
 
         //~~ Colors ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         public static Color PrimaryColor => GetColor(nameof(PrimaryColor));
         public static Color SecondaryColor => GetColor(nameof(SecondaryColor));
-
         public static Color PrimaryTextColor => GetColor(nameof(PrimaryTextColor));
-
         public static Color SurfaceColor => GetColor(nameof(SurfaceColor));
 
         //~~ Styles ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
         public static Style ButtonContainedStyle => GetStyle(nameof(ButtonContainedStyle));
         public static Style ButtonOutlinedStyle => GetStyle(nameof(ButtonOutlinedStyle));
         public static Style ButtonTextStyle => GetStyle(nameof(ButtonTextStyle));
 
         public static Style LabelFieldHelperTextStyle => GetStyle(nameof(LabelFieldHelperTextStyle));
-
         public static Style FrameCardStyle => GetStyle(nameof(FrameCardStyle));
 
         // Events & Handlers ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

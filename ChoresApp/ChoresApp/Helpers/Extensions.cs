@@ -7,7 +7,6 @@ namespace ChoresApp.Helpers
 {
 	public static class Extensions
 	{
-
 		// Enum Extensions ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		public static string ToUpper(this Enum _source)
 		{

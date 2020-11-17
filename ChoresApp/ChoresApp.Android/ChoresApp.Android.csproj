@@ -114,7 +114,11 @@
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\drawable\home.xml" />
-    <AndroidResource Include="Resources\drawable\home-dark.xml" />
+    <AndroidResource Include="Resources\drawable\home_dark.xml" />
+    <AndroidResource Include="Resources\drawable\debug.xml" />
+    <AndroidResource Include="Resources\drawable\debug_dark.xml" />
+    <AndroidResource Include="Resources\drawable\debug_dark_selected.xml" />
+    <AndroidResource Include="Resources\drawable\debug_selected.xml" />
     <Content Include="Resources\drawable\test.jpg" />
     <AndroidResourceAnalysisConfig Include="Resources\values\imageSVGs.xml">
       <SubType>Designer</SubType>

@@ -24,7 +24,10 @@ namespace ChoresApp
 
 			TranslationHelper.InitTest();
 
-			MainPage = new MainPage();
+			var mainPage = new MainPage();
+			MainPage = mainPage;
+
+			NavigationHelper.InitStacks(mainPage);
 
 			// Events
 			//Current.RequestedThemeChanged += OnRequestedThemeChanged;

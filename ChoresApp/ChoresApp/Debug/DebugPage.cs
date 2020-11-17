@@ -1,0 +1,130 @@
+﻿using ChoresApp.Controls.Buttons;
+using ChoresApp.Helpers;
+using ChoresApp.Pages;
+using ChoresApp.Pages.Test;
+using ChoresApp.Resources;
+using System;
+using System.Collections.Generic;
+using System.Text;
+using Xamarin.Forms;
+
+namespace ChoresApp.Debug
+{
+	public class DebugPage : ChContentPage
+	{
+		// Fields ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		private ScrollView mainScroll;
+		private StackLayout mainLayout;
+		private ChButtonBase button0;
+		private ChButtonBase button1;
+		private ChButtonBase button2;
+
+		// Constructors ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		public DebugPage() : base()
+		{
+			Content = MainScroll;
+		}
+
+		// Properties ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		private ScrollView MainScroll
+		{
+			get
+			{
+				if (mainScroll != null) return mainScroll;
+
+				mainScroll = new ScrollView
+				{
+					Orientation = ScrollOrientation.Vertical,
+					Content = MainLayout,
+				};
+
+				return mainScroll;
+			}
+		}
+
+		private StackLayout MainLayout
+		{
+			get
+			{
+				if (mainLayout != null) return mainLayout;
+
+				mainLayout = new StackLayout
+				{
+					Orientation = StackOrientation.Vertical,
+					Children =
+					{
+						Button0,
+						Button1,
+						Button2,
+					},
+				};
+
+				return mainLayout;
+			}
+		}
+		
+		private ChButtonBase Button0
+		{
+			get
+			{
+				if (button0 != null) return button0;
+
+				button0 = new ChButtonBase
+				{
+					HorizontalOptions = LayoutOptions.Center,
+					Text = "Push here",
+					Style = ResourceHelper.ButtonOutlinedStyle,
+				};
+				button0.Clicked += delegate
+				{
+					NavigationHelper.PushToCurrentStack(new TestPage());
+				};
+
+				return button0;
+			}
+		}
+
+		private ChButtonBase Button1
+		{
+			get
+			{
+				if (button1 != null) return button1;
+
+				button1 = new ChButtonBase
+				{
+					HorizontalOptions = LayoutOptions.Center,
+					Text = "Push to 3",
+					Style = ResourceHelper.ButtonOutlinedStyle,
+				};
+				button1.Clicked += delegate
+				{
+					NavigationHelper.PushToStack(NavStackEnum.Nav3, new TestPage());
+				};
+
+				return button1;
+			}
+		}
+
+		private ChButtonBase Button2
+		{
+			get
+			{
+				if (button2 != null) return button2;
+
+				button2 = new ChButtonBase
+				{
+					HorizontalOptions = LayoutOptions.Center,
+					Text = "rawr",
+					Style = ResourceHelper.ButtonOutlinedStyle,
+				};
+
+				return button2;
+			}
+		}
+
+		// Events & Handlers ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+		// Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+	}
+}

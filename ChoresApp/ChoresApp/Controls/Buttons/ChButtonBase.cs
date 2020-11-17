@@ -20,6 +20,7 @@ namespace ChoresApp.Controls.Buttons
 
 		private void Init()
 		{
+			Clicked += OnThisClicked;
 		}
 
 		// Properties ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -31,7 +32,7 @@ namespace ChoresApp.Controls.Buttons
 				isSelectable = value;
 			}
 		}
-		
+
 		public bool IsSelected
 		{
 			get => (bool)GetValue(IsSelectedProperty);
@@ -54,6 +55,17 @@ namespace ChoresApp.Controls.Buttons
 
 			((ChButtonBase)bindable).OnIsSelectedChanged();
 		}
+
+		private void OnThisClicked(object sender, EventArgs e)
+		{
+			if (IsSelectable)
+			{
+				IsSelected = !IsSelected;
+				IsSelectedChanged?.Invoke(this, IsSelected);
+			}
+		}
+
+		public event EventHandler<bool> IsSelectedChanged;
 
 		// Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		protected virtual void OnIsSelectedChanged() { }

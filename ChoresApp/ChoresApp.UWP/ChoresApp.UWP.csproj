@@ -140,16 +140,19 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Assets\broken_image-dark-errored.png" />
-    <Content Include="Assets\broken_image-dark-selected.png" />
-    <Content Include="Assets\broken_image-dark.png" />
-    <Content Include="Assets\broken_image-errored.png" />
-    <Content Include="Assets\broken_image-selected.png" />
+    <Content Include="Assets\broken_image_dark_errored.png" />
+    <Content Include="Assets\broken_image_dark_selected.png" />
+    <Content Include="Assets\broken_image_dark.png" />
+    <Content Include="Assets\broken_image_errored.png" />
+    <Content Include="Assets\broken_image_selected.png" />
     <Content Include="Assets\broken_image.png" />
-    <Content Include="Assets\eco-black-48dp.svg" />
-    <Content Include="Assets\home-dark-selected.png" />
-    <Content Include="Assets\home-dark.png" />
-    <Content Include="Assets\home-selected.png" />
+    <Content Include="Assets\debug.png" />
+    <Content Include="Assets\debug_dark.png" />
+    <Content Include="Assets\debug_dark_selected.png" />
+    <Content Include="Assets\debug_selected.png" />
+    <Content Include="Assets\home_dark_selected.png" />
+    <Content Include="Assets\home_dark.png" />
+    <Content Include="Assets\home_selected.png" />
     <Content Include="Assets\home.png" />
     <Content Include="Assets\round_eco.png" />
     <Content Include="Assets\test.jpg" />

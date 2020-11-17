@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.UWP;
 
-[assembly: ExportRenderer(typeof(ChImageButton), typeof(ChImageButtonCustomRenderer))]
+//[assembly: ExportRenderer(typeof(ChImageButton), typeof(ChImageButtonCustomRenderer))]
 
 namespace ChoresApp.UWP.CustomRenderers
 {

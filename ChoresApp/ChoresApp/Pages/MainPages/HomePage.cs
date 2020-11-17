@@ -1,32 +1,17 @@
-﻿using ChoresApp.Controls.Buttons;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
 using Xamarin.Forms;
 
-namespace ChoresApp.Controls.Navbar
+namespace ChoresApp.Pages.MainPages
 {
-	public class ChNavbarButton : ChIconButton
+	public class HomePage : Page
 	{
 		// Fields ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-		private bool isSelected;
 
 		// Constructors ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-		public ChNavbarButton() : base()
-		{
-		}
 
 		// Properties ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-		public new bool IsSelectable => true;
-
-		public bool IsSelected
-		{
-			get => isSelected;
-			set
-			{
-				if (isSelected == value) return;
-
-				isSelected = value;
-				Icon.IsSelected = isSelected;
-			}
-		}
 
 		// Events & Handlers ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

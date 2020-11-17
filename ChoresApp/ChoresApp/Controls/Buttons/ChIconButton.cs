@@ -12,6 +12,7 @@ namespace ChoresApp.Controls.Buttons
 		private ChButtonBase button;
 		private ChIcon icon;
 		private Grid mainGrid;
+		private bool isSelectable;
 
 		// Constructors ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		public ChIconButton() : base()
@@ -39,7 +40,11 @@ namespace ChoresApp.Controls.Buttons
 			{
 				if (icon != null) return icon;
 
-				icon = new ChIcon();
+				icon = new ChIcon
+				{
+					HorizontalOptions = LayoutOptions.Center,
+					VerticalOptions = LayoutOptions.Center,
+				};
 
 				return icon;
 			}
@@ -59,12 +64,43 @@ namespace ChoresApp.Controls.Buttons
 			}
 		}
 
+		public bool IsSelectable
+		{
+			get => isSelectable;
+			set
+			{
+				if (isSelectable == value) return;
+
+				isSelectable = value;
+				Button.IsSelectable = true;
+
+				Button.IsSelectedChanged -= Button_IsSelectedChanged;
+
+				if (isSelectable)
+				{
+					Button.IsSelectedChanged += Button_IsSelectedChanged;
+				}
+			}
+		}
+
+		public ChImageSource IconSource
+		{
+			get => Icon.IconSource;
+			set => Icon.IconSource = value;
+		}
+
 		// Events & Handlers ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		private void Button_Clicked(object sender, EventArgs e)
 		{
-			Button.IsSelected = !Button.IsSelected;
-			Icon.IsSelected = !Icon.IsSelected;
+			Clicked?.Invoke(this, e);
 		}
+
+		private void Button_IsSelectedChanged(object sender, bool e)
+		{
+			Icon.IsSelected = e;
+		}
+
+		public event EventHandler Clicked;
 
 		// Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

@@ -12,17 +12,19 @@ namespace ChoresApp.Helpers
 
 		// Constants ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-		public const string SELECTED_KEY = "-selected";
-		public const string DARKTHEME_KEY = "-dark";
-		public const string ERRORED_KEY = "-errored";
+		public const string SELECTED_KEY = "_selected";
+		public const string DARKTHEME_KEY = "_dark";
+		public const string ERRORED_KEY = "_errored";
 
 		// Fields ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 		// Properties ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-		public static ChImageSource Eco { get; } = new ChImageSource("round_eco.png", false, false, false);
-
 		public static ChImageSource Clock { get; } = new ChImageSource("clock.png");
+
+		public static ChImageSource Debug { get; } = new ChImageSource("debug.png", true, false, true);
+
+		public static ChImageSource Eco { get; } = new ChImageSource("round_eco.png", false, false, false);
 
 		public static ChImageSource Home { get; } = new ChImageSource("home.png", true, false, true);
 

@@ -16,7 +16,6 @@ namespace ChoresApp.Helpers
         // Events & Handlers ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
         // Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
         public static BoxView MakeHorizontalDivider(double _thickness = 1)
         {
             return new BoxView
@@ -76,6 +75,12 @@ namespace ChoresApp.Helpers
             {
                 Height = _height,
             };
+		}
+
+        public static Color RandomColor()
+		{
+            var r = new Random();
+            return Color.FromRgb(r.Next(0, 256), r.Next(0, 256), r.Next(0, 256));
 		}
     }
 }
