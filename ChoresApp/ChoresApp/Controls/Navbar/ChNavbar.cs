@@ -1,6 +1,8 @@
 ﻿using ChoresApp.Controls.Buttons;
+using ChoresApp.Data.Messaging;
 using ChoresApp.Helpers;
 using ChoresApp.Resources;
+using GalaSoft.MvvmLight.Messaging;
 using System;
 using Xamarin.Forms;
 
@@ -20,8 +22,10 @@ namespace ChoresApp.Controls.Navbar
 		public ChNavbar() : base()
 		{
 			BindingContext = new ChNavbarVM();
-			BackgroundColor = ResourceHelper.SurfaceColor;
+			BackgroundColor = ResourceHelper.BackgroundColor;
 			Content = MainGrid;
+
+			Messenger.Default.Register<ThemeChangedMessage>(this, OnThemeChanged);
 		}
 
 		// Properties ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -196,6 +200,13 @@ namespace ChoresApp.Controls.Navbar
 				DebugButton.IsSelected = false;
 			}
 #endif
+		}
+
+		private void OnThemeChanged(ThemeChangedMessage _message)
+		{
+			if (_message == null) return;
+
+			BackgroundColor = ResourceHelper.BackgroundColor;
 		}
 
 		// Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

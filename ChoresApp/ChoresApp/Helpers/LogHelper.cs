@@ -52,15 +52,27 @@ namespace ChoresApp.Helpers
 			FileHelper.WriteToFile(fullLog, logFileName);
 		}
 
-        public static void LogError(string _messsage, string _object, LogErrorSeverity _severity = LogErrorSeverity.Low)
+		private static void Log(string _message, Type _source, LogTypeEnum _logType, string _additional = null)
+			=> Log(_message, _source.ToString(), _logType, _additional);
+
+		public static void LogError(string _messsage, string _object, LogErrorSeverity _severity = LogErrorSeverity.Low)
 			=> Log(_messsage, _object, LogTypeEnum.Error, _severity.ToUpper());
-		
+
+		public static void LogError(string _messsage, Type _source, LogErrorSeverity _severity = LogErrorSeverity.Low)
+			=> Log(_messsage, _source, LogTypeEnum.Error, _severity.ToUpper());
+
 		public static void LogInfo(string _messsage, string _object, string _additional = null)
 			=> Log(_messsage, _object, LogTypeEnum.Info, _additional);
-		
+
+		public static void LogInfo(string _messsage, Type _source, string _additional = null)
+			=> Log(_messsage, _source, LogTypeEnum.Info, _additional);
+
 		public static void LogWarning(string _message, string _object, string _additional = null)
 			=> Log(_message, _object, LogTypeEnum.Warning, _additional);
-    }
+
+		public static void LogWarning(string _message, Type _source, string _additional = null)
+			=> Log(_message, _source, LogTypeEnum.Warning, _additional);
+	}
 
     public enum LogErrorSeverity
 	{

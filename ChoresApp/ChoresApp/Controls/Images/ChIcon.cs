@@ -100,7 +100,8 @@ namespace ChoresApp.Controls.Images
 		// Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		private void Init()
 		{
-			Source = ImageHelper.NotFound;
+			//Source = ImageHelper.NotFound;
+			IconSource = ImageHelper.NotFound;
 			HeightRequest = ResourceHelper.DefaultIconSize;
 			WidthRequest = ResourceHelper.DefaultIconSize;
 
@@ -110,7 +111,6 @@ namespace ChoresApp.Controls.Images
 		private void ParseSource()
 		{
 			// check source valid
-
 			// check dark theme version exists
 
 			var sourceArray = IconSource.Source.Split('.');
@@ -118,6 +118,46 @@ namespace ChoresApp.Controls.Images
 			fileName = sourceArray[0];
 			fileType = "." + sourceArray[1];
 
+			if (Device.RuntimePlatform == Device.Android)
+			{
+				ParseSourceAndroid();
+			}
+			else if (Device.RuntimePlatform == Device.UWP)
+			{
+				ParseSourceUWP();
+			}
+		}
+
+		private void ParseSourceAndroid()
+		{
+			lightSource = fileName + fileType;
+			darkSource = lightSource;
+
+			if (IconSource.SelectedExists)
+			{
+				lightSelectedSource = fileName + ImageHelper.SELECTED_KEY + fileType;
+				darkSelectedSource = lightSelectedSource;
+			}
+			else
+			{
+				lightSelectedSource = lightSource;
+				darkSelectedSource = lightSelectedSource;
+			}
+
+			if (IconSource.ErroredExists)
+			{
+				lightErroredSource = fileName + ImageHelper.ERRORED_KEY + fileType;
+				darkErroredSource = lightErroredSource;
+			}
+			else
+			{
+				lightErroredSource = lightSource;
+				darkErroredSource = lightErroredSource;
+			}
+		}
+
+		private void ParseSourceUWP()
+		{
 			lightSource = fileName + fileType;
 			darkSource = fileName + ImageHelper.DARKTHEME_KEY + fileType;
 

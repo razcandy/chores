@@ -16,6 +16,7 @@ namespace ChoresApp.Resources
         public static double FooterHeight = 50;
 
         //~~ Colors ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        public static Color BackgroundColor => GetColor(nameof(BackgroundColor));
         public static Color PrimaryColor => GetColor(nameof(PrimaryColor));
         public static Color SecondaryColor => GetColor(nameof(SecondaryColor));
         public static Color PrimaryTextColor => GetColor(nameof(PrimaryTextColor));
@@ -48,12 +49,14 @@ namespace ChoresApp.Resources
                 }
                 else
                 {
-                    // log - key of "" does not match type ""
+                    var message = string.Format(LogMessages.ResourceTypeMismatch, _key, typeof(T).ToString());
+                    LogHelper.LogWarning(message, typeof(ResourceHelper));
                 }
             }
             else
             {
-                // log - key not found
+                var message = string.Format(LogMessages.ResourceNotFound, _key);
+                LogHelper.LogWarning(message, typeof(ResourceHelper));
             }
 
             return resource;

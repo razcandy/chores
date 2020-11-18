@@ -31,13 +31,15 @@ namespace ChoresApp.Controls.Fields
 				nativeEntry.Unfocused += NativeEntry_Unfocused;
 				nativeEntry.TextChanged += NativeEntry_TextChanged;
 
+				//nativeEntry.SetBinding(Entry.TextProperty, nameof(ChEntry.Value), BindingMode.TwoWay);
+
 				return nativeEntry;
 			}
 		}
 
 		private void NativeEntry_TextChanged(object sender, TextChangedEventArgs e)
 		{
-			Value = NativeEntry.Text;
+			//Value = NativeEntry.Text;
 		}
 
 		protected override View NativeControl => NativeEntry;

@@ -25,7 +25,7 @@ namespace ChoresApp.Resources
         protected override Color OnErrorColor => Color.FromHex("#FFFFFF");
 
         protected override Color BackgroundColor => Color.FromHex("#FFFFFF");
-        protected override Color SurfaceColor => Color.FromHex("#FFFFFF");
+        protected override Color SurfaceColor => Color.FromHex("#DDDDDD");
         protected override Color ErrorColor => Color.FromHex("#B00020");
 
 		// Styles ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

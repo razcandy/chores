@@ -146,6 +146,8 @@
     <Content Include="Assets\broken_image_errored.png" />
     <Content Include="Assets\broken_image_selected.png" />
     <Content Include="Assets\broken_image.png" />
+    <Content Include="Assets\calendar.png" />
+    <Content Include="Assets\calendar_dark.png" />
     <Content Include="Assets\debug.png" />
     <Content Include="Assets\debug_dark.png" />
     <Content Include="Assets\debug_dark_selected.png" />

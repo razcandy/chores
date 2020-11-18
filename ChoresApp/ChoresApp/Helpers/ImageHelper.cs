@@ -20,6 +20,8 @@ namespace ChoresApp.Helpers
 
 		// Properties ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+		public static ChImageSource Calendar { get; } = new ChImageSource("calendar.png", true, false, false);
+
 		public static ChImageSource Clock { get; } = new ChImageSource("clock.png");
 
 		public static ChImageSource Debug { get; } = new ChImageSource("debug.png", true, false, true);

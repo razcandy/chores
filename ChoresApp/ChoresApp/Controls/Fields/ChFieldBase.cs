@@ -1,4 +1,5 @@
-﻿using ChoresApp.Helpers;
+﻿using ChoresApp.Controls.Images;
+using ChoresApp.Helpers;
 using ChoresApp.Resources;
 using System;
 using System.Collections.Generic;
@@ -10,9 +11,9 @@ namespace ChoresApp.Controls.Fields
     public abstract class ChFieldBase : ContentView
     {
         // Constants ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        private static double iconSize => 24 * multiplier;
+        private const double iconSize = 24 * multiplier;
         //private static double iconSize = 24;
-        private static double multiplier = 1;
+        private const double multiplier = 1;
 
         private static Color underlineDefaultColor = Color.DarkGray;
         private static Color accentColor = ResourceHelper.SecondaryColor;
@@ -22,16 +23,18 @@ namespace ChoresApp.Controls.Fields
         private Grid mainGrid;
         private Frame backgroundFrame;
         private Label helperTextLabel;
-        private Image leadingIcon;
+        private ChIcon leadingIcon;
+        private ChFieldState state;
         private Label titleLabel;
         private Label titleLabelSmall;
+        private ChIcon trailingIcon;
         private BoxView underline;
 
         // Constructors ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         public ChFieldBase()
         {
             Init();
-            Test();
+            //Test();
         }
 
         public ChFieldBase(ChFieldState _startingState)
@@ -67,10 +70,10 @@ namespace ChoresApp.Controls.Fields
 
                 var numColumns = 5;
                 var numRows = 5;
-                bool useLeadingIcon = !string.IsNullOrEmpty(LeadingIconSource);
+                //bool useLeadingIcon = !string.IsNullOrEmpty(LeadingIconSource);
 
                 mainGrid.ColumnDefinitions.Add(UIHelper.MakeStaticColomn(16 * multiplier)); // leading space
-                mainGrid.ColumnDefinitions.Add(UIHelper.MakeStaticColomn(useLeadingIcon ? iconSize : 0)); // leading icon
+                mainGrid.ColumnDefinitions.Add(UIHelper.MakeStaticColomn(UseLeadingIcon ? iconSize : 0)); // leading icon
                 mainGrid.ColumnDefinitions.Add(UIHelper.MakeStarColumn()); // native field
                 mainGrid.ColumnDefinitions.Add(UIHelper.MakeStaticColomn(iconSize)); // trailing icon
                 mainGrid.ColumnDefinitions.Add(UIHelper.MakeStaticColomn(12 * multiplier)); // trailing space
@@ -84,10 +87,12 @@ namespace ChoresApp.Controls.Fields
                 // Children
                 mainGrid.Children.Add(BackgroundFrame, 0, numColumns, 0, 4);
 
-                if (useLeadingIcon)
+                if (UseLeadingIcon)
                 {
                     mainGrid.Children.Add(LeadingIcon, 1, 2, 1, 3);
                 }
+
+                mainGrid.Children.Add(TrailingIcon, 3, 4, 1, 3);
 
                 mainGrid.Children.Add(TitleLabelSmall, 2, 3, 1, 2);
                 mainGrid.Children.Add(NativeControl, 2, 3, 2, 3);
@@ -129,18 +134,14 @@ namespace ChoresApp.Controls.Fields
             }
         }
 
-        private Image LeadingIcon
+        private ChIcon LeadingIcon
         {
             get
             {
                 if (leadingIcon != null) return leadingIcon;
 
-                leadingIcon = new Image
+                leadingIcon = new ChIcon
                 {
-                    Source = LeadingIconSource,
-                    WidthRequest = iconSize,
-                    HeightRequest = iconSize,
-                    Aspect = Aspect.AspectFit,
                 };
 
                 return leadingIcon;
@@ -155,9 +156,11 @@ namespace ChoresApp.Controls.Fields
 
                 titleLabel = new Label
                 {
-                    FontSize = 20,
+					BindingContext = this,
+					FontSize = 20,
                     InputTransparent = true,
                 };
+                titleLabel.SetBinding(Label.TextProperty, nameof(Title));
 
                 return titleLabel;
             }
@@ -171,11 +174,27 @@ namespace ChoresApp.Controls.Fields
 
                 titleLabelSmall = new Label
                 {
+					BindingContext = this,
                     InputTransparent = true,
                     FontSize = 10,
                 };
+                titleLabelSmall.SetBinding(Label.TextProperty, nameof(Title));
 
                 return titleLabelSmall;
+            }
+        }
+
+        protected ChIcon TrailingIcon
+        {
+            get
+            {
+                if (trailingIcon != null) return trailingIcon;
+
+                trailingIcon = new ChIcon
+                {
+                };
+
+                return trailingIcon;
             }
         }
 
@@ -191,13 +210,29 @@ namespace ChoresApp.Controls.Fields
             }
         }
 
-        protected virtual string LeadingIconSource => string.Empty;
+
+        //protected virtual ChImageSource LeadingIconSource => string.Empty;
 
         protected abstract View NativeControl { get; }
 
-        protected string Value { get; set; }
+        protected virtual bool UseLeadingIcon => false;
 
-        private ChFieldState state;
+        protected string ValueString { get; set; } // make abstract
+
+
+        public string HelperText
+        {
+            get => (string)GetValue(HelperTextProperty);
+            set => SetValue(HelperTextProperty, value);
+        }
+
+        public static readonly BindableProperty HelperTextProperty = BindableProperty.Create
+        (
+            propertyName: nameof(HelperText),
+            returnType: typeof(string),
+            declaringType: typeof(ChFieldBase),
+            defaultValue: null
+        );
 
         public ChFieldState State
         {
@@ -211,6 +246,20 @@ namespace ChoresApp.Controls.Fields
                 }
             }
         }
+
+        public string Title
+        {
+            get => (string)GetValue(TitleProperty);
+            set => SetValue(TitleProperty, value);
+        }
+
+        public static readonly BindableProperty TitleProperty = BindableProperty.Create
+        (
+            propertyName: nameof(Title),
+            returnType: typeof(string),
+            declaringType: typeof(ChFieldBase),
+            defaultValue: null
+        );
 
         private bool isErrored;
 
@@ -368,7 +417,7 @@ namespace ChoresApp.Controls.Fields
 
             UpdateLabelColor(defaultColor);
 
-            if (string.IsNullOrEmpty(Value))
+            if (string.IsNullOrEmpty(ValueString))
             {
                 SetInactive();
             }

@@ -118,7 +118,10 @@ namespace ChoresApp
         {
             var sl = new StackLayout();
 
-            var rawr = new ChEntry();
+            var rawr = new ChEntry
+            {
+                Title = "Entry Title",
+            };
             sl.Children.Add(rawr);
 
             var dimension = 48;
@@ -188,59 +191,13 @@ namespace ChoresApp
             sl.Children.Add(testButton);
 
 
-
-            var rawrButton = new ChImageButton
+            var datePicker = new ChDatePicker
             {
-                BackgroundColor = Color.Green,
+                Title = "Date Pickerrr",
             };
+            sl.Children.Add(datePicker);
 
-            sl.Children.Add(rawrButton);
-
-            var imgButton = new ImageButton
-            {
-                Aspect = Aspect.AspectFit,
-                HeightRequest = 50,
-                Source = ImageHelper.Eco,
-                BackgroundColor = Color.Pink,
-            };
-
-            sl.Children.Add(imgButton);
-
-
-            var test0 = new ChTextButton
-            {
-                Style = ResourceHelper.ButtonTextStyle,
-                TranslationKey = ButtonTransKeyEnum.Back,
-            };
-
-            test0.Clicked += delegate
-            {
-                test0.Style = ResourceHelper.ButtonContainedStyle;
-            };
-
-            var test1 = new ChTextButton
-            {
-                Style = ResourceHelper.ButtonOutlinedStyle,
-                TranslationKey = ButtonTransKeyEnum.Save,
-            };
-
-            var test2 = new ChTextButton
-            {
-                Style = ResourceHelper.ButtonContainedStyle,
-                TranslationKey = ButtonTransKeyEnum.Cancel,
-            };
-
-            sl.Children.Add(test0);
-            sl.Children.Add(test1);
-            sl.Children.Add(test2);
-
-            var home = new ChIconButton
-            {
-                IsSelectable = true,
-            };
-            home.Icon.IconSource = ImageHelper.Home;
-
-            sl.Children.Add(home);
+            // ~~~~~~~~~~~~~~~~~~~~
 
             var sv = new ScrollView
             {

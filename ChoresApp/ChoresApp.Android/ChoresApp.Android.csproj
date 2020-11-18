@@ -106,7 +106,6 @@
     <Content Include="Resources\drawable-xxhdpi\test.jpg" />
     <AndroidResource Include="Resources\drawable-xxhdpi\test.png" />
     <Content Include="Resources\drawable-xxxhdpi\test.jpg" />
-    <AndroidResource Include="Resources\drawable\test.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\test.png" />
     <AndroidResource Include="Resources\drawable\round_eco.xml" />
     <AndroidResource Include="Resources\drawable\round_eco_test.xml">
@@ -114,15 +113,18 @@
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\drawable\home.xml" />
-    <AndroidResource Include="Resources\drawable\home_dark.xml" />
     <AndroidResource Include="Resources\drawable\debug.xml" />
     <AndroidResource Include="Resources\drawable\debug_dark.xml" />
     <AndroidResource Include="Resources\drawable\debug_dark_selected.xml" />
     <AndroidResource Include="Resources\drawable\debug_selected.xml" />
-    <Content Include="Resources\drawable\test.jpg" />
     <AndroidResourceAnalysisConfig Include="Resources\values\imageSVGs.xml">
       <SubType>Designer</SubType>
     </AndroidResourceAnalysisConfig>
+    <AndroidResource Include="Resources\drawable\broken_image_selected.xml" />
+    <AndroidResource Include="Resources\drawable\broken_image.xml" />
+    <AndroidResource Include="Resources\drawable\broken_image_errored.xml" />
+    <AndroidResource Include="Resources\drawable\home_selected.xml" />
+    <AndroidResource Include="Resources\drawable\calendar.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>

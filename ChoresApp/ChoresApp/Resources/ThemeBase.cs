@@ -242,6 +242,34 @@ namespace ChoresApp.Resources
 			}
 		}
 
+        protected Style ImageDefaultStyle
+		{
+            get
+			{
+                return new Style(typeof(Image))
+                {
+                    Setters =
+					{
+                        new Setter { Property = Image.AspectProperty, Value = Aspect.AspectFit },
+					},
+                };
+			}
+		}
+
+        protected Style FieldIconStyle
+		{
+            get
+			{
+                return new Style(typeof(Image))
+                {
+                    Setters =
+					{
+                        new Setter { Property = Image.AspectProperty, Value = Aspect.AspectFit },
+                    },
+                };
+			}
+		}
+
         // Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         public ResourceDictionary Load()
         {
@@ -280,6 +308,7 @@ namespace ChoresApp.Resources
             rd.Add(PageDefaultStyle);
             rd.Add(ButtonDefaultStyle);
             rd.Add(FrameDefaultStyle);
+            rd.Add(ImageDefaultStyle);
 
             return rd;
         }
