@@ -29,6 +29,8 @@ namespace ChoresApp.Resources
         protected override Color SurfaceColor => BackgroundColor.AddLuminosity(0.05);
         protected override Color ErrorColor => Color.FromHex("#CF6679");
 
+        protected override Color DefaultTextColor => Color.FromHex("#FFFFFF");
+
         // Styles ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
         // Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -28,6 +28,8 @@ namespace ChoresApp.Resources
         protected override Color SurfaceColor => Color.FromHex("#DDDDDD");
         protected override Color ErrorColor => Color.FromHex("#B00020");
 
+        protected override Color DefaultTextColor => Color.FromHex("#000000");
+
 		// Styles ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 		protected override Style FrameCardStyle

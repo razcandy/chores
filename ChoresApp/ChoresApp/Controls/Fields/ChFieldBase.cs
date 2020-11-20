@@ -1,5 +1,6 @@
 ﻿using ChoresApp.Controls.Images;
 using ChoresApp.Helpers;
+using ChoresApp.Helpers.Converters;
 using ChoresApp.Resources;
 using System;
 using System.Collections.Generic;
@@ -12,23 +13,24 @@ namespace ChoresApp.Controls.Fields
     {
         // Constants ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         private const double iconSize = 24 * multiplier;
-        //private static double iconSize = 24;
         private const double multiplier = 1;
 
+        protected const double MainContentDefaultHeight = 28 * multiplier;
+        //protected const int MainContentRowIndex = 2;
+
         private static Color underlineDefaultColor = Color.DarkGray;
-        private static Color accentColor = ResourceHelper.SecondaryColor;
-        private static Color defaultColor = Color.Black;
 
         // Fields ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         private Grid mainGrid;
         private Frame backgroundFrame;
         private Label helperTextLabel;
-        private ChIcon leadingIcon;
+        private RowDefinition mainContentRow;
         private ChFieldState state;
         private Label titleLabel;
         private Label titleLabelSmall;
         private ChIcon trailingIcon;
         private BoxView underline;
+        private Label valueLabel;
 
         // Constructors ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         public ChFieldBase()
@@ -47,15 +49,7 @@ namespace ChoresApp.Controls.Fields
             Content = MainGrid;
         }
 
-        private void Test()
-        {
-            TitleLabel.Text = "Rawr";
-            TitleLabelSmall.Text = "Rawr";
-            HelperTextLabel.Text = "Help meh plz";
-        }
-
         // Properties ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
         private Grid MainGrid
         {
             get
@@ -66,39 +60,38 @@ namespace ChoresApp.Controls.Fields
                 {
                     RowSpacing = 0,
                     ColumnSpacing = 0,
+                    RowDefinitions =
+					{
+                        UIHelper.MakeStaticRow(8 * multiplier), // top space
+                        UIHelper.MakeStaticRow(8 * multiplier), // top space
+                        MainContentRow, // main content
+                        UIHelper.MakeStaticRow(16 * multiplier), // bottom space
+                        UIHelper.MakeStaticRow(16 * multiplier), // helper text
+                    },
+                    ColumnDefinitions =
+					{
+                        UIHelper.MakeStaticColomn(16 * multiplier), // leading space
+                        UIHelper.MakeStarColumn(), // native field
+                        UIHelper.MakeAutoColumn(), // trailing icon
+                        UIHelper.MakeStaticColomn(12 * multiplier), // trailing space
+                    },
                 };
 
-                var numColumns = 5;
-                var numRows = 5;
-                //bool useLeadingIcon = !string.IsNullOrEmpty(LeadingIconSource);
-
-                mainGrid.ColumnDefinitions.Add(UIHelper.MakeStaticColomn(16 * multiplier)); // leading space
-                mainGrid.ColumnDefinitions.Add(UIHelper.MakeStaticColomn(UseLeadingIcon ? iconSize : 0)); // leading icon
-                mainGrid.ColumnDefinitions.Add(UIHelper.MakeStarColumn()); // native field
-                mainGrid.ColumnDefinitions.Add(UIHelper.MakeStaticColomn(iconSize)); // trailing icon
-                mainGrid.ColumnDefinitions.Add(UIHelper.MakeStaticColomn(12 * multiplier)); // trailing space
-
-                mainGrid.RowDefinitions.Add(UIHelper.MakeStaticRow(8 * multiplier)); // top space
-                mainGrid.RowDefinitions.Add(UIHelper.MakeStaticRow(12 * multiplier)); // small title
-                mainGrid.RowDefinitions.Add(UIHelper.MakeStaticRow(20 * multiplier)); // native field
-                mainGrid.RowDefinitions.Add(UIHelper.MakeStaticRow(8 * multiplier)); // bottom space
-                mainGrid.RowDefinitions.Add(UIHelper.MakeStaticRow(16 * multiplier)); // helper text
+                var numColumns = mainGrid.ColumnDefinitions.Count;
+                var numRows = mainGrid.RowDefinitions.Count;
 
                 // Children
-                mainGrid.Children.Add(BackgroundFrame, 0, numColumns, 0, 4);
-
-                if (UseLeadingIcon)
-                {
-                    mainGrid.Children.Add(LeadingIcon, 1, 2, 1, 3);
-                }
-
-                mainGrid.Children.Add(TrailingIcon, 3, 4, 1, 3);
-
-                mainGrid.Children.Add(TitleLabelSmall, 2, 3, 1, 2);
-                mainGrid.Children.Add(NativeControl, 2, 3, 2, 3);
-                mainGrid.Children.Add(TitleLabel, 2, 3, 1, 3);
-                mainGrid.Children.Add(Underline, 0, numColumns, 3, 4);
+                mainGrid.Children.Add(BackgroundFrame, 0, numColumns, 1, numRows - 1);
+                mainGrid.Children.Add(TrailingIcon, 2, 3, 1, 4);
+                mainGrid.Children.Add(TitleLabelSmall, 1, 2, 0, 2);
+                mainGrid.Children.Add(NativeControl, 1, 2, 2, 3);
+                mainGrid.Children.Add(TitleLabel, 1, 2, 1, 4);
                 mainGrid.Children.Add(HelperTextLabel, 1, numColumns, numRows - 1, numRows);
+
+                if (ShowValueLabel)
+                {
+                    mainGrid.Children.Add(ValueLabel, 1, 2, 2, 3);
+                }
 
                 return mainGrid;
             }
@@ -112,7 +105,10 @@ namespace ChoresApp.Controls.Fields
 
                 backgroundFrame = new Frame
                 {
-                    BackgroundColor = Color.Gray,
+                    BackgroundColor = Color.Transparent,
+                    BorderColor = underlineDefaultColor,
+                    Padding = 0,
+                    Margin = 0,
                 };
 
                 return backgroundFrame;
@@ -131,20 +127,6 @@ namespace ChoresApp.Controls.Fields
                 };
 
                 return helperTextLabel;
-            }
-        }
-
-        private ChIcon LeadingIcon
-        {
-            get
-            {
-                if (leadingIcon != null) return leadingIcon;
-
-                leadingIcon = new ChIcon
-                {
-                };
-
-                return leadingIcon;
             }
         }
 
@@ -177,6 +159,14 @@ namespace ChoresApp.Controls.Fields
 					BindingContext = this,
                     InputTransparent = true,
                     FontSize = 10,
+                    BackgroundColor = ResourceHelper.SurfaceColor,
+                    VerticalOptions = LayoutOptions.Start,
+                    VerticalTextAlignment = TextAlignment.Center,
+
+                    HorizontalOptions = LayoutOptions.Start,
+                    Padding = new Thickness(4, 0, 4, 0),
+
+                    IsVisible = false,
                 };
                 titleLabelSmall.SetBinding(Label.TextProperty, nameof(Title));
 
@@ -184,7 +174,7 @@ namespace ChoresApp.Controls.Fields
             }
         }
 
-        protected ChIcon TrailingIcon
+        private ChIcon TrailingIcon
         {
             get
             {
@@ -192,7 +182,16 @@ namespace ChoresApp.Controls.Fields
 
                 trailingIcon = new ChIcon
                 {
+                    Margin = new Thickness(8, 0, 0, 0),
+                    WidthRequest = iconSize,
+                    VerticalOptions = LayoutOptions.Center,
                 };
+
+				trailingIcon.SetBinding(ChIcon.IsVisibleProperty, new Binding(nameof(Image.Source), source: TrailingIcon,
+					converter: InlineConverter<ImageSource, bool>.Select(x =>
+					{
+                        return x == null ? false : !x.IsEmpty;
+					})));
 
                 return trailingIcon;
             }
@@ -210,15 +209,73 @@ namespace ChoresApp.Controls.Fields
             }
         }
 
-
-        //protected virtual ChImageSource LeadingIconSource => string.Empty;
+        protected RowDefinition MainContentRow
+        {
+            get
+            {
+                if (mainContentRow != null) return mainContentRow;
+                mainContentRow = UIHelper.MakeStaticRow(MainContentDefaultHeight);
+                return mainContentRow;
+            }
+        }
 
         protected abstract View NativeControl { get; }
 
-        protected virtual bool UseLeadingIcon => false;
+        protected virtual bool ShowValueLabel => false;
+
+        /// <summary>
+        /// Label to be used if the natived control is hidden
+        /// </summary>
+        protected Label ValueLabel
+		{
+            get
+			{
+                if (valueLabel != null) return valueLabel;
+
+                valueLabel = new Label
+                {
+                    BindingContext = this,
+                    FontSize = 20,
+                    InputTransparent = true,
+                    VerticalOptions = LayoutOptions.End,
+                    VerticalTextAlignment = TextAlignment.End,
+                };
+
+                return valueLabel;
+            }
+		}
 
         protected string ValueString { get; set; } // make abstract
 
+        public bool IsErrored
+        {
+            get => (bool)GetValue(IsErroredProperty);
+            set => SetValue(IsErroredProperty, value);
+        }
+
+        public static readonly BindableProperty IsErroredProperty = BindableProperty.Create
+        (
+            propertyName: nameof(IsErrored),
+            returnType: typeof(bool),
+            declaringType: typeof(ChFieldBase),
+            defaultValue: false,
+            propertyChanged: OnIsErroredPropertyChanged
+        );
+
+        public bool IsValidated
+        {
+            get => (bool)GetValue(IsValidatedProperty);
+            set => SetValue(IsValidatedProperty, value);
+        }
+
+        public static readonly BindableProperty IsValidatedProperty = BindableProperty.Create
+        (
+            propertyName: nameof(IsValidated),
+            returnType: typeof(bool),
+            declaringType: typeof(ChFieldBase),
+            defaultValue: false,
+            propertyChanged: IsValidatedPropertyChanged
+        );
 
         public string HelperText
         {
@@ -261,33 +318,61 @@ namespace ChoresApp.Controls.Fields
             defaultValue: null
         );
 
-        private bool isErrored;
-
-        public bool IsErrored
-        {
-            get => isErrored;
-            protected set => isErrored = value;
-        }
+        public ChImageSource TrailingIconSource
+		{
+            get => TrailingIcon.IconSource;
+            set => TrailingIcon.IconSource = value;
+		}
 
         // Events & Handlers ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        private static void OnIsErroredPropertyChanged(BindableObject bindable, object oldValue, object newValue)
+		{
+            var field = (ChFieldBase)bindable;
+            var newValueBool = (bool)newValue;
+            field.ResolveTrailingIconSources();
+
+            if (newValueBool)
+            {
+                field.State = ChFieldState.Errored;
+            }
+            else if (field.ValueString.IsNullOrEmpty())
+			{
+                field.State = ChFieldState.Inactive;
+			}
+            else
+			{
+                field.State = ChFieldState.Activated;
+			}
+		}
+
+        private static void IsValidatedPropertyChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            ((ChFieldBase)bindable).ResolveTrailingIconSources();
+        }
 
         // Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
         private void BoldUnderline(Color _color) => UpdateUnderline(2, _color);
         private void UnBoldUnderline() => UpdateUnderline(1, underlineDefaultColor);
 
+  //      private void UpdateUnderline(double _height, Color _color)
+		//{
+  //          if (Underline.Height != _height)
+  //          {
+  //              Underline.HeightRequest = _height;
+  //          }
+
+  //          if (Underline.BackgroundColor != _color)
+  //          {
+  //              Underline.BackgroundColor = _color;
+  //          }
+  //      }
+
         private void UpdateUnderline(double _height, Color _color)
 		{
-            if (Underline.Height != _height)
-            {
-                Underline.HeightRequest = _height;
-            }
-
-            if (Underline.BackgroundColor != _color)
-            {
-                Underline.BackgroundColor = _color;
-            }
-        }
+            // to do - add a border width prop
+            BackgroundFrame.BorderColor = _color;
+		}
 
         private void HideNativeField()
 		{
@@ -300,6 +385,22 @@ namespace ChoresApp.Controls.Fields
         private void ShowNativeField()
 		{
 
+		}
+
+        private void ResolveTrailingIconSources()
+		{
+            if (IsErrored)
+			{
+                TrailingIcon.TempIconSource = ImageHelper.Error;
+            }
+            else if (IsValidated)
+			{
+                TrailingIcon.TempIconSource = ImageHelper.Check;
+            }
+            else if (TrailingIcon.TempIconSource != null)
+			{
+                TrailingIcon.TempIconSource = null;
+            }
 		}
 
         private void SetActive()
@@ -380,16 +481,16 @@ namespace ChoresApp.Controls.Fields
 
         protected virtual void OnInactivated()
 		{
-            UpdateLabelColor(defaultColor);
+            UpdateLabelColor(ResourceHelper.DefaultTextColor);
             HideNativeField();
             UnBoldUnderline();
         }
 
         protected virtual void OnActivated()
 		{
-            UpdateLabelColor(defaultColor);
+            UpdateLabelColor(ResourceHelper.PrimaryColor);
             SetActive();
-            BoldUnderline(underlineDefaultColor);
+            BoldUnderline(ResourceHelper.PrimaryColor);
         }
 
         protected virtual void OnErrored()
@@ -403,9 +504,9 @@ namespace ChoresApp.Controls.Fields
         {
             if (State == ChFieldState.Errored) return;
 
-            UpdateLabelColor(accentColor);
+            UpdateLabelColor(ResourceHelper.PrimaryColor);
             SetActive();
-            BoldUnderline(accentColor);
+            BoldUnderline(ResourceHelper.PrimaryColor);
 
             //State = CHFieldState.Focused;
             state = ChFieldState.Focused;
@@ -415,7 +516,7 @@ namespace ChoresApp.Controls.Fields
         {
             if (State == ChFieldState.Errored) return;
 
-            UpdateLabelColor(defaultColor);
+            UpdateLabelColor(ResourceHelper.DefaultTextColor);
 
             if (string.IsNullOrEmpty(ValueString))
             {

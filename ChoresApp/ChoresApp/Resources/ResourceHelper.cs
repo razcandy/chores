@@ -8,12 +8,16 @@ namespace ChoresApp.Resources
 {
     public static class ResourceHelper
     {
+        // Constants ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        public const double DefaultIconSize = 30;
+        public const double HeaderHeight = 50;
+        public const double FooterHeight = 50;
+
         // Fields ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        public static string DefaultDateTimeFormat = "yyyy/MM/dd";
+        public static string DefaultTimeSpanFormat = @"hh\:mm";
 
         // Properties ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        public static double DefaultIconSize = 30;
-        public static double HeaderHeight = 50;
-        public static double FooterHeight = 50;
 
         //~~ Colors ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         public static Color BackgroundColor => GetColor(nameof(BackgroundColor));
@@ -21,6 +25,7 @@ namespace ChoresApp.Resources
         public static Color SecondaryColor => GetColor(nameof(SecondaryColor));
         public static Color PrimaryTextColor => GetColor(nameof(PrimaryTextColor));
         public static Color SurfaceColor => GetColor(nameof(SurfaceColor));
+        public static Color DefaultTextColor => GetColor(nameof(DefaultTextColor));
 
         //~~ Styles ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         public static Style ButtonContainedStyle => GetStyle(nameof(ButtonContainedStyle));

@@ -1,5 +1,6 @@
 ﻿using ChoresApp.Helpers;
 using ChoresApp.Helpers.Converters;
+using ChoresApp.Resources;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,57 +11,12 @@ namespace ChoresApp.Controls.Fields
 	public class ChDatePicker : ChFieldBase
 	{
 		// Fields ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-		private Label dateLabel;
 		private DatePicker nativeDatePicker;
 
 		// Constructors ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-		public ChDatePicker() : base()
-		{
-			TrailingIcon.IconSource = ImageHelper.Calendar;
-		}
-
-		private Grid rawr;
-
-		private Grid Rawr
-		{
-			get
-			{
-				if (rawr != null) return rawr;
-
-				rawr = new Grid();
-				rawr.Children.Add(NativeDatePicker, 0, 0);
-				rawr.Children.Add(DateLabel, 0, 0);
-
-				return rawr;
-			}
-		}
-
+		public ChDatePicker() : base() => Init();
 
 		// Properties ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-		private Label DateLabel
-		{
-			get
-			{
-				if (dateLabel != null) return dateLabel;
-
-				dateLabel = new Label
-				{
-					BindingContext = this,
-					FontSize = 20,
-					InputTransparent = true,
-				};
-				dateLabel.SetBinding(Label.TextProperty, nameof(Date),
-					converter: InlineConverter<DateTime, string>.Select((_date) =>
-					{
-						return _date.ToString("yyyy/MM/dd");
-					}
-				));
-
-				return dateLabel;
-			}
-		}
-
 		private DatePicker NativeDatePicker
 		{
 			get
@@ -81,18 +37,9 @@ namespace ChoresApp.Controls.Fields
 			}
 		}
 
-		private void NativeDatePicker_Unfocused(object sender, FocusEventArgs e)
-		{
-			OnUnFocused();
-		}
+		protected override bool ShowValueLabel => true;
+		protected override View NativeControl => NativeDatePicker;
 
-		private void NativeDatePicker_Focused(object sender, FocusEventArgs e)
-		{
-			OnFocused();
-		}
-
-		//protected override View NativeControl => NativeDatePicker;
-		protected override View NativeControl => Rawr;
 		public DateTime Date
 		{
 			get => (DateTime)GetValue(DateProperty);
@@ -104,11 +51,38 @@ namespace ChoresApp.Controls.Fields
 			propertyName: nameof(Date),
 			returnType: typeof(DateTime),
 			declaringType: typeof(ChDatePicker),
-			defaultValue: null
+			defaultValue: null,
+			propertyChanged: OnDatePropertyChanged
 		);
 
+		private static void OnDatePropertyChanged(BindableObject bindable, object oldValue, object newValue)
+		{
+			var dp = (ChDatePicker)bindable;
+			dp.ValueString = dp.Date.ToString(ResourceHelper.DefaultDateTimeFormat);
+		}
+
 		// Events & Handlers ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		private void NativeDatePicker_Unfocused(object sender, FocusEventArgs e)
+		{
+			OnUnFocused();
+		}
+
+		private void NativeDatePicker_Focused(object sender, FocusEventArgs e)
+		{
+			OnFocused();
+		}
 
 		// Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		private void Init()
+		{
+			TrailingIconSource = ImageHelper.Calendar;
+
+			ValueLabel.SetBinding(Label.TextProperty, nameof(Date),
+				converter: InlineConverter<DateTime, string>.Select((_date) =>
+				{
+					return _date.ToString(ResourceHelper.DefaultDateTimeFormat);
+				}
+			));
+		}
 	}
 }

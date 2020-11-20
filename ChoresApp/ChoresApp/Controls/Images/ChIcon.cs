@@ -1,10 +1,6 @@
 ﻿using ChoresApp.Data.Messaging;
-using ChoresApp.Helpers;
 using ChoresApp.Resources;
 using GalaSoft.MvvmLight.Messaging;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Xamarin.Forms;
 
 namespace ChoresApp.Controls.Images
@@ -12,30 +8,19 @@ namespace ChoresApp.Controls.Images
 	public class ChIcon : Image
 	{
 		// Fields ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-		private string lightSource;
-		private string lightSelectedSource;
-		private string lightErroredSource;
-
-		private string darkSource;
-		private string darkSelectedSource;
-		private string darkErroredSource;
-
-		private string fileName;
-		private string fileType;
 		private ChImageSource iconSource;
+		private ChImageSource tempIconSource;
 
 		// Constructors ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		public ChIcon() => Init();
 
 		// Properties ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 		public ChImageSource IconSource
 		{
 			get => iconSource;
 			set
 			{
 				iconSource = value;
-				ParseSource();
 				ResolveSource();
 			}
 		}
@@ -76,6 +61,16 @@ namespace ChoresApp.Controls.Images
 			private set => base.Source = value;
 		}
 
+		public ChImageSource TempIconSource
+		{
+			get => tempIconSource;
+			set
+			{
+				tempIconSource = value;
+				ResolveSource();
+			}
+		}
+
 		// Events & Handlers ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		private static void OnIsErroredPropertyChanged(BindableObject bindable, object oldValue, object newValue)
 		{
@@ -100,103 +95,35 @@ namespace ChoresApp.Controls.Images
 		// Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		private void Init()
 		{
-			//Source = ImageHelper.NotFound;
-			IconSource = ImageHelper.NotFound;
+			//IconSource = ImageHelper.NotFound;
 			HeightRequest = ResourceHelper.DefaultIconSize;
 			WidthRequest = ResourceHelper.DefaultIconSize;
 
 			Messenger.Default.Register<ThemeChangedMessage>(this, OnThemeChanged);
 		}
 
-		private void ParseSource()
-		{
-			// check source valid
-			// check dark theme version exists
-
-			var sourceArray = IconSource.Source.Split('.');
-
-			fileName = sourceArray[0];
-			fileType = "." + sourceArray[1];
-
-			if (Device.RuntimePlatform == Device.Android)
-			{
-				ParseSourceAndroid();
-			}
-			else if (Device.RuntimePlatform == Device.UWP)
-			{
-				ParseSourceUWP();
-			}
-		}
-
-		private void ParseSourceAndroid()
-		{
-			lightSource = fileName + fileType;
-			darkSource = lightSource;
-
-			if (IconSource.SelectedExists)
-			{
-				lightSelectedSource = fileName + ImageHelper.SELECTED_KEY + fileType;
-				darkSelectedSource = lightSelectedSource;
-			}
-			else
-			{
-				lightSelectedSource = lightSource;
-				darkSelectedSource = lightSelectedSource;
-			}
-
-			if (IconSource.ErroredExists)
-			{
-				lightErroredSource = fileName + ImageHelper.ERRORED_KEY + fileType;
-				darkErroredSource = lightErroredSource;
-			}
-			else
-			{
-				lightErroredSource = lightSource;
-				darkErroredSource = lightErroredSource;
-			}
-		}
-
-		private void ParseSourceUWP()
-		{
-			lightSource = fileName + fileType;
-			darkSource = fileName + ImageHelper.DARKTHEME_KEY + fileType;
-
-			if (IconSource.SelectedExists)
-			{
-				lightSelectedSource = fileName + ImageHelper.SELECTED_KEY + fileType;
-				darkSelectedSource = fileName + ImageHelper.DARKTHEME_KEY + ImageHelper.SELECTED_KEY + fileType;
-			}
-			else
-			{
-				lightSelectedSource = lightSource;
-				darkSelectedSource = darkSource;
-			}
-
-			if (IconSource.ErroredExists)
-			{
-				lightErroredSource = fileName + ImageHelper.ERRORED_KEY + fileType;
-				darkErroredSource = fileName + ImageHelper.DARKTHEME_KEY + ImageHelper.ERRORED_KEY + fileType;
-			}
-			else
-			{
-				lightErroredSource = lightSource;
-				darkErroredSource = darkSource;
-			}
-		}
-
 		private void ResolveSource()
 		{
+			if (IconSource == null && TempIconSource == null)
+			{
+				Source = null;
+				return;
+			}
+
+			var currentSource = TempIconSource == null ? IconSource : TempIconSource;
+			var isLightTheme = ResourceHelper.IsLightTheme();
+
 			if (IsErrored)
 			{
-				Source = ResourceHelper.IsLightTheme() ? lightErroredSource : darkErroredSource;
+				Source = isLightTheme ? currentSource.LightErroredSource : currentSource.DarkErroredSource;
 			}
 			else if (IsSelected)
 			{
-				Source = ResourceHelper.IsLightTheme() ? lightSelectedSource : darkSelectedSource;
+				Source = isLightTheme ? currentSource.LightSelectedSource : currentSource.DarkSelectedSource;
 			}
 			else
 			{
-				Source = ResourceHelper.IsLightTheme() ? lightSource : darkSource;
+				Source = isLightTheme ? currentSource.LightSource : currentSource.DarkSource;
 			}
 		}
 	}

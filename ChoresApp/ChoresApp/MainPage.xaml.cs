@@ -18,12 +18,9 @@ using Xamarin.Forms;
 namespace ChoresApp
 {
 	public partial class MainPage : ContentPage
-	//public class MainPage : ContentPage
 	{
         // Fields ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         private Grid mainGrid;
-        private ChIcon icon;
-        private int iconStateCount = 0;
 
         // Constructors ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         public MainPage()
@@ -79,66 +76,15 @@ namespace ChoresApp
         public ChContentPage Nav3Content { get; set; }
 
         // Events & Handlers ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        private void TestButton_Clicked(object sender, EventArgs e)
-        {
-            // 0 reg
-            // 1 selected
-            // 2 selected & errored
-            // 3 errored
-            // 4 reg
-
-            switch (iconStateCount)
-            {
-                case 0:
-                    icon.IsSelected = true;
-                    break;
-
-                case 1:
-                    icon.IsErrored = true;
-                    break;
-
-                case 2:
-                    icon.IsSelected = false;
-                    break;
-
-                case 3:
-                    icon.IsErrored = false;
-                    iconStateCount = 0;
-                    return;
-
-                default:
-                    break;
-            }
-
-            iconStateCount++;
-        }
 
         // Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         public void Rawr()
         {
-            var sl = new StackLayout();
-
-            var rawr = new ChEntry
+            var sl = new StackLayout
             {
-                Title = "Entry Title",
+                VerticalOptions = LayoutOptions.Start,
+                Orientation = StackOrientation.Vertical,
             };
-            sl.Children.Add(rawr);
-
-            var dimension = 48;
-
-            var img = new Image
-            {
-                Aspect = Aspect.AspectFit,
-                //Source = ImageHelper.Eco,
-
-                Source = ImageHelper.Eco,
-
-                WidthRequest = dimension,
-                HeightRequest = 100,
-                BackgroundColor = Color.Blue,
-            };
-
-            sl.Children.Add(img);
 
             var but = new Button
             {
@@ -154,55 +100,77 @@ namespace ChoresApp
 
             sl.Children.Add(but);
 
-            var f = new Frame
+            var entry = new ChEntry
             {
-                //BackgroundColor = ResourceHelper.SurfaceColor,
-                Style = ResourceHelper.FrameCardStyle,
-
-                //BackgroundColor = Color.Pink,
-                //HasShadow = true,
+                Title = "Entry Title",
             };
-
-            sl.Children.Add(f);
-
-            icon = new ChIcon
-            {
-                IconSource = ImageHelper.NotFound,
-            };
-
-            sl.Children.Add(icon);
-
-
-            var testButton = new Button
-            {
-                //Text = "rawr",
-                ImageSource = ImageHelper.Eco,
-                WidthRequest = 120,
-                HeightRequest = 50,
-                HorizontalOptions = LayoutOptions.Center,
-                //Style = ResourceHelper.ButtonEmptyStyle,
-
-                ContentLayout = new Button.ButtonContentLayout(Button.ButtonContentLayout.ImagePosition.Right, 6),
-            };
-			testButton.Clicked += TestButton_Clicked;
-
-            //testButton.IsEnabled = false;
-
-            sl.Children.Add(testButton);
-
+            sl.Children.Add(entry);
 
             var datePicker = new ChDatePicker
             {
-                Title = "Date Pickerrr",
+                Title = "Date Picker Title",
             };
             sl.Children.Add(datePicker);
 
+            var timePicker = new ChTimePicker
+            {
+                Title = "Time Picker Title",
+            };
+            sl.Children.Add(timePicker);
+
+            var pick = new ChPicker
+            {
+                Title = "Picker Title",
+            };
+            sl.Children.Add(pick);
+
+            var edit = new ChEditor
+            {
+                Title = "Editor Title",
+				AutoSize = true,
+			};
+            sl.Children.Add(edit);
+
+            var but2 = new Button
+            {
+                Text = "Change icon source",
+            };
+            but2.Clicked += delegate
+			{
+				if (entry.IsErrored)
+				{
+                    entry.IsErrored = false;
+                    entry.IsValidated = false;
+				}
+                else if (entry.IsValidated)
+				{
+                    entry.IsErrored = true;
+				}
+                else
+				{
+                    entry.IsValidated = true;
+                }
+			};
+
+            sl.Children.Add(but2);
+
             // ~~~~~~~~~~~~~~~~~~~~
+
+            var frame = new Frame
+            {
+                BackgroundColor = ResourceHelper.SurfaceColor,
+                VerticalOptions = LayoutOptions.Start,
+                Content = sl,
+            };
 
             var sv = new ScrollView
             {
                 Orientation = ScrollOrientation.Vertical,
-                Content = sl,
+                Content = new ContentView
+                {
+                    VerticalOptions = LayoutOptions.Start,
+                    Content = frame,
+                },
             };
 
             HomeContent = new ChContentPage(sv);

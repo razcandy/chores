@@ -33,6 +33,8 @@ namespace ChoresApp.Resources
         protected abstract Color SurfaceColor { get; }
         protected abstract Color ErrorColor { get; }
 
+        protected abstract Color DefaultTextColor { get; }
+
         // Styles ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
         protected Style ButtonBaseStyle
@@ -197,7 +199,7 @@ namespace ChoresApp.Resources
                 {
                     Setters =
                     {
-                        new Setter { Property = Label.TextColorProperty, Value = OnBackgroundColor },
+                        new Setter { Property = Label.TextColorProperty, Value = DefaultTextColor },
                     },
                 };
             }
@@ -292,6 +294,8 @@ namespace ChoresApp.Resources
             rd.Add(nameof(BackgroundColor), BackgroundColor);
             rd.Add(nameof(SurfaceColor), SurfaceColor);
             rd.Add(nameof(ErrorColor), ErrorColor);
+
+            rd.Add(nameof(DefaultTextColor), DefaultTextColor);
 
             // Styles ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
             rd.Add(nameof(LabelPageHeaderStyle), LabelPageHeaderStyle);

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ChoresApp.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using Xamarin.Forms;
@@ -14,7 +15,7 @@ namespace ChoresApp.Controls.Fields
 		// Constructors ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		public ChPicker() : base()
 		{
-
+			TrailingIconSource = ImageHelper.PickerArrow;
 		}
 
 		// Properties ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -29,6 +30,9 @@ namespace ChoresApp.Controls.Fields
 
 				};
 
+				nativePicker.Focused += NativePicker_Focused;
+				nativePicker.Unfocused += NativePicker_Unfocused;
+
 				return nativePicker;
 			}
 		}
@@ -36,6 +40,15 @@ namespace ChoresApp.Controls.Fields
 		protected override View NativeControl => NativePicker;
 
 		// Events & Handlers ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		private void NativePicker_Focused(object sender, FocusEventArgs e)
+		{
+			OnFocused();
+		}
+
+		private void NativePicker_Unfocused(object sender, FocusEventArgs e)
+		{
+			OnUnFocused();
+		}
 
 		// Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	}
