@@ -33,15 +33,11 @@ namespace ChoresApp.Controls.Fields
         private Label valueLabel;
 
         // Constructors ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        public ChFieldBase()
-        {
-            Init();
-            //Test();
-        }
+        public ChFieldBase() => Init();
 
         public ChFieldBase(ChFieldState _startingState)
         {
-
+            Init();
         }
 
         private void Init()
@@ -80,8 +76,8 @@ namespace ChoresApp.Controls.Fields
                 var numColumns = mainGrid.ColumnDefinitions.Count;
                 var numRows = mainGrid.RowDefinitions.Count;
 
-                // Children
-                mainGrid.Children.Add(BackgroundFrame, 0, numColumns, 1, numRows - 1);
+				// Children
+				mainGrid.Children.Add(BackgroundFrame, 0, numColumns, 1, numRows - 1);
                 mainGrid.Children.Add(TrailingIcon, 2, 3, 1, 4);
                 mainGrid.Children.Add(TitleLabelSmall, 1, 2, 0, 2);
                 mainGrid.Children.Add(NativeControl, 1, 2, 2, 3);
@@ -97,18 +93,24 @@ namespace ChoresApp.Controls.Fields
             }
         }
 
-        private Frame BackgroundFrame
+		private Frame BackgroundFrame
         {
             get
             {
                 if (backgroundFrame != null) return backgroundFrame;
 
-                backgroundFrame = new Frame
+                var tap = new TapGestureRecognizer();
+				tap.Tapped += TouchCaptured;
+
+				backgroundFrame = new Frame
                 {
                     BackgroundColor = Color.Transparent,
                     BorderColor = underlineDefaultColor,
                     Padding = 0,
                     Margin = 0,
+                    HasShadow = false,
+
+                    GestureRecognizers = { tap },
                 };
 
                 return backgroundFrame;
@@ -162,10 +164,8 @@ namespace ChoresApp.Controls.Fields
                     BackgroundColor = ResourceHelper.SurfaceColor,
                     VerticalOptions = LayoutOptions.Start,
                     VerticalTextAlignment = TextAlignment.Center,
-
                     HorizontalOptions = LayoutOptions.Start,
                     Padding = new Thickness(4, 0, 4, 0),
-
                     IsVisible = false,
                 };
                 titleLabelSmall.SetBinding(Label.TextProperty, nameof(Title));
@@ -185,6 +185,7 @@ namespace ChoresApp.Controls.Fields
                     Margin = new Thickness(8, 0, 0, 0),
                     WidthRequest = iconSize,
                     VerticalOptions = LayoutOptions.Center,
+                    InputTransparent = true,
                 };
 
 				trailingIcon.SetBinding(ChIcon.IsVisibleProperty, new Binding(nameof(Image.Source), source: TrailingIcon,
@@ -349,6 +350,8 @@ namespace ChoresApp.Controls.Fields
         {
             ((ChFieldBase)bindable).ResolveTrailingIconSources();
         }
+
+        protected virtual void TouchCaptured(object sender, EventArgs e) { }
 
         // Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

@@ -28,10 +28,25 @@ namespace ChoresApp.Controls.Fields
 					BindingContext = this,
 					Opacity = 0,
 				};
-				nativeDatePicker.SetBinding(DatePicker.DateProperty, nameof(Date), BindingMode.TwoWay);
+				//nativeDatePicker.SetBinding(DatePicker.DateProperty, nameof(Date), BindingMode.TwoWay);
+
+				//nativeDatePicker.SetBinding(DatePicker.DateProperty, nameof(Date), BindingMode.TwoWay,
+				//	converter: InlineConverter<DateTime?, DateTime>.Select((x) =>
+				//	{
+				//		if (x.HasValue)
+				//		{
+				//			return x.Value;
+				//		}
+				//		else
+				//		{
+				//			return null;
+				//		}
+				//	}));
 
 				nativeDatePicker.Focused += NativeDatePicker_Focused;
 				nativeDatePicker.Unfocused += NativeDatePicker_Unfocused;
+
+				nativeDatePicker.DateSelected += NativeDatePicker_DateSelected;
 
 				return nativeDatePicker;
 			}
@@ -40,16 +55,16 @@ namespace ChoresApp.Controls.Fields
 		protected override bool ShowValueLabel => true;
 		protected override View NativeControl => NativeDatePicker;
 
-		public DateTime Date
+		public DateTime? Date
 		{
-			get => (DateTime)GetValue(DateProperty);
+			get => (DateTime?)GetValue(DateProperty);
 			set => SetValue(DateProperty, value);
 		}
 
 		public static readonly BindableProperty DateProperty = BindableProperty.Create
 		(
 			propertyName: nameof(Date),
-			returnType: typeof(DateTime),
+			returnType: typeof(DateTime?),
 			declaringType: typeof(ChDatePicker),
 			defaultValue: null,
 			propertyChanged: OnDatePropertyChanged
@@ -58,10 +73,33 @@ namespace ChoresApp.Controls.Fields
 		private static void OnDatePropertyChanged(BindableObject bindable, object oldValue, object newValue)
 		{
 			var dp = (ChDatePicker)bindable;
-			dp.ValueString = dp.Date.ToString(ResourceHelper.DefaultDateTimeFormat);
+
+			if (dp.Date.HasValue)
+			{
+				dp.ValueString = dp.Date.Value.ToString(ResourceHelper.DefaultDateTimeFormat);
+			}
+			else
+			{
+				dp.ValueString = null;
+			}
 		}
 
 		// Events & Handlers ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		private void NativeDatePicker_DateSelected(object sender, DateChangedEventArgs e)
+		{
+			if (e.OldDate == e.NewDate)
+			{
+				;
+			}
+
+			if (e.NewDate == DateTime.MinValue)
+			{
+				;
+			}
+
+			Date = e.NewDate;
+		}
+
 		private void NativeDatePicker_Unfocused(object sender, FocusEventArgs e)
 		{
 			OnUnFocused();
@@ -72,15 +110,29 @@ namespace ChoresApp.Controls.Fields
 			OnFocused();
 		}
 
+		protected override void TouchCaptured(object sender, EventArgs e)
+		{
+			NativeDatePicker.Focus();
+		}
+
 		// Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		private void Init()
 		{
 			TrailingIconSource = ImageHelper.Calendar;
 
+			//ValueLabel.SetBinding(Label.TextProperty, nameof(Date),
+			//	converter: InlineConverter<DateTime, string>.Select((_date) =>
+			//	{
+			//		return _date.ToString(ResourceHelper.DefaultDateTimeFormat);
+			//	}
+			//));
+
 			ValueLabel.SetBinding(Label.TextProperty, nameof(Date),
-				converter: InlineConverter<DateTime, string>.Select((_date) =>
+				converter: InlineConverter<DateTime?, string>.Select((_date) =>
 				{
-					return _date.ToString(ResourceHelper.DefaultDateTimeFormat);
+					if (!_date.HasValue) return null;
+
+					return _date.Value.ToString(ResourceHelper.DefaultDateTimeFormat);
 				}
 			));
 		}

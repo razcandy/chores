@@ -72,6 +72,11 @@ namespace ChoresApp.Controls.Fields
 			tp.ValueString = tp.Time.ToString(ResourceHelper.DefaultTimeSpanFormat);
 		}
 
+		protected override void TouchCaptured(object sender, EventArgs e)
+		{
+			NativeTimePicker.Focus();
+		}
+
 		// Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		private void Init()
 		{

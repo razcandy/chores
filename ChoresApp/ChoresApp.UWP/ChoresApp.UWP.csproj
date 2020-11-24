@@ -129,6 +129,7 @@
     </Compile>
     <Compile Include="CustomRenderers\ChImageButtonCustomRenderer.cs" />
     <Compile Include="CustomRenderers\ButtonCustomRenderer.cs" />
+    <Compile Include="CustomRenderers\XEntryCustomRenderer.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>

@@ -16,6 +16,10 @@ namespace ChoresApp.Controls.Fields
 		public ChPicker() : base()
 		{
 			TrailingIconSource = ImageHelper.PickerArrow;
+
+			// test
+
+			NativePicker.ItemsSource = new List<string> { "Rawr", "Grr", "Mrowr" };
 		}
 
 		// Properties ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -30,8 +34,8 @@ namespace ChoresApp.Controls.Fields
 
 				};
 
-				nativePicker.Focused += NativePicker_Focused;
-				nativePicker.Unfocused += NativePicker_Unfocused;
+				//nativePicker.Focused += NativePicker_Focused;
+				//nativePicker.Unfocused += NativePicker_Unfocused;
 
 				return nativePicker;
 			}
@@ -48,6 +52,11 @@ namespace ChoresApp.Controls.Fields
 		private void NativePicker_Unfocused(object sender, FocusEventArgs e)
 		{
 			OnUnFocused();
+		}
+
+		protected override void TouchCaptured(object sender, EventArgs e)
+		{
+			NativePicker.Focus();
 		}
 
 		// Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

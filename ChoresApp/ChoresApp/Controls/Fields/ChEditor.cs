@@ -31,8 +31,8 @@ namespace ChoresApp.Controls.Fields
                 };
                 nativeEditor.SetBinding(Editor.TextProperty, nameof(Text), BindingMode.TwoWay);
 
-				nativeEditor.Focused += NativeEditor_Focused;
-				nativeEditor.Unfocused += NativeEditor_Unfocused;
+				//nativeEditor.Focused += NativeEditor_Focused;
+				//nativeEditor.Unfocused += NativeEditor_Unfocused;
 
                 return nativeEditor;
             }
@@ -92,8 +92,13 @@ namespace ChoresApp.Controls.Fields
             e.ValueString = e.Text;
 		}
 
-        // Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        private void Init()
+		protected override void TouchCaptured(object sender, EventArgs e)
+		{
+            NativeEditor.Focus();
+		}
+
+		// Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		private void Init()
 		{
             MainContentRow.Height = expandedMainContentHeight;
         }

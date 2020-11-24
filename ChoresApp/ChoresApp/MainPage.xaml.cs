@@ -110,15 +110,15 @@ namespace ChoresApp
             {
                 Title = "Date Picker Title",
             };
-            sl.Children.Add(datePicker);
+			sl.Children.Add(datePicker);
 
-            var timePicker = new ChTimePicker
+			var timePicker = new ChTimePicker
             {
                 Title = "Time Picker Title",
             };
-            sl.Children.Add(timePicker);
+			sl.Children.Add(timePicker);
 
-            var pick = new ChPicker
+			var pick = new ChPicker
             {
                 Title = "Picker Title",
             };
@@ -156,22 +156,25 @@ namespace ChoresApp
 
             // ~~~~~~~~~~~~~~~~~~~~
 
-            var frame = new Frame
-            {
-                BackgroundColor = ResourceHelper.SurfaceColor,
-                VerticalOptions = LayoutOptions.Start,
-                Content = sl,
-            };
+            var g = new Grid();
+            g.Children.Add(sl);
 
-            var sv = new ScrollView
+			var frame = new Frame
+			{
+				BackgroundColor = ResourceHelper.SurfaceColor,
+				VerticalOptions = LayoutOptions.Start,
+				Content = g,
+			};
+
+			var sv = new ScrollView
             {
                 Orientation = ScrollOrientation.Vertical,
-                Content = new ContentView
-                {
-                    VerticalOptions = LayoutOptions.Start,
-                    Content = frame,
-                },
-            };
+				Content = new ContentView
+				{
+					VerticalOptions = LayoutOptions.Start,
+					Content = frame,
+				},
+			};
 
             HomeContent = new ChContentPage(sv);
         }

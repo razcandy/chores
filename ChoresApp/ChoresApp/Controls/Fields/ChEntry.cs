@@ -1,6 +1,8 @@
-﻿using System;
+﻿using ChoresApp.Controls.Natives;
+using System;
 using System.Collections.Generic;
 using System.Text;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace ChoresApp.Controls.Fields
@@ -8,22 +10,23 @@ namespace ChoresApp.Controls.Fields
 	public class ChEntry : ChFieldBase
 	{
 		// Fields ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-		private Entry nativeEntry;
+		private XEntry nativeEntry;
 
 		// Constructors ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		public ChEntry() : base() => Init();
 
 		// Properties ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-		private Entry NativeEntry
+		private XEntry NativeEntry
 		{
 			get
 			{
 				if (nativeEntry != null) return nativeEntry;
 
-				nativeEntry = new Entry
+				nativeEntry = new XEntry
 				{
 					BindingContext = this,
 					BackgroundColor = Color.Transparent,
+					Padding = 0,
 				};
 				nativeEntry.SetBinding(Entry.TextProperty, nameof(Text), BindingMode.TwoWay);
 
@@ -41,6 +44,12 @@ namespace ChoresApp.Controls.Fields
 		{
 			get => NativeEntry.IsPassword;
 			set => NativeEntry.IsPassword = value;
+		}
+
+		public Keyboard Keyboard
+		{
+			get => NativeEntry.Keyboard;
+			set => NativeEntry.Keyboard = value;
 		}
 
 		public string Text
@@ -66,7 +75,7 @@ namespace ChoresApp.Controls.Fields
 
 		private void NativeEntry_TextChanged(object sender, TextChangedEventArgs e)
 		{
-			//ValueString = NativeEntry.Text;
+			ValueString = NativeEntry.Text;
 		}
 
 		private void NativeEntry_Unfocused(object sender, FocusEventArgs e)
@@ -78,6 +87,14 @@ namespace ChoresApp.Controls.Fields
 		{
 			var e = (ChEntry)bindable;
 			e.ValueString = e.Text;
+		}
+
+		protected override void TouchCaptured(object sender, EventArgs e)
+		{
+			if (!NativeEntry.IsFocused)
+			{
+				NativeEntry.Focus();
+			}
 		}
 
 		// Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
