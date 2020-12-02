@@ -13,17 +13,17 @@ namespace ChoresApp.Helpers
 		private static NavStackEnum currentStack;
 
 		// Properties ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-		private static Stack<ChContentPage> homeStack = new Stack<ChContentPage>();
-		private static Stack<ChContentPage> nav1Stack = new Stack<ChContentPage>();
-		private static Stack<ChContentPage> nav2Stack = new Stack<ChContentPage>();
-		private static Stack<ChContentPage> nav3Stack = new Stack<ChContentPage>();
-		private static Stack<ChContentPage> debugStack = new Stack<ChContentPage>();
+		private static Stack<ChPageBase> homeStack = new Stack<ChPageBase>();
+		private static Stack<ChPageBase> nav1Stack = new Stack<ChPageBase>();
+		private static Stack<ChPageBase> nav2Stack = new Stack<ChPageBase>();
+		private static Stack<ChPageBase> nav3Stack = new Stack<ChPageBase>();
+		private static Stack<ChPageBase> debugStack = new Stack<ChPageBase>();
 		private static ContentView mainPageContainer;
 
 		// Events & Handlers ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 		// Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-		private static Stack<ChContentPage> ResolveStack(NavStackEnum _targetEnum)
+		private static Stack<ChPageBase> ResolveStack(NavStackEnum _targetEnum)
 		{
 			switch (_targetEnum)
 			{

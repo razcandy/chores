@@ -25,8 +25,10 @@ namespace ChoresApp.Helpers
 			buttonsTransCache.Add(ButtonTransKeyEnum.Save.ToUpper(), "SAVE~");
 			buttonsTransCache.Add(ButtonTransKeyEnum.Cancel.ToUpper(), "CANCEL~");
 			buttonsTransCache.Add(ButtonTransKeyEnum.Back.ToUpper(), "BACK~");
+			buttonsTransCache.Add(ButtonTransKeyEnum.LogIn.ToUpper(), "LOG IN~");
+			buttonsTransCache.Add(ButtonTransKeyEnum.SignUp.ToUpper(), "SIGN UP~");
 		}
-		
+
 		private static string GetTranslationOrDefault(Enum _enumKey, Dictionary<string, string> _cache)
 		{
 			string trans;
@@ -62,6 +64,8 @@ namespace ChoresApp.Helpers
 		Save,
 		Cancel,
 		Back,
+		LogIn,
+		SignUp,
 	}
 
 	public enum TitleTransKeyEnum

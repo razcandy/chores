@@ -2,62 +2,39 @@
 using ChoresApp.UWP.CustomRenderers;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.UWP;
 
-[assembly: ExportRenderer(typeof(XEntry), typeof(XEntryCustomRenderer))]
+// Comment in to use
+//[assembly: ExportRenderer(typeof(XLabel), typeof(XLabelCustomRenderer))]
 
 namespace ChoresApp.UWP.CustomRenderers
 {
-	public class XEntryCustomRenderer : EntryRenderer
+	public class XLabelCustomRenderer : LabelRenderer
 	{
 		// Constants ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 		// Fields ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-		private XEntry xEntry;
 
 		// Constructors ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 		// Properties ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 		// Events & Handlers ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-		protected override void OnElementChanged(ElementChangedEventArgs<Entry> e)
+		protected override void OnElementChanged(ElementChangedEventArgs<Label> e)
 		{
 			base.OnElementChanged(e);
 
 			if (Control == null) return;
 
-			xEntry = (XEntry)e.NewElement;
 
-			Control.BorderThickness = new Windows.UI.Xaml.Thickness(0);
-
-			SetPadding();
-		}
-
-		protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
-		{
-			base.OnElementPropertyChanged(sender, e);
-
-			if (e.PropertyName == nameof(XEntry.Padding))
-			{
-				SetPadding();
-			}
+			//Control.FontWeight = Windows.UI.Text.FontWeights.
 		}
 
 		// Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-		private void SetPadding()
-		{
-			if (Control == null || xEntry == null) return;
 
-			Control.Padding = new Windows.UI.Xaml.Thickness(
-					xEntry.Padding.Left,
-					xEntry.Padding.Top,
-					xEntry.Padding.Right,
-					xEntry.Padding.Bottom);
-		}
 	}
 }

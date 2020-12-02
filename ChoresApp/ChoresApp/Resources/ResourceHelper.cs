@@ -12,6 +12,8 @@ namespace ChoresApp.Resources
         public const double DefaultIconSize = 30;
         public const double HeaderHeight = 50;
         public const double FooterHeight = 50;
+        public const int DefaultCornerRadius = 3;
+        public const int DefaultButtonHeight = 50;
 
         // Fields ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         public static string DefaultDateTimeFormat = "yyyy/MM/dd";
@@ -20,20 +22,32 @@ namespace ChoresApp.Resources
         // Properties ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
         //~~ Colors ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        public static Color BackgroundColor => GetColor(nameof(BackgroundColor));
-        public static Color PrimaryColor => GetColor(nameof(PrimaryColor));
-        public static Color SecondaryColor => GetColor(nameof(SecondaryColor));
-        public static Color PrimaryTextColor => GetColor(nameof(PrimaryTextColor));
-        public static Color SurfaceColor => GetColor(nameof(SurfaceColor));
-        public static Color DefaultTextColor => GetColor(nameof(DefaultTextColor));
+        public static Color BackgroundColor => GetColor(nameof(ThemeBase.BackgroundColor));
+        public static Color PrimaryColor => GetColor(nameof(ThemeBase.PrimaryColor));
+        public static Color SecondaryColor => GetColor(nameof(ThemeBase.SecondaryColor));
+        public static Color SurfaceColor => GetColor(nameof(ThemeBase.SurfaceColor));
+        public static Color DefaultTextColor => GetColor(nameof(ThemeBase.DefaultTextColor));
 
         //~~ Styles ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        public static Style ButtonContainedStyle => GetStyle(nameof(ButtonContainedStyle));
-        public static Style ButtonOutlinedStyle => GetStyle(nameof(ButtonOutlinedStyle));
-        public static Style ButtonTextStyle => GetStyle(nameof(ButtonTextStyle));
+        //~~~~ Button Styles ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        public static Style ButtonContainedStyle => GetStyle(nameof(ThemeBase.ButtonContainedStyle));
+        public static Style ButtonOutlinedStyle => GetStyle(nameof(ThemeBase.ButtonOutlinedStyle));
+        public static Style ButtonTextStyle => GetStyle(nameof(ThemeBase.ButtonTextStyle));
 
-        public static Style LabelFieldHelperTextStyle => GetStyle(nameof(LabelFieldHelperTextStyle));
-        public static Style FrameCardStyle => GetStyle(nameof(FrameCardStyle));
+        //~~~~ Label Styles ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        public static Style LabelFieldHelperTextStyle => GetStyle(nameof(ThemeBase.LabelFieldHelperTextStyle));
+
+        public static Style LabelH5Style => GetStyle(nameof(ThemeBase.LabelH5Style));
+        public static Style LabelH6Style => GetStyle(nameof(ThemeBase.LabelH6Style));
+        public static Style LabelSubtitle1Style => GetStyle(nameof(ThemeBase.LabelSubtitle1Style));
+        public static Style LabelSubtitle2Style => GetStyle(nameof(ThemeBase.LabelSubtitle2Style));
+        public static Style LabelBody1Style => GetStyle(nameof(ThemeBase.LabelBody1Style));
+        public static Style LabelBody2Style => GetStyle(nameof(ThemeBase.LabelBody2Style));
+        public static Style LabelCaptionStyle => GetStyle(nameof(ThemeBase.LabelCaptionStyle));
+        public static Style LabelOverlineStyle => GetStyle(nameof(ThemeBase.LabelOverlineStyle));
+
+        //~~~~ Other Styles ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        public static Style FrameCardStyle => GetStyle(nameof(ThemeBase.FrameCardStyle));
 
         // Events & Handlers ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

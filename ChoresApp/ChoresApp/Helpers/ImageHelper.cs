@@ -37,5 +37,9 @@ namespace ChoresApp.Helpers
 		public static ChImageSource NotFound { get; } = new ChImageSource("broken_image.png", true, true, true);
 
 		public static ChImageSource PickerArrow { get; } = new ChImageSource("picker_arrow.png", true, false, false);
+
+		public static ChImageSource Visibility { get; } = new ChImageSource("visibility.png", true, false, false);
+
+		public static ChImageSource VisibilityOff { get; } = new ChImageSource("visibility_off.png", true, false, false);
 	}
 }

@@ -16,7 +16,7 @@ namespace ChoresApp.Controls.Fields
 		public ChEntry() : base() => Init();
 
 		// Properties ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-		private XEntry NativeEntry
+		protected XEntry NativeEntry
 		{
 			get
 			{
@@ -32,19 +32,12 @@ namespace ChoresApp.Controls.Fields
 
 				nativeEntry.Focused += NativeEntry_Focused;
 				nativeEntry.Unfocused += NativeEntry_Unfocused;
-				nativeEntry.TextChanged += NativeEntry_TextChanged;
 
 				return nativeEntry;
 			}
 		}
 
 		protected override View NativeControl => NativeEntry;
-
-		public bool IsPassword
-		{
-			get => NativeEntry.IsPassword;
-			set => NativeEntry.IsPassword = value;
-		}
 
 		public Keyboard Keyboard
 		{
@@ -64,18 +57,14 @@ namespace ChoresApp.Controls.Fields
 			returnType: typeof(string),
 			declaringType: typeof(ChEntry),
 			defaultValue: null,
-			propertyChanged: OnTextPropertyChanged
+			propertyChanged: OnTextPropertyChanged,
+			defaultBindingMode: BindingMode.TwoWay
 		);
 
 		// Events & Handlers ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		private void NativeEntry_Focused(object sender, FocusEventArgs e)
 		{
 			OnFocused();
-		}
-
-		private void NativeEntry_TextChanged(object sender, TextChangedEventArgs e)
-		{
-			ValueString = NativeEntry.Text;
 		}
 
 		private void NativeEntry_Unfocused(object sender, FocusEventArgs e)
@@ -99,5 +88,13 @@ namespace ChoresApp.Controls.Fields
 
 		// Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		private void Init() { }
+
+		protected override void Cleanup()
+		{
+			base.Cleanup();
+
+			NativeEntry.Focused -= NativeEntry_Focused;
+			NativeEntry.Unfocused -= NativeEntry_Unfocused;
+		}
 	}
 }

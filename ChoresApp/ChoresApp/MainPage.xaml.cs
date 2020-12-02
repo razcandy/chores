@@ -5,6 +5,7 @@ using ChoresApp.Controls.Images;
 using ChoresApp.Controls.Navbar;
 using ChoresApp.Helpers;
 using ChoresApp.Pages;
+using ChoresApp.Pages.Login;
 using ChoresApp.Pages.Test;
 using ChoresApp.Resources;
 using System;
@@ -70,10 +71,10 @@ namespace ChoresApp
             }
 		}
 
-        public ChContentPage HomeContent { get; set; }
-        public ChContentPage Nav1Content { get; set; }
-        public ChContentPage Nav2Content { get; set; }
-        public ChContentPage Nav3Content { get; set; }
+        public ChPageBase HomeContent { get; set; }
+        public ChPageBase Nav1Content { get; set; }
+        public ChPageBase Nav2Content { get; set; }
+        public ChPageBase Nav3Content { get; set; }
 
         // Events & Handlers ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -181,9 +182,11 @@ namespace ChoresApp
 
         private void Grr()
 		{
-            Nav1Content = new TestPage();
+            //Nav1Content = new TestPage();
             Nav2Content = new TestPage();
             Nav3Content = new TestPage();
+
+            Nav1Content = new LoginPage();
         }
 	}
 }

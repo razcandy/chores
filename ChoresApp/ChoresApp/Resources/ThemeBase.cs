@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ChoresApp.Resources.Fonts;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using Xamarin.Forms;
@@ -8,34 +9,34 @@ namespace ChoresApp.Resources
     public abstract class ThemeBase
     {
         // Constants ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        protected const int DefaultCornerRadius = 3;
-        protected const int DefaultButtonHeight = 50;
 
         protected virtual double IconDefaultOpacity { get; } = 1.0;
         protected virtual double IconSelectedOpacity { get; } = 1.0;
 
         // Colors ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        protected abstract Color PrimaryColor { get; }
-        protected abstract Color PrimaryLightColor { get; }
-        protected abstract Color PrimaryDarkColor { get; }
+        public abstract Color PrimaryColor { get; }
+        public abstract Color PrimaryLightColor { get; }
+        public abstract Color PrimaryDarkColor { get; }
 
-        protected abstract Color SecondaryColor { get; }
-        protected abstract Color SecondaryLightColor { get; }
-        protected abstract Color SecondaryDarkColor { get; }
+        public abstract Color SecondaryColor { get; }
+        public abstract Color SecondaryLightColor { get; }
+        public abstract Color SecondaryDarkColor { get; }
 
-        protected abstract Color OnPrimaryColor { get; }
-        protected abstract Color OnSecondaryColor { get; }
-        protected abstract Color OnBackgroundColor { get; }
-        protected abstract Color OnSurfaceColor { get; }
-        protected abstract Color OnErrorColor { get; }
+        public abstract Color OnPrimaryColor { get; }
+        public abstract Color OnSecondaryColor { get; }
+        public abstract Color OnBackgroundColor { get; }
+        public abstract Color OnSurfaceColor { get; }
+        public abstract Color OnErrorColor { get; }
 
-        protected abstract Color BackgroundColor { get; }
-        protected abstract Color SurfaceColor { get; }
-        protected abstract Color ErrorColor { get; }
+        public abstract Color BackgroundColor { get; }
+        public abstract Color SurfaceColor { get; }
+        public abstract Color ErrorColor { get; }
 
-        protected abstract Color DefaultTextColor { get; }
+        public abstract Color DefaultTextColor { get; }
 
         // Styles ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+        //~~ Button Styles ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
         protected Style ButtonBaseStyle
 		{
@@ -45,14 +46,16 @@ namespace ChoresApp.Resources
                 {
                     Setters =
 					{
-                        new Setter { Property = Button.HeightRequestProperty, Value = DefaultButtonHeight },
-                        new Setter { Property = Button.CornerRadiusProperty, Value = DefaultCornerRadius },
+                        new Setter { Property = Button.HeightRequestProperty, Value = ResourceHelper.DefaultButtonHeight },
+                        new Setter { Property = Button.CornerRadiusProperty, Value = ResourceHelper.DefaultCornerRadius },
+                        new Setter { Property = Button.FontFamilyProperty, Value = FontKeys.Roboto_Medium },
+                        new Setter { Property = Button.FontSizeProperty, Value = 14 },
                     },
                 };
 			}
 		}
 
-        protected Style ButtonContainedStyle
+        public Style ButtonContainedStyle
         {
             get
             {
@@ -68,7 +71,7 @@ namespace ChoresApp.Resources
             }
         }
 
-        protected Style ButtonOutlinedStyle
+        public Style ButtonOutlinedStyle
         {
             get
             {
@@ -85,7 +88,7 @@ namespace ChoresApp.Resources
             }
         }
 
-        protected Style ButtonTextStyle
+        public Style ButtonTextStyle
         {
             get
             {
@@ -101,20 +104,136 @@ namespace ChoresApp.Resources
             }
         }
 
-        protected Style LabelPageHeaderStyle
+        //~~ Label Styles ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        public Style LabelH5Style
         {
             get
             {
-                var sty = new Style(typeof(Label))
+                return new Style(typeof(Label))
                 {
-
+                    BasedOn = LabelDefaultStyle,
+                    Setters =
+                    {
+                        new Setter { Property = Label.FontSizeProperty, Value = 24 },
+                    },
                 };
-
-                return sty;
             }
         }
 
-        protected Style LabelWidgetTitleStyle
+        public Style LabelH6Style
+        {
+            get
+            {
+                return new Style(typeof(Label))
+                {
+                    BasedOn = LabelDefaultStyle,
+                    Setters =
+                    {
+                        new Setter { Property = Label.FontFamilyProperty, Value = FontKeys.Roboto_Medium },
+                        new Setter { Property = Label.FontSizeProperty, Value = 20 },
+                    },
+                };
+            }
+        }
+
+        public Style LabelSubtitle1Style
+        {
+            get
+            {
+                return new Style(typeof(Label))
+                {
+                    BasedOn = LabelDefaultStyle,
+                    Setters =
+                    {
+                        new Setter { Property = Label.FontSizeProperty, Value = 16 },
+                    },
+                };
+            }
+        }
+
+        public Style LabelSubtitle2Style
+        {
+            get
+            {
+                return new Style(typeof(Label))
+                {
+                    BasedOn = LabelDefaultStyle,
+                    Setters =
+                    {
+                        new Setter { Property = Label.FontFamilyProperty, Value = FontKeys.Roboto_Medium },
+                        new Setter { Property = Label.FontSizeProperty, Value = 14 },
+                    },
+                };
+            }
+        }
+
+        /// <summary>
+        /// Larger font size than body 2
+        /// </summary>
+        public Style LabelBody1Style
+        {
+            get
+            {
+                return new Style(typeof(Label))
+                {
+                    BasedOn = LabelDefaultStyle,
+                    Setters =
+                    {
+                        new Setter { Property = Label.FontSizeProperty, Value = 16 },
+                    },
+                };
+            }
+        }
+
+        /// <summary>
+        /// Smaller font size than body 1
+        /// </summary>
+        public Style LabelBody2Style
+        {
+            get
+            {
+                return new Style(typeof(Label))
+                {
+                    BasedOn = LabelDefaultStyle,
+                    Setters =
+                    {
+                        new Setter { Property = Label.FontSizeProperty, Value = 14 },
+                    },
+                };
+            }
+        }
+
+        public Style LabelCaptionStyle
+        {
+            get
+            {
+                return new Style(typeof(Label))
+                {
+                    BasedOn = LabelDefaultStyle,
+                    Setters =
+                    {
+                        new Setter { Property = Label.FontSizeProperty, Value = 12 },
+                    },
+                };
+            }
+        }
+
+        public Style LabelOverlineStyle
+        {
+            get
+            {
+                return new Style(typeof(Label))
+                {
+                    BasedOn = LabelDefaultStyle,
+                    Setters =
+                    {
+                        new Setter { Property = Label.FontSizeProperty, Value = 10 },
+                    },
+                };
+            }
+        }
+
+        public Style LabelWidgetTitleStyle
         {
             get
             {
@@ -125,7 +244,7 @@ namespace ChoresApp.Resources
             }
         }
 
-        protected Style LabelWidgetSubtitleStyle
+        public Style LabelWidgetSubtitleStyle
         {
             get
             {
@@ -136,7 +255,7 @@ namespace ChoresApp.Resources
             }
         }
 
-        protected Style LabelWidgetSubSubtitleStyle
+        public Style LabelWidgetSubSubtitleStyle
         {
             get
             {
@@ -147,18 +266,7 @@ namespace ChoresApp.Resources
             }
         }
 
-        protected Style LabelParagraphStyle
-        {
-            get
-            {
-                return new Style(typeof(Label))
-                {
-
-                };
-            }
-        }
-
-        protected Style LabelFieldHelperTextStyle
+        public Style LabelFieldHelperTextStyle
         {
             get
             {
@@ -173,8 +281,10 @@ namespace ChoresApp.Resources
                 };
             }
         }
-        
-        protected virtual Style FrameCardStyle
+
+        //~~ Other Styles ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+        public virtual Style FrameCardStyle
 		{
             get
 			{
@@ -189,7 +299,7 @@ namespace ChoresApp.Resources
 			}
 		}
 
-        // Default Styles
+        //~~ Default Styles ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
         protected Style LabelDefaultStyle
         {
@@ -197,10 +307,12 @@ namespace ChoresApp.Resources
             {
                 return new Style(typeof(Label))
                 {
+                    ApplyToDerivedTypes = true,
                     Setters =
                     {
                         new Setter { Property = Label.TextColorProperty, Value = DefaultTextColor },
-                    },
+						new Setter { Property = Label.FontFamilyProperty, Value = FontKeys.Roboto },
+					},
                 };
             }
         }
@@ -238,7 +350,7 @@ namespace ChoresApp.Resources
                 {
                     Setters =
 					{
-                        new Setter { Property = Frame.CornerRadiusProperty, Value = DefaultCornerRadius },
+                        new Setter { Property = Frame.CornerRadiusProperty, Value = ResourceHelper.DefaultCornerRadius },
                     },
                 };
 			}
@@ -298,8 +410,16 @@ namespace ChoresApp.Resources
             rd.Add(nameof(DefaultTextColor), DefaultTextColor);
 
             // Styles ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-            rd.Add(nameof(LabelPageHeaderStyle), LabelPageHeaderStyle);
             rd.Add(nameof(LabelFieldHelperTextStyle), LabelFieldHelperTextStyle);
+
+            rd.Add(nameof(LabelH5Style), LabelH5Style);
+            rd.Add(nameof(LabelH6Style), LabelH6Style);
+            rd.Add(nameof(LabelSubtitle1Style), LabelSubtitle1Style);
+            rd.Add(nameof(LabelSubtitle2Style), LabelSubtitle2Style);
+            rd.Add(nameof(LabelBody1Style), LabelBody1Style);
+            rd.Add(nameof(LabelBody2Style), LabelBody2Style);
+            rd.Add(nameof(LabelCaptionStyle), LabelCaptionStyle);
+            rd.Add(nameof(LabelOverlineStyle), LabelOverlineStyle);
 
             rd.Add(nameof(ButtonContainedStyle), ButtonContainedStyle);
             rd.Add(nameof(ButtonOutlinedStyle), ButtonOutlinedStyle);

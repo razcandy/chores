@@ -3,13 +3,13 @@ using ChoresApp.Resources;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Xamarin.Forms;
 
 namespace ChoresApp.Controls.Buttons
 {
 	public class ChTextButton : ChButtonBase
 	{
 		// Fields ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-		private ButtonTransKeyEnum translationKey;
 
 		// Constructors ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		public ChTextButton() : base() => Init();
@@ -23,18 +23,25 @@ namespace ChoresApp.Controls.Buttons
 		// Properties ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		public ButtonTransKeyEnum TranslationKey
 		{
-			get => translationKey;
-			set
-			{
-				if (value != translationKey)
-				{
-					translationKey = value;
-					Text = TranslationHelper.GetTranslationOrDefault(translationKey);
-				}
-			}
+			get => (ButtonTransKeyEnum)GetValue(TranslationKeyProperty);
+			set => SetValue(TranslationKeyProperty, value);
 		}
 
+		public static readonly BindableProperty TranslationKeyProperty = BindableProperty.Create
+		(
+			propertyName: nameof(TranslationKey),
+			returnType: typeof(ButtonTransKeyEnum),
+			declaringType: typeof(ChTextButton),
+			defaultValue: ButtonTransKeyEnum.EnumDefault,
+			propertyChanged: OnTranslationKeyPropertyChanged
+		);
+
 		// Events & Handlers ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		private static void OnTranslationKeyPropertyChanged(BindableObject bindable, object oldValue, object newValue)
+		{
+			var button = (ChTextButton)bindable;
+			button.Text = TranslationHelper.GetTranslationOrDefault((ButtonTransKeyEnum)newValue);
+		}
 
 		// Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		private void Init()

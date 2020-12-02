@@ -29,7 +29,6 @@ namespace ChoresApp.Controls.Fields
 					Opacity = 0,
 				};
 				nativeTimePicker.SetBinding(TimePicker.TimeProperty, nameof(Time), BindingMode.TwoWay);
-
 				nativeTimePicker.Focused += NativeTimePicker_Focused;
 				nativeTimePicker.Unfocused += NativeTimePicker_Unfocused;
 
@@ -51,7 +50,7 @@ namespace ChoresApp.Controls.Fields
 			propertyName: nameof(Time),
 			returnType: typeof(TimeSpan),
 			declaringType: typeof(ChTimePicker),
-			defaultValue: null,
+			defaultValue: DateTime.Now.TimeOfDay,
 			propertyChanged: OnTimePropertyChanged
 		);
 
@@ -81,13 +80,15 @@ namespace ChoresApp.Controls.Fields
 		private void Init()
 		{
 			TrailingIconSource = ImageHelper.Clock;
+			ValueString = Time.ToString(ResourceHelper.DefaultTimeSpanFormat);
+		}
 
-			ValueLabel.SetBinding(Label.TextProperty, nameof(Time),
-				converter: InlineConverter<TimeSpan, string>.Select((_time) =>
-				{
-					return _time.ToString(ResourceHelper.DefaultTimeSpanFormat);
-				}
-			));
+		protected override void Cleanup()
+		{
+			base.Cleanup();
+
+			NativeTimePicker.Focused -= NativeTimePicker_Focused;
+			NativeTimePicker.Unfocused -= NativeTimePicker_Unfocused;
 		}
 	}
 }

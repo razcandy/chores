@@ -29,7 +29,6 @@ namespace ChoresApp.Controls.Fields
         private Label titleLabel;
         private Label titleLabelSmall;
         private ChIcon trailingIcon;
-        private BoxView underline;
         private Label valueLabel;
 
         // Constructors ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -141,8 +140,8 @@ namespace ChoresApp.Controls.Fields
                 titleLabel = new Label
                 {
 					BindingContext = this,
-					FontSize = 20,
                     InputTransparent = true,
+                    Style = ResourceHelper.LabelSubtitle1Style,
                 };
                 titleLabel.SetBinding(Label.TextProperty, nameof(Title));
 
@@ -160,13 +159,13 @@ namespace ChoresApp.Controls.Fields
                 {
 					BindingContext = this,
                     InputTransparent = true,
-                    FontSize = 10,
                     BackgroundColor = ResourceHelper.SurfaceColor,
                     VerticalOptions = LayoutOptions.Start,
                     VerticalTextAlignment = TextAlignment.Center,
                     HorizontalOptions = LayoutOptions.Start,
                     Padding = new Thickness(4, 0, 4, 0),
                     IsVisible = false,
+                    Style = ResourceHelper.LabelCaptionStyle,
                 };
                 titleLabelSmall.SetBinding(Label.TextProperty, nameof(Title));
 
@@ -174,39 +173,26 @@ namespace ChoresApp.Controls.Fields
             }
         }
 
-        private ChIcon TrailingIcon
+		/// <summary>
+		/// Label to be used if the natived control is hidden
+		/// </summary>
+		private Label ValueLabel
         {
             get
             {
-                if (trailingIcon != null) return trailingIcon;
+                if (valueLabel != null) return valueLabel;
 
-                trailingIcon = new ChIcon
+                valueLabel = new Label
                 {
-                    Margin = new Thickness(8, 0, 0, 0),
-                    WidthRequest = iconSize,
-                    VerticalOptions = LayoutOptions.Center,
+                    BindingContext = this,
+                    FontSize = 20,
                     InputTransparent = true,
+                    VerticalOptions = LayoutOptions.End,
+                    VerticalTextAlignment = TextAlignment.End,
                 };
+                valueLabel.SetBinding(Label.TextProperty, nameof(ValueString));
 
-				trailingIcon.SetBinding(ChIcon.IsVisibleProperty, new Binding(nameof(Image.Source), source: TrailingIcon,
-					converter: InlineConverter<ImageSource, bool>.Select(x =>
-					{
-                        return x == null ? false : !x.IsEmpty;
-					})));
-
-                return trailingIcon;
-            }
-        }
-
-        private BoxView Underline
-        {
-            get
-            {
-                if (underline != null) return underline;
-                underline = UIHelper.MakeHorizontalDivider();
-                underline.BackgroundColor = underlineDefaultColor;
-                underline.InputTransparent = true;
-                return underline;
+                return valueLabel;
             }
         }
 
@@ -224,29 +210,33 @@ namespace ChoresApp.Controls.Fields
 
         protected virtual bool ShowValueLabel => false;
 
-        /// <summary>
-        /// Label to be used if the natived control is hidden
-        /// </summary>
-        protected Label ValueLabel
-		{
+        protected ChIcon TrailingIcon
+        {
             get
-			{
-                if (valueLabel != null) return valueLabel;
+            {
+                if (trailingIcon != null) return trailingIcon;
 
-                valueLabel = new Label
+                var tap = new TapGestureRecognizer();
+                tap.Tapped += TrailingIcon_Tapped;
+
+                trailingIcon = new ChIcon
                 {
-                    BindingContext = this,
-                    FontSize = 20,
+                    Margin = new Thickness(8, 0, 0, 0),
+                    WidthRequest = iconSize,
+                    VerticalOptions = LayoutOptions.Center,
                     InputTransparent = true,
-                    VerticalOptions = LayoutOptions.End,
-                    VerticalTextAlignment = TextAlignment.End,
+                    GestureRecognizers = { tap, },
                 };
 
-                return valueLabel;
-            }
-		}
+                trailingIcon.SetBinding(ChIcon.IsVisibleProperty, new Binding(nameof(Image.Source), source: TrailingIcon,
+                    converter: InlineConverter<ImageSource, bool>.Select(x =>
+                    {
+                        return x == null ? false : !x.IsEmpty;
+                    })));
 
-        protected string ValueString { get; set; } // make abstract
+                return trailingIcon;
+            }
+        }
 
         public bool IsErrored
         {
@@ -325,6 +315,21 @@ namespace ChoresApp.Controls.Fields
             set => TrailingIcon.IconSource = value;
 		}
 
+        public string ValueString
+        {
+            get => (string)GetValue(ValueStringProperty);
+            protected set => SetValue(ValueStringProperty, value);
+        }
+
+        public static readonly BindableProperty ValueStringProperty = BindableProperty.Create
+        (
+            propertyName: nameof(ValueString),
+            returnType: typeof(string),
+            declaringType: typeof(ChFieldBase),
+            defaultValue: null,
+            defaultBindingMode: BindingMode.OneWayToSource
+        );
+
         // Events & Handlers ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         private static void OnIsErroredPropertyChanged(BindableObject bindable, object oldValue, object newValue)
 		{
@@ -352,6 +357,8 @@ namespace ChoresApp.Controls.Fields
         }
 
         protected virtual void TouchCaptured(object sender, EventArgs e) { }
+
+        protected virtual void TrailingIcon_Tapped(object sender, EventArgs e) { }
 
         // Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -480,6 +487,10 @@ namespace ChoresApp.Controls.Fields
                     OnInactivated();
                     break;
 			}
+		}
+
+        protected virtual void Cleanup()
+		{
 		}
 
         protected virtual void OnInactivated()
