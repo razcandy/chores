@@ -1,13 +1,12 @@
 ﻿using ChoresApp.Helpers;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace ChoresApp.Controls.Fields
 {
 	public class ChPasswordEntry : ChEntry
 	{
 		// Fields ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		private bool isPasswordVisible;
 
 		// Constructors ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		public ChPasswordEntry() : base() => Init();
@@ -17,14 +16,19 @@ namespace ChoresApp.Controls.Fields
 		// Events & Handlers ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		protected override void TrailingIcon_Tapped(object sender, EventArgs e)
 		{
-			if (TrailingIconSource == ImageHelper.Visibility)
+			if (isPasswordVisible)
 			{
-				TrailingIconSource = ImageHelper.VisibilityOff;
+				TrailingIconSource = ImageHelper.Visibility;
+				NativeEntry.IsPassword = true;
+				
 			}
 			else
 			{
-				TrailingIconSource = ImageHelper.Visibility;
+				TrailingIconSource = ImageHelper.VisibilityOff;
+				NativeEntry.IsPassword = false;
 			}
+
+			isPasswordVisible = !isPasswordVisible;
 		}
 
 		// Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

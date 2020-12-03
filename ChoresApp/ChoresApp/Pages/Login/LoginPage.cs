@@ -88,8 +88,10 @@ namespace ChoresApp.Pages.Login
 
 				infoButton = new ChButtonBase
 				{
-					Text = "B",
+					//Text = "B",
 					HorizontalOptions = LayoutOptions.Start,
+					ImageSource = ImageHelper.Back,
+					WidthRequest = 30,
 				};
 				infoButton.SetBinding(ChButtonBase.CommandProperty, nameof(LoginPageVM.InfoCommand));
 

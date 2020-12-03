@@ -53,6 +53,8 @@ namespace ChoresApp.Droid.CustomRenderers
 
 			xEntry = (XEntry)e.NewElement;
 
+			Control.SetBackgroundColor(Android.Graphics.Color.Transparent);
+
 			SetPadding();
 		}
 

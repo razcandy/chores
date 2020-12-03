@@ -20,11 +20,15 @@ namespace ChoresApp.Helpers
 
 		// Properties ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-		public static ChImageSource Calendar { get; } = new ChImageSource("calendar.png", true, false, false);
+		public static ChImageSource Back { get; } = new ChImageSource("arrow_back.png");
 
-		public static ChImageSource Check { get; } = new ChImageSource("check.png", true, false, false);
+		public static ChImageSource Calendar { get; } = new ChImageSource("calendar.png");
 
-		public static ChImageSource Clock { get; } = new ChImageSource("clock.png", true, false, false);
+		public static ChImageSource Check { get; } = new ChImageSource("check.png");
+
+		public static ChImageSource Clock { get; } = new ChImageSource("clock.png");
+
+		public static ChImageSource Close { get; } = new ChImageSource("close.png");
 
 		public static ChImageSource Debug { get; } = new ChImageSource("debug.png", true, false, true);
 
@@ -36,10 +40,12 @@ namespace ChoresApp.Helpers
 
 		public static ChImageSource NotFound { get; } = new ChImageSource("broken_image.png", true, true, true);
 
-		public static ChImageSource PickerArrow { get; } = new ChImageSource("picker_arrow.png", true, false, false);
+		public static ChImageSource PickerArrow { get; } = new ChImageSource("picker_arrow.png");
 
-		public static ChImageSource Visibility { get; } = new ChImageSource("visibility.png", true, false, false);
+		public static ChImageSource Refresh { get; } = new ChImageSource("refresh.png");
 
-		public static ChImageSource VisibilityOff { get; } = new ChImageSource("visibility_off.png", true, false, false);
+		public static ChImageSource Visibility { get; } = new ChImageSource("visibility.png");
+
+		public static ChImageSource VisibilityOff { get; } = new ChImageSource("visibility_off.png");
 	}
 }

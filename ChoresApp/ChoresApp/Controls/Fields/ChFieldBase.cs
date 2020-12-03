@@ -1,4 +1,5 @@
 ﻿using ChoresApp.Controls.Images;
+using ChoresApp.Controls.Natives;
 using ChoresApp.Helpers;
 using ChoresApp.Helpers.Converters;
 using ChoresApp.Resources;
@@ -23,13 +24,13 @@ namespace ChoresApp.Controls.Fields
         // Fields ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         private Grid mainGrid;
         private Frame backgroundFrame;
-        private Label helperTextLabel;
+        private XLabel helperTextLabel;
         private RowDefinition mainContentRow;
         private ChFieldState state;
-        private Label titleLabel;
-        private Label titleLabelSmall;
+        private XLabel titleLabel;
+        private XLabel titleLabelSmall;
         private ChIcon trailingIcon;
-        private Label valueLabel;
+        private XLabel valueLabel;
 
         // Constructors ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         public ChFieldBase() => Init();
@@ -80,8 +81,17 @@ namespace ChoresApp.Controls.Fields
                 mainGrid.Children.Add(TrailingIcon, 2, 3, 1, 4);
                 mainGrid.Children.Add(TitleLabelSmall, 1, 2, 0, 2);
                 mainGrid.Children.Add(NativeControl, 1, 2, 2, 3);
-                mainGrid.Children.Add(TitleLabel, 1, 2, 1, 4);
+                //mainGrid.Children.Add(TitleLabel, 1, 2, 1, 4);
                 mainGrid.Children.Add(HelperTextLabel, 1, numColumns, numRows - 1, numRows);
+
+                if (ShowBigTitleLabel)
+				{
+                    mainGrid.Children.Add(TitleLabel, 1, 2, 1, 4);
+                }
+                else
+				{
+                    TitleLabelSmall.IsVisible = true;
+                }
 
                 if (ShowValueLabel)
                 {
@@ -108,7 +118,6 @@ namespace ChoresApp.Controls.Fields
                     Padding = 0,
                     Margin = 0,
                     HasShadow = false,
-
                     GestureRecognizers = { tap },
                 };
 
@@ -116,28 +125,31 @@ namespace ChoresApp.Controls.Fields
             }
         }
 
-        private Label HelperTextLabel
+        private XLabel HelperTextLabel
         {
             get
             {
                 if (helperTextLabel != null) return helperTextLabel;
 
-                helperTextLabel = new Label
+                helperTextLabel = new XLabel
                 {
-                    Style = ResourceHelper.LabelFieldHelperTextStyle,
+                    BindingContext = this,
+                    Style = ResourceHelper.LabelCaptionStyle,
                 };
-
+                helperTextLabel.SetBinding(XLabel.TextProperty, nameof(HelperText));
+                helperTextLabel.SetBinding(XLabel.TextColorProperty, nameof(IsErrored),
+                    converter: new BoolToTConverter<Color>(ResourceHelper.ErrorColor, ResourceHelper.DefaultTextColor));
                 return helperTextLabel;
             }
         }
 
-        private Label TitleLabel
+        private XLabel TitleLabel
         {
             get
             {
                 if (titleLabel != null) return titleLabel;
 
-                titleLabel = new Label
+                titleLabel = new XLabel
                 {
 					BindingContext = this,
                     InputTransparent = true,
@@ -149,13 +161,13 @@ namespace ChoresApp.Controls.Fields
             }
         }
 
-        private Label TitleLabelSmall
+        private XLabel TitleLabelSmall
         {
             get
             {
                 if (titleLabelSmall != null) return titleLabelSmall;
 
-                titleLabelSmall = new Label
+                titleLabelSmall = new XLabel
                 {
 					BindingContext = this,
                     InputTransparent = true,
@@ -176,13 +188,13 @@ namespace ChoresApp.Controls.Fields
 		/// <summary>
 		/// Label to be used if the natived control is hidden
 		/// </summary>
-		private Label ValueLabel
+		private XLabel ValueLabel
         {
             get
             {
                 if (valueLabel != null) return valueLabel;
 
-                valueLabel = new Label
+                valueLabel = new XLabel
                 {
                     BindingContext = this,
                     FontSize = 20,
@@ -208,6 +220,7 @@ namespace ChoresApp.Controls.Fields
 
         protected abstract View NativeControl { get; }
 
+        protected virtual bool ShowBigTitleLabel => true;
         protected virtual bool ShowValueLabel => false;
 
         protected ChIcon TrailingIcon
@@ -509,9 +522,9 @@ namespace ChoresApp.Controls.Fields
 
         protected virtual void OnErrored()
 		{
-            UpdateLabelColor(Color.Red);
+            UpdateLabelColor(ResourceHelper.ErrorColor);
             //SetActive();
-            BoldUnderline(Color.Red);
+            BoldUnderline(ResourceHelper.ErrorColor);
         }
 
         protected virtual void OnFocused()

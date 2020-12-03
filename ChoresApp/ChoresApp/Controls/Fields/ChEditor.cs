@@ -1,4 +1,5 @@
-﻿using ChoresApp.Helpers;
+﻿using ChoresApp.Controls.Natives;
+using ChoresApp.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,22 +10,22 @@ namespace ChoresApp.Controls.Fields
 	public class ChEditor : ChFieldBase
 	{
         // Constants ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        private const double expandedMainContentHeight = 125;
+        private const double expandedMainContentHeight = 80;
 
         // Fields ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        private Editor nativeEditor;
+        private XEditor nativeEditor;
 
         // Constructors ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         public ChEditor() : base() => Init();
 
         // Properties ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        private Editor NativeEditor
+        private XEditor NativeEditor
 		{
             get
 			{
                 if (nativeEditor != null) return nativeEditor;
 
-                nativeEditor = new Editor
+                nativeEditor = new XEditor
                 {
                     BindingContext = this,
                     BackgroundColor = Color.Transparent,

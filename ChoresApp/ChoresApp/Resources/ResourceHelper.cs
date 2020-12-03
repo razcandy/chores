@@ -27,6 +27,7 @@ namespace ChoresApp.Resources
         public static Color SecondaryColor => GetColor(nameof(ThemeBase.SecondaryColor));
         public static Color SurfaceColor => GetColor(nameof(ThemeBase.SurfaceColor));
         public static Color DefaultTextColor => GetColor(nameof(ThemeBase.DefaultTextColor));
+        public static Color ErrorColor => GetColor(nameof(ThemeBase.ErrorColor));
 
         //~~ Styles ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         //~~~~ Button Styles ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -35,7 +36,7 @@ namespace ChoresApp.Resources
         public static Style ButtonTextStyle => GetStyle(nameof(ThemeBase.ButtonTextStyle));
 
         //~~~~ Label Styles ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        public static Style LabelFieldHelperTextStyle => GetStyle(nameof(ThemeBase.LabelFieldHelperTextStyle));
+        //public static Style LabelFieldHelperTextStyle => GetStyle(nameof(ThemeBase.LabelFieldHelperTextStyle));
 
         public static Style LabelH5Style => GetStyle(nameof(ThemeBase.LabelH5Style));
         public static Style LabelH6Style => GetStyle(nameof(ThemeBase.LabelH6Style));

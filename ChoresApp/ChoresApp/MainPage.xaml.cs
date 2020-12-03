@@ -128,7 +128,6 @@ namespace ChoresApp
             var edit = new ChEditor
             {
                 Title = "Editor Title",
-				AutoSize = true,
 			};
             sl.Children.Add(edit);
 

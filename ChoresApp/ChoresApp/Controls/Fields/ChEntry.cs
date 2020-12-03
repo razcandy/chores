@@ -1,4 +1,5 @@
 ﻿using ChoresApp.Controls.Natives;
+using ChoresApp.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -27,6 +28,7 @@ namespace ChoresApp.Controls.Fields
 					BindingContext = this,
 					BackgroundColor = Color.Transparent,
 					Padding = 0,
+					ClearButtonVisibility = ClearButtonVisibility.WhileEditing,
 				};
 				nativeEntry.SetBinding(Entry.TextProperty, nameof(Text), BindingMode.TwoWay);
 
@@ -76,6 +78,8 @@ namespace ChoresApp.Controls.Fields
 		{
 			var e = (ChEntry)bindable;
 			e.ValueString = e.Text;
+
+			//e.ResolveClear();
 		}
 
 		protected override void TouchCaptured(object sender, EventArgs e)
@@ -86,8 +90,34 @@ namespace ChoresApp.Controls.Fields
 			}
 		}
 
+		protected override void TrailingIcon_Tapped(object sender, EventArgs e)
+		{
+			Text = string.Empty;
+		}
+
 		// Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-		private void Init() { }
+		private void Init()
+		{
+			TrailingIcon.InputTransparent = false;
+		}
+
+		private bool isClearActive;
+
+		private void ResolveClear()
+		{
+			if (Text.IsNullOrEmpty())
+			{
+				isClearActive = false;
+				TrailingIcon.InputTransparent = true;
+				TrailingIconSource = null;
+			}
+			else
+			{
+				isClearActive = true;
+				TrailingIcon.InputTransparent = false;
+				TrailingIconSource = ImageHelper.Close;
+			}
+		}
 
 		protected override void Cleanup()
 		{

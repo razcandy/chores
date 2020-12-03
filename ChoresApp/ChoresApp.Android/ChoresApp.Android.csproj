@@ -60,6 +60,7 @@
     <PackageReference Include="Xamarin.Essentials" Version="1.5.3.2" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CustomRenderers\XEditorCustomRenderer.cs" />
     <Compile Include="CustomRenderers\XEntryCustomRenderer.cs" />
     <Compile Include="CustomRenderers\XLabelCustomRenderer.cs" />
     <Compile Include="MainActivity.cs" />
@@ -131,6 +132,9 @@
     <AndroidResource Include="Resources\drawable\check.xml" />
     <AndroidResource Include="Resources\drawable\visibility_off.xml" />
     <AndroidResource Include="Resources\drawable\visibility.xml" />
+    <AndroidResource Include="Resources\drawable\refresh.xml" />
+    <AndroidResource Include="Resources\drawable\close.xml" />
+    <AndroidResource Include="Resources\drawable\arrow_back.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>

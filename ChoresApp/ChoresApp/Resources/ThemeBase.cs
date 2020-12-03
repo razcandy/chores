@@ -266,24 +266,7 @@ namespace ChoresApp.Resources
             }
         }
 
-        public Style LabelFieldHelperTextStyle
-        {
-            get
-            {
-                return new Style(typeof(Label))
-                {
-                    Setters =
-                    {
-                        new Setter { Property = Label.TextColorProperty, Value = OnSurfaceColor },
-                        new Setter { Property = Label.FontSizeProperty, Value = 12 },
-                        new Setter { Property = Label.OpacityProperty, Value = 0.5 },
-                    },
-                };
-            }
-        }
-
         //~~ Other Styles ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
         public virtual Style FrameCardStyle
 		{
             get
@@ -410,7 +393,7 @@ namespace ChoresApp.Resources
             rd.Add(nameof(DefaultTextColor), DefaultTextColor);
 
             // Styles ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-            rd.Add(nameof(LabelFieldHelperTextStyle), LabelFieldHelperTextStyle);
+            //rd.Add(nameof(LabelFieldHelperTextStyle), LabelFieldHelperTextStyle);
 
             rd.Add(nameof(LabelH5Style), LabelH5Style);
             rd.Add(nameof(LabelH6Style), LabelH6Style);

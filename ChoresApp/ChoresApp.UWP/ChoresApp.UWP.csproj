@@ -131,6 +131,7 @@
     <Compile Include="CustomRenderers\ButtonCustomRenderer.cs" />
     <Compile Include="CustomRenderers\EditorCustomRenderer.cs" />
     <Compile Include="CustomRenderers\EntryCustomRenderer.cs" />
+    <Compile Include="CustomRenderers\XEditorCustomRenderer.cs" />
     <Compile Include="CustomRenderers\XEntryCustomRenderer.cs" />
     <Compile Include="CustomRenderers\XLabelCustomRenderer.cs" />
     <Compile Include="MainPage.xaml.cs">
@@ -144,6 +145,8 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\arrow_back.png" />
+    <Content Include="Assets\arrow_back_dark.png" />
     <Content Include="Assets\broken_image_dark_errored.png" />
     <Content Include="Assets\broken_image_dark_selected.png" />
     <Content Include="Assets\broken_image_dark.png" />
@@ -156,6 +159,8 @@
     <Content Include="Assets\check_dark.png" />
     <Content Include="Assets\clock.png" />
     <Content Include="Assets\clock_dark.png" />
+    <Content Include="Assets\close.png" />
+    <Content Include="Assets\close_dark.png" />
     <Content Include="Assets\debug.png" />
     <Content Include="Assets\debug_dark.png" />
     <Content Include="Assets\debug_dark_selected.png" />
@@ -167,6 +172,8 @@
     <Content Include="Assets\home.png" />
     <Content Include="Assets\picker_arrow.png" />
     <Content Include="Assets\picker_arrow_dark.png" />
+    <Content Include="Assets\refresh.png" />
+    <Content Include="Assets\refresh_dark.png" />
     <Content Include="Assets\round_eco.png" />
     <Content Include="Assets\test.jpg" />
     <AndroidResource Include="Assets\test.png" />

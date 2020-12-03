@@ -36,6 +36,7 @@ namespace ChoresApp.Controls.Fields
 			}
 		}
 
+		protected override bool ShowBigTitleLabel => false;
 		protected override bool ShowValueLabel => true;
 		protected override View NativeControl => NativeDatePicker;
 
