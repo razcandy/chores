@@ -1,5 +1,6 @@
 ﻿using ChoresApp.Controls.Images;
-using ChoresApp.Helpers;
+using ChoresApp.Resources;
+using ChoresApp.Resources.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,100 +8,111 @@ using Xamarin.Forms;
 
 namespace ChoresApp.Controls.Buttons
 {
-	public class ChImageButton : ChButtonBase
+	public class ChImageButton : ImageButton, ISelectable
 	{
 		// Fields ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-		private ImageSource selectedSource;
-		private ImageSource unselectedSourceCache;
+		private ChImageSource iconSource;
+		private bool isSelectable;
 
 		// Constructors ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-		public ChImageButton() : base()
-		{
-			BackgroundColor = Color.Transparent;
-
-			Clicked += OnClicked;
-		}
+		public ChImageButton() : base() => Init();
 
 		// Properties ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-		//private Image tmpImage;
-
-		//protected override View MainContent => tmpImage;
-
-		private Image icon;
-
-		public Image Icon
+		public ChImageSource IconSource
 		{
-			get
+			get => iconSource;
+			set
 			{
-				if (icon != null) return icon;
-
-				icon = new Image
-				{
-					Aspect = Aspect.AspectFit,
-					Source = ImageHelper.Eco,
-				};
-
-				return icon;
+				iconSource = value;
+				ResolveSource();
 			}
 		}
 
-		public ImageSource SelectedSource
+		public bool IsSelectable
 		{
-			get => selectedSource;
+			get => isSelectable;
 			set
 			{
-				if (selectedSource != value)
+				isSelectable = value;
+
+				if (!isSelectable)
 				{
-					selectedSource = value;
+					IsSelected = false;
 				}
 			}
 		}
 
-
-		private ChImageSource chImageSource;
-
-		public ChImageSource ChImageSource
+		public bool IsSelected
 		{
-			get => chImageSource;
-			set
-			{
-				if (value != null)
-				{
-					chImageSource = value;
-
-					ImageSource = chImageSource;
-					//SelectedSource = chImageSource./*sele*/
-				}
-			}
+			get => (bool)GetValue(IsSelectedProperty);
+			set => SetValue(IsSelectedProperty, value);
 		}
 
+		public static readonly BindableProperty IsSelectedProperty = BindableProperty.Create
+		(
+			propertyName: nameof(IsSelected),
+			returnType: typeof(bool),
+			declaringType: typeof(ChImageButton),
+			defaultValue: false,
+			propertyChanged: OnIsSelectedPropertyChanged
+		);
 
-		/// <summary>
-		/// Hide the text property, so it can't be set externally
-		/// </summary>
-		public new string Text { get; set; }
+		protected virtual bool ToggleIsSelectedOnClick => true;
 
 		// Events & Handlers ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-		private void OnClicked(object sender, EventArgs e)
+		private static void OnIsSelectedPropertyChanged(BindableObject bindable, object oldValue, object newValue)
 		{
-			ToggleSelected();
+			var button = (ChImageButton)bindable;
+
+			button.IsSelectedChanged?.Invoke(button, (bool)newValue);
+			button.ResolveSource();
 		}
 
-		// Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-		protected override void OnIsSelectedChanged()
+		private void OnThisClicked(object sender, EventArgs e)
 		{
-			if (ImageSource != null && SelectedSource != null)
+			if (IsSelectable && ToggleIsSelectedOnClick)
+			{
+				IsSelected = !IsSelected;
+				IsSelectedChanged?.Invoke(this, IsSelected);
+			}
+		}
+
+		public event EventHandler<bool> IsSelectedChanged;
+
+		// Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		private void Init()
+		{
+			Aspect = Aspect.AspectFit;
+			Clicked += OnThisClicked;
+		}
+
+		private void ResolveSource()
+		{
+			if (IconSource == null)
+			{
+				Source = null;
+			}
+
+			if (ResourceHelper.IsLightTheme())
 			{
 				if (IsSelected)
 				{
-					unselectedSourceCache = ImageSource;
-					ImageSource = SelectedSource;
+					Source = IconSource.LightSelectedSource;
 				}
 				else
 				{
-					ImageSource = unselectedSourceCache;
-					unselectedSourceCache = null;
+					Source = IconSource.LightSource;
+				}
+			}
+			else
+			{
+				if (IsSelected)
+				{
+					Source = IconSource.DarkSelectedSource;
+				}
+				else
+				{
+					Source = IconSource.DarkSource;
 				}
 			}
 		}

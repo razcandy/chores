@@ -15,9 +15,9 @@ namespace ChoresApp.Debug
 		// Fields ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		private ScrollView mainScroll;
 		private StackLayout mainLayout;
-		private ChButtonBase button0;
-		private ChButtonBase button1;
-		private ChButtonBase button2;
+		private ChButton button0;
+		private ChButton button1;
+		private ChButton button2;
 
 		// Constructors ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		public DebugPage() : base()
@@ -63,13 +63,13 @@ namespace ChoresApp.Debug
 			}
 		}
 		
-		private ChButtonBase Button0
+		private ChButton Button0
 		{
 			get
 			{
 				if (button0 != null) return button0;
 
-				button0 = new ChButtonBase
+				button0 = new ChButton
 				{
 					HorizontalOptions = LayoutOptions.Center,
 					Text = "Push here",
@@ -84,13 +84,13 @@ namespace ChoresApp.Debug
 			}
 		}
 
-		private ChButtonBase Button1
+		private ChButton Button1
 		{
 			get
 			{
 				if (button1 != null) return button1;
 
-				button1 = new ChButtonBase
+				button1 = new ChButton
 				{
 					HorizontalOptions = LayoutOptions.Center,
 					Text = "Push to 3",
@@ -105,13 +105,13 @@ namespace ChoresApp.Debug
 			}
 		}
 
-		private ChButtonBase Button2
+		private ChButton Button2
 		{
 			get
 			{
 				if (button2 != null) return button2;
 
-				button2 = new ChButtonBase
+				button2 = new ChButton
 				{
 					HorizontalOptions = LayoutOptions.Center,
 					Text = "rawr",

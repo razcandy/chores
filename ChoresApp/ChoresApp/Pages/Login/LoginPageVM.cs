@@ -15,7 +15,7 @@ namespace ChoresApp.Pages.Login
 		private bool isPasswordErrored;
 		private bool isUsernameErrored;
 		private string password;
-		//private string primaryActionButtonText;
+		private string passwordHelperText;
 		private string switchButtonText = "Switch";
 		private string switchLabelText;
 		private string username;
@@ -24,6 +24,12 @@ namespace ChoresApp.Pages.Login
 
 		// Constructors ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		public LoginPageVM() : base() => Init();
+
+		public LoginPageVM(bool _inLoginMode) : base()
+		{
+			inLoginMode = _inLoginMode;
+			Init();
+		}
 
 		// Properties ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		public RelayCommand InfoCommand { get; private set; }
@@ -40,10 +46,11 @@ namespace ChoresApp.Pages.Login
 			private set => Set(ref isUsernameErrored, value);
 		}
 
+		public string PageTitle => inLoginMode ? "Log In" : "Sign Up";
+
 		public string Password
 		{
 			get => password;
-			//set => Set(ref password, value);
 			set
 			{
 				Set(ref password, value);
@@ -51,26 +58,11 @@ namespace ChoresApp.Pages.Login
 			}
 		}
 
-		private string passwordHelperText;
-		
 		public string PasswordHelperText
 		{
 			get => passwordHelperText;
 			private set => Set(ref passwordHelperText, value);
 		}
-
-		//public string PrimaryActionButtonText
-		//{
-		//	get => primaryActionButtonText;
-		//	private set => Set(ref primaryActionButtonText, value);
-		//}
-
-		//private ButtonTransKeyEnum primaryActionTransKey = ButtonTransKeyEnum.LogIn;
-		//public ButtonTransKeyEnum PrimaryActionTransKey
-		//{
-		//	get => primaryActionTransKey;
-		//	private set => Set(ref primaryActionTransKey, value);
-		//}
 
 		public ButtonTransKeyEnum PrimaryActionTransKey
 		{
@@ -126,21 +118,15 @@ namespace ChoresApp.Pages.Login
 
 		private void SwitchAction()
 		{
-			if (inLoginMode)
-			{
+			//Username = null;
+			//Password = null;
 
-			}
-			else
-			{
+			//inLoginMode = !inLoginMode;
+			//RaisePropertyChanged(nameof(PrimaryActionTransKey));
+			//RaisePropertyChanged(nameof(SwitchLabelText));
+			//RaisePropertyChanged(nameof(PageTitle));
 
-			}
-
-			Username = null;
-			Password = null;
-
-			inLoginMode = !inLoginMode;
-			RaisePropertyChanged(nameof(PrimaryActionTransKey));
-			RaisePropertyChanged(nameof(SwitchLabelText));
+			NavigationHelper.PushPage(new LoginPage());
 		}
 
 		private void ValidatePassword()

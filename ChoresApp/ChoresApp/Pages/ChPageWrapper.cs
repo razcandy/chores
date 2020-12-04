@@ -1,25 +1,32 @@
-﻿using ChoresApp.Controls.Buttons;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
 using Xamarin.Forms;
 
-namespace ChoresApp.Controls.Navbar
+namespace ChoresApp.Pages
 {
-	public class ChNavbarButton : ChImageButton
+	public class ChPageWrapper : ContentPage
 	{
 		// Fields ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 		// Constructors ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-		public ChNavbarButton() : base()
-		{
-			IsSelectable = true;
-			Padding = 10;
-		}
 
 		// Properties ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-		protected override bool ToggleIsSelectedOnClick => false;
 
 		// Events & Handlers ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 		// Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		private void Test()
+		{
+			//Navigation
+			
+		}
 
+		public async void Nav()
+		{
+			await Navigation.PushAsync(this);
+
+			//await Navigation.PushModalAsync(this);
+		}
 	}
 }

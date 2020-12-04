@@ -3,6 +3,7 @@ using ChoresApp.Pages;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace ChoresApp.Helpers
@@ -56,6 +57,7 @@ namespace ChoresApp.Helpers
 
 			mainPageContainer.Content = _mainPage.HomeContent;
 			_mainPage.HomeContent.SendAppearing();
+
 		}
 
 		public static void NavToStack(NavStackEnum _targetStack)
@@ -106,6 +108,33 @@ namespace ChoresApp.Helpers
 		public static void PushAlert(string _message, double _duration = 0.5)
 		{
 
+		}
+
+		public static void PushPage(Page _page)
+		{
+			_page.Navigation.PushAsync(_page);
+		}
+
+		public static async void PushPage(ChPageBase _page)
+		{
+			var contentPage = new ContentPage
+			{
+				Content = _page,
+			};
+
+			//if (MainThread.IsMainThread)
+			//{
+			//	contentPage.Navigation.PushAsync(contentPage);
+			//}
+			//else
+			//{
+			//	MainThread.BeginInvokeOnMainThread(() =>
+			//	{
+			//		contentPage.Navigation.PushAsync(contentPage);
+			//	});
+			//}
+
+			await App.Current.MainPage.Navigation.PushAsync(contentPage);
 		}
 
 		public static void PushSnack(string _message, double _duration = 0.5)

@@ -15,8 +15,7 @@ namespace ChoresApp.Pages.Login
 		// Fields ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		private Grid mainGrid;
 		private ScrollView mainScroll;
-		private ChButtonBase infoButton;
-		private ChButtonBase switchButton;
+		private ChButton switchButton;
 		private ChEntry usernameEntry;
 		private ChPasswordEntry passwordEntry;
 
@@ -24,7 +23,12 @@ namespace ChoresApp.Pages.Login
 		public LoginPage() : base()
 		{
 			BindingContext = new LoginPageVM();
+			Content = MainGrid;
+		}
 
+		public LoginPage(bool _inLoginMode) : base()
+		{
+			BindingContext = new LoginPageVM(_inLoginMode);
 			Content = MainGrid;
 		}
 
@@ -40,15 +44,14 @@ namespace ChoresApp.Pages.Login
 					RowSpacing = 0,
 					RowDefinitions =
 					{
-						UIHelper.MakeStaticRow(50), // info
+						UIHelper.MakeStaticRow(30), // info
 						UIHelper.MakeStarRow(),
 						UIHelper.MakeStaticRow(50), // switch button
 					},
 				};
-				mainGrid.Children.Add(InfoButton, 0, 0);
-
+				mainGrid.Children.Add(BackButton, 0, 0);
+				//mainGrid.Children.Add(TitleLabel, 0, 0);
 				mainGrid.Children.Add(MainScroll, 0, 1);
-
 				mainGrid.Children.Add(SwitchButton, 0, 2);
 
 				return mainGrid;
@@ -80,22 +83,22 @@ namespace ChoresApp.Pages.Login
 			}
 		}
 
-		private ChButtonBase InfoButton
+		private ChImageButton backButton;
+		private ChImageButton BackButton
 		{
 			get
 			{
-				if (infoButton != null) return infoButton;
+				if (backButton != null) return backButton;
 
-				infoButton = new ChButtonBase
+				backButton = new ChImageButton
 				{
-					//Text = "B",
+					HeightRequest = 30,
+					IconSource = ImageHelper.Back,
 					HorizontalOptions = LayoutOptions.Start,
-					ImageSource = ImageHelper.Back,
-					WidthRequest = 30,
+					IsSelectable = true,
 				};
-				infoButton.SetBinding(ChButtonBase.CommandProperty, nameof(LoginPageVM.InfoCommand));
 
-				return infoButton;
+				return backButton;
 			}
 		}
 
@@ -108,26 +111,27 @@ namespace ChoresApp.Pages.Login
 
 				titleLabel = new XLabel
 				{
-					//FontFamily
+					Style = ResourceHelper.LabelH5Style,
 				};
+				titleLabel.SetBinding(XLabel.TextProperty, nameof(LoginPageVM.PageTitle));
 
 				return titleLabel;
 			}
 		}
 
-		private ChButtonBase SwitchButton
+		private ChButton SwitchButton
 		{
 			get
 			{
 				if (switchButton != null) return switchButton;
 
-				switchButton = new ChButtonBase
+				switchButton = new ChButton
 				{
 					Style = ResourceHelper.ButtonTextStyle,
 					HorizontalOptions = LayoutOptions.CenterAndExpand,
 				};
-				switchButton.SetBinding(ChButtonBase.CommandProperty, nameof(LoginPageVM.SwitchCommand));
-				switchButton.SetBinding(ChButtonBase.TextProperty, nameof(LoginPageVM.SwitchButtonText));
+				switchButton.SetBinding(ChButton.CommandProperty, nameof(LoginPageVM.SwitchCommand));
+				switchButton.SetBinding(ChButton.TextProperty, nameof(LoginPageVM.SwitchButtonText));
 
 				return switchButton;
 			}
@@ -149,26 +153,25 @@ namespace ChoresApp.Pages.Login
 			}
 		}
 
-		private ChTextButton primaryActionButton;
-		private ChTextButton PrimaryActionButton
+		private ChButton primaryActionButton;
+		private ChButton PrimaryActionButton
 		{
 			get
 			{
 				if (primaryActionButton != null) return primaryActionButton;
 
-				primaryActionButton = new ChTextButton
+				primaryActionButton = new ChButton
 				{
 					Style =	ResourceHelper.ButtonContainedStyle,
 				};
 				//primaryActionButton.SetBinding(ChTextButton.TextProperty, nameof(LoginPageVM.PrimaryActionButtonText));
 
-				primaryActionButton.SetBinding(ChTextButton.TranslationKeyProperty, nameof(LoginPageVM.PrimaryActionTransKey));
+				primaryActionButton.SetBinding(ChButton.TranslationKeyProperty, nameof(LoginPageVM.PrimaryActionTransKey));
 
 				return primaryActionButton;
 			}
 		}
 		
-
 		private ChEntry UsernameEntry
 		{
 			get
@@ -201,6 +204,23 @@ namespace ChoresApp.Pages.Login
 				passwordEntry.SetBinding(ChPasswordEntry.HelperTextProperty, nameof(LoginPageVM.PasswordHelperText));
 
 				return passwordEntry;
+			}
+		}
+
+		private XLabel disclaimerLabel;
+		private XLabel DisclaimerLabel
+		{
+			get
+			{
+				if (disclaimerLabel != null) return disclaimerLabel;
+
+				disclaimerLabel = new XLabel
+				{
+					Text = "Information given is only stored locally",
+					Style = ResourceHelper.LabelCaptionStyle,
+				};
+
+				return disclaimerLabel;
 			}
 		}
 

@@ -127,7 +127,6 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="CustomRenderers\ChImageButtonCustomRenderer.cs" />
     <Compile Include="CustomRenderers\ButtonCustomRenderer.cs" />
     <Compile Include="CustomRenderers\EditorCustomRenderer.cs" />
     <Compile Include="CustomRenderers\EntryCustomRenderer.cs" />
@@ -170,6 +169,8 @@
     <Content Include="Assets\home_dark.png" />
     <Content Include="Assets\home_selected.png" />
     <Content Include="Assets\home.png" />
+    <Content Include="Assets\info.png" />
+    <Content Include="Assets\info_dark.png" />
     <Content Include="Assets\picker_arrow.png" />
     <Content Include="Assets\picker_arrow_dark.png" />
     <Content Include="Assets\refresh.png" />

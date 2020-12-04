@@ -1,4 +1,5 @@
 ﻿using ChoresApp.Helpers;
+using ChoresApp.Pages;
 using ChoresApp.Resources;
 using System;
 using Xamarin.Essentials;
@@ -26,8 +27,11 @@ namespace ChoresApp
 
 			CheckFiles();
 
+			//var mainPage = new MainPage();
+			//MainPage = mainPage;
+
 			var mainPage = new MainPage();
-			MainPage = mainPage;
+			MainPage = new NavigationPage(mainPage);
 
 			NavigationHelper.InitStacks(mainPage);
 

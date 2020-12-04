@@ -28,6 +28,8 @@ namespace ChoresApp
 		{
             InitializeComponent();
 
+            NavigationPage.SetHasNavigationBar(this, false);
+
             Content = MainGrid;
 
             Rawr();
@@ -181,11 +183,9 @@ namespace ChoresApp
 
         private void Grr()
 		{
-            //Nav1Content = new TestPage();
-            Nav2Content = new TestPage();
-            Nav3Content = new TestPage();
-
             Nav1Content = new LoginPage();
+            Nav2Content = new LandingPage();
+            Nav3Content = new TestPage();
         }
 	}
 }

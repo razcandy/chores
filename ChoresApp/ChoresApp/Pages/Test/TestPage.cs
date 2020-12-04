@@ -10,7 +10,7 @@ namespace ChoresApp.Pages.Test
 		// Fields ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		private StackLayout mainLayout;
 		private BoxView box;
-		private ChButtonBase backButton;
+		private ChButton backButton;
 
 		// Constructors ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		public TestPage() : base()
@@ -58,13 +58,13 @@ namespace ChoresApp.Pages.Test
 			}
 		}
 
-		private ChButtonBase BackButton
+		private ChButton BackButton
 		{
 			get
 			{
 				if (backButton != null) return backButton;
 
-				backButton = new ChButtonBase
+				backButton = new ChButton
 				{
 					Text = "BACK",
 					HorizontalOptions = LayoutOptions.Center,

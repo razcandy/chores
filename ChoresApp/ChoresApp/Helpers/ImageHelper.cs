@@ -37,6 +37,8 @@ namespace ChoresApp.Helpers
 		public static ChImageSource Error { get; } = new ChImageSource("error.png", false, false, false);
 
 		public static ChImageSource Home { get; } = new ChImageSource("home.png", true, false, true);
+		
+		public static ChImageSource Info { get; } = new ChImageSource("info.png");
 
 		public static ChImageSource NotFound { get; } = new ChImageSource("broken_image.png", true, true, true);
 

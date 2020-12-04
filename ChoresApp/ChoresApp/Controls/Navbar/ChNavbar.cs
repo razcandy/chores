@@ -74,13 +74,12 @@ namespace ChoresApp.Controls.Navbar
 					IsSelected = true,
 				};
 				homeButton.Clicked += Button_Clicked;
-				homeButton.Button.SetBinding(ChButtonBase.CommandProperty, nameof(ChNavbarVM.HomeCommand));
+				//homeButton.Button.SetBinding(ChButton.CommandProperty, nameof(ChNavbarVM.HomeCommand));
+				homeButton.SetBinding(ChNavbarButton.CommandProperty, nameof(ChNavbarVM.HomeCommand));
 
 				return homeButton;
 			}
 		}
-
-		
 
 		private ChNavbarButton Nav1
 		{
@@ -93,7 +92,8 @@ namespace ChoresApp.Controls.Navbar
 					IconSource = ImageHelper.NotFound,
 				};
 				nav1.Clicked += Button_Clicked;
-				nav1.Button.SetBinding(ChButtonBase.CommandProperty, nameof(ChNavbarVM.Nav1Command));
+				//nav1.Button.SetBinding(ChButton.CommandProperty, nameof(ChNavbarVM.Nav1Command));
+				nav1.SetBinding(ChNavbarButton.CommandProperty, nameof(ChNavbarVM.Nav1Command));
 
 				return nav1;
 			}
@@ -110,7 +110,8 @@ namespace ChoresApp.Controls.Navbar
 					IconSource = ImageHelper.NotFound,
 				};
 				nav2.Clicked += Button_Clicked;
-				nav2.Button.SetBinding(ChButtonBase.CommandProperty, nameof(ChNavbarVM.Nav2Command));
+				//nav2.Button.SetBinding(ChButton.CommandProperty, nameof(ChNavbarVM.Nav2Command));
+				nav2.SetBinding(ChNavbarButton.CommandProperty, nameof(ChNavbarVM.Nav2Command));
 
 				return nav2;
 			}
@@ -127,7 +128,8 @@ namespace ChoresApp.Controls.Navbar
 					IconSource = ImageHelper.NotFound,
 				};
 				nav3.Clicked += Button_Clicked;
-				nav3.Button.SetBinding(ChButtonBase.CommandProperty, nameof(ChNavbarVM.Nav3Command));
+				//nav3.Button.SetBinding(ChButton.CommandProperty, nameof(ChNavbarVM.Nav3Command));
+				nav3.SetBinding(ChNavbarButton.CommandProperty, nameof(ChNavbarVM.Nav3Command));
 
 				return nav3;
 			}
@@ -144,7 +146,8 @@ namespace ChoresApp.Controls.Navbar
 					IconSource = ImageHelper.Debug,
 				};
 				debugButton.Clicked += Button_Clicked;
-				debugButton.Button.SetBinding(ChButtonBase.CommandProperty, nameof(ChNavbarVM.DebugCommand));
+				//debugButton.Button.SetBinding(ChButton.CommandProperty, nameof(ChNavbarVM.DebugCommand));
+				debugButton.SetBinding(ChNavbarButton.CommandProperty, nameof(ChNavbarVM.DebugCommand));
 
 				return debugButton;
 			}

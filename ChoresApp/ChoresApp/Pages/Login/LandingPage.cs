@@ -12,9 +12,9 @@ namespace ChoresApp.Pages.Login
 	{
 		// Fields ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		private Grid mainGrid;
-		private ChButtonBase infoButton;
-		private ChTextButton loginButton;
-		private ChTextButton signupButton;
+		private ChImageButton infoButton;
+		private ChButton loginButton;
+		private ChButton signupButton;
 
 		// Constructors ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		public LandingPage() : base()
@@ -52,48 +52,60 @@ namespace ChoresApp.Pages.Login
 			}
 		}
 
-		private ChButtonBase InfoButton
+		private ChImageButton InfoButton
 		{
 			get
 			{
 				if (infoButton != null) return infoButton;
 
-				infoButton = new ChButtonBase
+				infoButton = new ChImageButton
 				{
-					Text = "X",
 					HorizontalOptions = LayoutOptions.Start,
+					IconSource = ImageHelper.Info,
 				};
-				infoButton.SetBinding(ChButtonBase.CommandProperty, nameof(LandingPageVM.InfoCommand));
+				infoButton.SetBinding(ChImageButton.CommandProperty, nameof(LandingPageVM.InfoCommand));
 
 				return infoButton;
 			}
 		}
 
-		private ChTextButton LoginButton
+		private ChButton LoginButton
 		{
 			get
 			{
 				if (loginButton != null) return loginButton;
 
-				loginButton = new ChTextButton(ButtonTransKeyEnum.LogIn)
+				loginButton = new ChButton(ButtonTransKeyEnum.LogIn)
 				{
 					Style = ResourceHelper.ButtonContainedStyle,
 				};
+				loginButton.SetBinding(ChButton.CommandProperty, nameof(LandingPageVM.LoginCommand));
+
+				//loginButton.Clicked += delegate
+				//{
+				//	var page = new ChPageWrapper
+				//	{
+				//		Content = new LoginPage(true),
+				//	};
+
+				//	page.Nav();
+				//};
 
 				return loginButton;
 			}
 		}
 
-		private ChTextButton SignupButton
+		private ChButton SignupButton
 		{
 			get
 			{
 				if (signupButton != null) return loginButton;
 
-				signupButton = new ChTextButton(ButtonTransKeyEnum.SignUp)
+				signupButton = new ChButton(ButtonTransKeyEnum.SignUp)
 				{
 					Style = ResourceHelper.ButtonOutlinedStyle,
 				};
+				signupButton.SetBinding(ChButton.CommandProperty, nameof(LandingPageVM.SignUpCommand));
 
 				return signupButton;
 			}
