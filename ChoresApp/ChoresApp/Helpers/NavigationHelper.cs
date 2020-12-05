@@ -1,5 +1,9 @@
 ﻿using ChoresApp.Debug;
 using ChoresApp.Pages;
+using ChoresApp.Pages.Popups;
+using Rg.Plugins.Popup.Contracts;
+using Rg.Plugins.Popup.Pages;
+using Rg.Plugins.Popup.Services;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -24,6 +28,8 @@ namespace ChoresApp.Helpers
 		// Events & Handlers ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 		// Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		private static IPopupNavigation PopupInstance => PopupNavigation.Instance;
+		
 		private static Stack<ChPageBase> ResolveStack(NavStackEnum _targetEnum)
 		{
 			switch (_targetEnum)
@@ -78,16 +84,6 @@ namespace ChoresApp.Helpers
 			currentStack = _targetStack;
 		}
 
-		public static void Pop()
-		{
-
-		}
-
-		public static void Pop(Page _page)
-		{
-
-		}
-
 		public static void PopFromStack(NavStackEnum _targetEnum)
 		{
 			var targetStack = ResolveStack(_targetEnum);
@@ -105,10 +101,23 @@ namespace ChoresApp.Helpers
 
 		public static void PopFromCurrentStack() => PopFromStack(currentStack);
 
-		public static void PushAlert(string _message, double _duration = 0.5)
+		public static async void PopPopup(bool _animate = true)
 		{
-
+			await PopupInstance.PopAsync(_animate);
 		}
+
+		public static async void PushAlert(ChPopupAlertConfig _popupConfig)
+		{
+			var alert = new ChPopupAlert(_popupConfig);
+			await PopupInstance.PushAsync(alert);
+		}
+
+		public static async void PushPopup(PopupPage _popup, bool _animate = true)
+		{
+			await PopupInstance.PushAsync(_popup, _animate);
+		}
+
+
 
 		public static void PushPage(Page _page)
 		{
@@ -117,7 +126,7 @@ namespace ChoresApp.Helpers
 
 		public static async void PushPage(ChPageBase _page)
 		{
-			var contentPage = new ContentPage
+			var contentPage = new ChPageWrapper
 			{
 				Content = _page,
 			};

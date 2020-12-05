@@ -50,7 +50,10 @@ namespace ChoresApp.UWP
 
                 rootFrame.NavigationFailed += OnNavigationFailed;
 
-                Xamarin.Forms.Forms.Init(e);
+                //Xamarin.Forms.Forms.Init(e);
+
+                Rg.Plugins.Popup.Popup.Init();
+                Xamarin.Forms.Forms.Init(e, Rg.Plugins.Popup.Popup.GetExtraAssemblies());
 
                 if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
                 {

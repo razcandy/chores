@@ -1,18 +1,19 @@
-﻿using System;
+﻿using ChoresApp.Helpers;
+using Rg.Plugins.Popup.Pages;
+using System;
 using System.Collections.Generic;
 using System.Text;
-using Xamarin.Forms;
 
-namespace ChoresApp.Pages
+namespace ChoresApp.Pages.Popups
 {
-	public class ChPageWrapper : ContentPage
+	public class ChPopupBase : PopupPage
 	{
 		// Fields ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 		// Constructors ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-		public ChPageWrapper() : base()
+		public ChPopupBase() : base()
 		{
-			BackgroundColor = Color.Red;
+			//BackgroundInputTransparent = false;
 		}
 
 		// Properties ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -20,17 +21,19 @@ namespace ChoresApp.Pages
 		// Events & Handlers ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 		// Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-		private void Test()
+
+		protected override bool OnBackButtonPressed()
 		{
-			//Navigation
-			
+			return base.OnBackButtonPressed();
 		}
 
-		public async void Nav()
+		/// <summary>
+		/// Pop this popup
+		/// </summary>
+		/// <param name="_animate"></param>
+		protected void Pop(bool _animate = true)
 		{
-			await Navigation.PushAsync(this);
-
-			//await Navigation.PushModalAsync(this);
+			NavigationHelper.PopPopup(_animate);
 		}
 	}
 }
