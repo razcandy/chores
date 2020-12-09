@@ -1,33 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Xamarin.Forms;
 
-namespace ChoresApp.Pages
+namespace ChoresApp.Data.Models
 {
-	public class ChPageWrapper : ContentPage
+	public class SessionModel : ModelBase
 	{
 		// Fields ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 		// Constructors ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-		public ChPageWrapper() : base() => Init();
+		public SessionModel() { }
 
 		// Properties ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+		public string Username { get; set; }
+
+		//public override string Name => DatabaseKeys.Session;
+		public override string Name => "rawr";
 
 		// Events & Handlers ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 		// Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-		private void Init()
-		{
-			NavigationPage.SetHasNavigationBar(this, false);
-			NavigationPage.SetHasBackButton(this, false);
-		}
 
-		public async void Nav()
-		{
-			await Navigation.PushAsync(this);
-
-			//await Navigation.PushModalAsync(this);
-		}
 	}
 }

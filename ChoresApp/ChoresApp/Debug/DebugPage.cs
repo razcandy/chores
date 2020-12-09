@@ -1,4 +1,5 @@
 ﻿using ChoresApp.Controls.Buttons;
+using ChoresApp.Data.Models;
 using ChoresApp.Helpers;
 using ChoresApp.Pages;
 using ChoresApp.Pages.Test;
@@ -114,8 +115,17 @@ namespace ChoresApp.Debug
 				button2 = new ChButton
 				{
 					HorizontalOptions = LayoutOptions.Center,
-					Text = "rawr",
+					Text = "Upsert Doc",
 					Style = ResourceHelper.ButtonOutlinedStyle,
+				};
+				button2.Clicked += delegate
+				{
+					var session = new SessionModel
+					{
+						Username = "razcandy",
+					};
+
+					ChDatabaseHelper.Upsert(session);
 				};
 
 				return button2;

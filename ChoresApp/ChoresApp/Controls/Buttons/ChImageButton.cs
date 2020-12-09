@@ -83,6 +83,8 @@ namespace ChoresApp.Controls.Buttons
 		private void Init()
 		{
 			Aspect = Aspect.AspectFit;
+			BackgroundColor = Color.Transparent;
+			Opacity = ResourceHelper.IconDefaultOpacity;
 			Clicked += OnThisClicked;
 		}
 

@@ -22,11 +22,21 @@ namespace ChoresApp.Helpers
 			titlesTransCache = new Dictionary<string, string>();
 			messagesTransCache = new Dictionary<string, string>();
 
-			buttonsTransCache.Add(ButtonTransKeyEnum.Save.ToUpper(), "SAVE~");
-			buttonsTransCache.Add(ButtonTransKeyEnum.Cancel.ToUpper(), "CANCEL~");
-			buttonsTransCache.Add(ButtonTransKeyEnum.Back.ToUpper(), "BACK~");
-			buttonsTransCache.Add(ButtonTransKeyEnum.LogIn.ToUpper(), "LOG IN~");
-			buttonsTransCache.Add(ButtonTransKeyEnum.SignUp.ToUpper(), "SIGN UP~");
+			buttonsTransCache.Add(ButtonTransKeyEnum.Save.ToUpper(), "SAVE");
+			buttonsTransCache.Add(ButtonTransKeyEnum.Cancel.ToUpper(), "CANCEL");
+			buttonsTransCache.Add(ButtonTransKeyEnum.Back.ToUpper(), "BACK");
+			buttonsTransCache.Add(ButtonTransKeyEnum.LogIn.ToUpper(), "LOG IN");
+			buttonsTransCache.Add(ButtonTransKeyEnum.SignUp.ToUpper(), "SIGN UP");
+			buttonsTransCache.Add(ButtonTransKeyEnum.Continue.ToUpper(), "CONTINUE");
+
+			titlesTransCache.Add(TitleTransKeyEnum.Username.ToUpper(), "Username");
+			titlesTransCache.Add(TitleTransKeyEnum.Password.ToUpper(), "Password");
+			titlesTransCache.Add(TitleTransKeyEnum.Name.ToUpper(), "Name");
+			titlesTransCache.Add(TitleTransKeyEnum.LogIn.ToUpper(), "Log In");
+			titlesTransCache.Add(TitleTransKeyEnum.SignUp.ToUpper(), "Sign Up");
+
+			messagesTransCache.Add(MessageTransKeyEnum.NeedToLogin.ToUpper(), "Have an account?");
+			messagesTransCache.Add(MessageTransKeyEnum.NeedToSignUp.ToUpper(), "Don't have an account?");
 		}
 
 		private static string GetTranslationOrDefault(Enum _enumKey, Dictionary<string, string> _cache)
@@ -66,15 +76,23 @@ namespace ChoresApp.Helpers
 		Back,
 		LogIn,
 		SignUp,
+		Continue,
 	}
 
 	public enum TitleTransKeyEnum
 	{
 		EnumDefault,
+		Username,
+		Password,
+		Name,
+		LogIn,
+		SignUp,
 	}
 
 	public enum MessageTransKeyEnum
 	{
 		EnumDefault,
+		NeedToLogin,
+		NeedToSignUp,
 	}
 }

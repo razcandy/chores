@@ -322,6 +322,24 @@ namespace ChoresApp.Controls.Fields
             defaultValue: null
         );
 
+        /// <summary>
+        /// Translation key to set field title text
+        /// </summary>
+        public TitleTransKeyEnum TitleTransKey
+		{
+            get => (TitleTransKeyEnum)GetValue(TitleTransKeyProperty);
+            set => SetValue(TitleTransKeyProperty, value);
+        }
+
+        public static readonly BindableProperty TitleTransKeyProperty = BindableProperty.Create
+        (
+            propertyName: nameof(TitleTransKey),
+            returnType: typeof(TitleTransKeyEnum),
+            declaringType: typeof(ChFieldBase),
+            defaultValue: TitleTransKeyEnum.EnumDefault,
+            propertyChanged: OnTitleTransKeyPropertyChanged
+        );
+
         public ChImageSource TrailingIconSource
 		{
             get => TrailingIcon.IconSource;
@@ -363,6 +381,14 @@ namespace ChoresApp.Controls.Fields
                 field.State = ChFieldState.Activated;
 			}
 		}
+
+        private static void OnTitleTransKeyPropertyChanged(BindableObject bindable, object oldValue, object newValue)
+		{
+            var field = (ChFieldBase)bindable;
+            var newTransKey = (TitleTransKeyEnum)newValue;
+
+            field.Title = TranslationHelper.GetTranslationOrDefault(newTransKey);
+        }
 
         private static void IsValidatedPropertyChanged(BindableObject bindable, object oldValue, object newValue)
         {

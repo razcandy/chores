@@ -9,9 +9,8 @@ namespace ChoresApp.Resources
     public abstract class ThemeBase
     {
         // Constants ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-        protected virtual double IconDefaultOpacity { get; } = 1.0;
-        protected virtual double IconSelectedOpacity { get; } = 1.0;
+        public virtual double IconDefaultOpacity { get; } = 1.0;
+        public virtual double IconSelectedOpacity { get; } = 1.0;
 
         // Colors ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         public abstract Color PrimaryColor { get; }
@@ -105,6 +104,68 @@ namespace ChoresApp.Resources
         }
 
         //~~ Label Styles ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        public Style LabelH1Style
+        {
+            get
+            {
+                return new Style(typeof(Label))
+                {
+                    BasedOn = LabelDefaultStyle,
+                    Setters =
+                    {
+                        new Setter { Property = Label.FontSizeProperty, Value = 96 },
+                        new Setter { Property = Label.FontFamilyProperty, Value = FontKeys.Roboto_Light },
+                    },
+                };
+            }
+        }
+
+        public Style LabelH2Style
+        {
+            get
+            {
+                return new Style(typeof(Label))
+                {
+                    BasedOn = LabelDefaultStyle,
+                    Setters =
+                    {
+                        new Setter { Property = Label.FontSizeProperty, Value = 60 },
+                        new Setter { Property = Label.FontFamilyProperty, Value = FontKeys.Roboto_Light },
+                    },
+                };
+            }
+        }
+
+        public Style LabelH3Style
+        {
+            get
+            {
+                return new Style(typeof(Label))
+                {
+                    BasedOn = LabelDefaultStyle,
+                    Setters =
+                    {
+                        new Setter { Property = Label.FontSizeProperty, Value = 48 },
+                    },
+                };
+            }
+        }
+
+        public Style LabelH4Style
+        {
+            get
+            {
+                return new Style(typeof(Label))
+                {
+                    BasedOn = LabelDefaultStyle,
+                    Setters =
+                    {
+                        new Setter { Property = Label.FontSizeProperty, Value = 34 },
+                    },
+                };
+            }
+        }
+
         public Style LabelH5Style
         {
             get
@@ -334,6 +395,7 @@ namespace ChoresApp.Resources
                     Setters =
 					{
                         new Setter { Property = Frame.CornerRadiusProperty, Value = ResourceHelper.DefaultCornerRadius },
+                        new Setter { Property = Frame.BackgroundColorProperty, Value = SurfaceColor },
                     },
                 };
 			}
@@ -372,6 +434,10 @@ namespace ChoresApp.Resources
         {
             var rd = new ResourceDictionary();
 
+            // Numbers ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            rd.Add(nameof(IconDefaultOpacity), IconDefaultOpacity);
+            rd.Add(nameof(IconSelectedOpacity), IconSelectedOpacity);
+
             // Colors ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
             rd.Add(nameof(PrimaryColor), PrimaryColor);
             rd.Add(nameof(PrimaryLightColor), PrimaryLightColor);
@@ -393,8 +459,10 @@ namespace ChoresApp.Resources
             rd.Add(nameof(DefaultTextColor), DefaultTextColor);
 
             // Styles ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-            //rd.Add(nameof(LabelFieldHelperTextStyle), LabelFieldHelperTextStyle);
-
+            rd.Add(nameof(LabelH1Style), LabelH1Style);
+            rd.Add(nameof(LabelH2Style), LabelH2Style);
+            rd.Add(nameof(LabelH3Style), LabelH3Style);
+            rd.Add(nameof(LabelH4Style), LabelH4Style);
             rd.Add(nameof(LabelH5Style), LabelH5Style);
             rd.Add(nameof(LabelH6Style), LabelH6Style);
             rd.Add(nameof(LabelSubtitle1Style), LabelSubtitle1Style);

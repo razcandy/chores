@@ -36,25 +36,7 @@ namespace ChoresApp.Pages.Login
 
 		private void LoginAction()
 		{
-			//NavigationHelper.PushPage(new LoginPage(true));
-
-
-			//var pop = new ChPopupBase
-			//{
-			//	Content = new LoginPage(true),
-			//};
-
-			//NavigationHelper.PushPopup(pop);
-
-
-			var config = new ChPopupAlertConfig
-			{
-				Message = "Discard draft?",
-				PrimaryButtonTransKey = ButtonTransKeyEnum.Save,
-				SecondaryButtonTransKey = ButtonTransKeyEnum.Cancel,
-			};
-
-			NavigationHelper.PushAlert(config);
+			NavigationHelper.PushPage(new LoginPage(true));
 		}
 
 		private void SignUpAction()

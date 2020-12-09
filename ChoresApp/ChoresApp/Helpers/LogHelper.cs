@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace ChoresApp.Helpers
 {
@@ -45,11 +46,19 @@ namespace ChoresApp.Helpers
 				_object = objectNotProvided;
 			}
 
-			var pattern = _additional.IsNullOrEmpty() ? logPattern : logPatternLong;
-			var fullLog = string.Format(pattern, FormatDateTime(), _logType.ToUpper(), _object, _message);
+			string log;
 
-			Console.WriteLine(fullLog);
-			FileHelper.WriteToFile(fullLog, logFileName);
+			if (_additional.IsNullOrEmpty())
+			{
+				log = string.Format(logPattern, FormatDateTime(), _logType.ToUpper(), _object, _message);
+			}
+			else
+			{
+				log = string.Format(logPatternLong, FormatDateTime(), _logType.ToUpper(), _object, _message, _additional);
+			}
+
+			Console.WriteLine(log);
+			FileHelper.WriteToFile(log, logFileName);
 		}
 
 		private static void Log(string _message, Type _source, LogTypeEnum _logType, string _additional = null)

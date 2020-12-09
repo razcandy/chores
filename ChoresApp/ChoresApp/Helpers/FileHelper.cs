@@ -7,6 +7,8 @@ namespace ChoresApp.Helpers
 	{
 		// Fields ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		private static string directory;
+		private static string userDirectory;
+		private static string userSuffix;
 
 		// Properties ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		private static string Directory
@@ -16,6 +18,26 @@ namespace ChoresApp.Helpers
 				if (!directory.IsNullOrEmpty()) return directory;
 				directory = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\";
 				return directory;
+			}
+		}
+
+		public static string UserDirectory
+		{
+			get
+			{
+				if (!userDirectory.IsNullOrEmpty()) return userDirectory;
+				userDirectory = Directory + UserSuffix;
+				return userDirectory;
+			}
+		}
+
+		private static string UserSuffix
+		{
+			get
+			{
+				if (!userSuffix.IsNullOrEmpty()) return userDirectory;
+				userSuffix = "DEBUG\\";
+				return userSuffix;
 			}
 		}
 
@@ -49,6 +71,9 @@ namespace ChoresApp.Helpers
 
 			return true;
 		}
+
+		public static bool TryCreateUserFile(string _filename)
+			=> TryCreateFile(UserSuffix + _filename);
 
 		/// <summary>
 		/// Summary from System.IO.File.cs:

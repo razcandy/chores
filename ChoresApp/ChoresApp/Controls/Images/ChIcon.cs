@@ -95,9 +95,9 @@ namespace ChoresApp.Controls.Images
 		// Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		private void Init()
 		{
-			//IconSource = ImageHelper.NotFound;
 			HeightRequest = ResourceHelper.DefaultIconSize;
 			WidthRequest = ResourceHelper.DefaultIconSize;
+			Opacity = ResourceHelper.IconDefaultOpacity;
 
 			Messenger.Default.Register<ThemeChangedMessage>(this, OnThemeChanged);
 		}
@@ -115,14 +115,17 @@ namespace ChoresApp.Controls.Images
 
 			if (IsErrored)
 			{
+				Opacity = ResourceHelper.IconDefaultOpacity;
 				Source = isLightTheme ? currentSource.LightErroredSource : currentSource.DarkErroredSource;
 			}
 			else if (IsSelected)
 			{
+				Opacity = ResourceHelper.IconSelectedOpacity;
 				Source = isLightTheme ? currentSource.LightSelectedSource : currentSource.DarkSelectedSource;
 			}
 			else
 			{
+				Opacity = ResourceHelper.IconDefaultOpacity;
 				Source = isLightTheme ? currentSource.LightSource : currentSource.DarkSource;
 			}
 		}

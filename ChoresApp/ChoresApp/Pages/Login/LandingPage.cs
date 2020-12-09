@@ -1,6 +1,8 @@
 ﻿using ChoresApp.Controls.Buttons;
+using ChoresApp.Controls.Natives;
 using ChoresApp.Helpers;
 using ChoresApp.Resources;
+using ChoresApp.Resources.Fonts;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -12,6 +14,8 @@ namespace ChoresApp.Pages.Login
 	{
 		// Fields ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		private Grid mainGrid;
+		private XLabel disclaimerLabel;
+		private XLabel iconLabel;
 		private ChImageButton infoButton;
 		private ChButton loginButton;
 		private ChButton signupButton;
@@ -19,6 +23,17 @@ namespace ChoresApp.Pages.Login
 		// Constructors ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		public LandingPage() : base()
 		{
+			if (Device.Idiom == TargetIdiom.Desktop)
+			{
+				LoginButton.WidthRequest = ResourceHelper.DesktopFieldWidth;
+				SignupButton.WidthRequest = ResourceHelper.DesktopFieldWidth;
+			}
+			else
+			{
+				LoginButton.WidthRequest = ResourceHelper.DefaultButtonWidth;
+				SignupButton.WidthRequest = ResourceHelper.DefaultButtonWidth;
+			}
+
 			BindingContext = new LandingPageVM();
 			Content = MainGrid;
 		}
@@ -32,23 +47,63 @@ namespace ChoresApp.Pages.Login
 
 				mainGrid = new Grid
 				{
-					BackgroundColor = ResourceHelper.PrimaryColor,
-					RowSpacing = 0,
+					//BackgroundColor = ResourceHelper.PrimaryColor,
+					RowSpacing = 16,
 					RowDefinitions =
 					{
-						UIHelper.MakeStaticRow(50), // info
-						UIHelper.MakeStarRow(),
-						UIHelper.MakeStaticRow(50), // log in button
-						UIHelper.MakeStaticRow(50), // sign up button
-						UIHelper.MakeStaticRow(50), // spacer
+						UIHelper.MakeStaticRow(30), // info
+						UIHelper.MakeStarRow(), // app graphic
+						UIHelper.MakeStaticRow(ResourceHelper.DefaultButtonHeight), // log in button
+						UIHelper.MakeStaticRow(ResourceHelper.DefaultButtonHeight), // sign up button
+						UIHelper.MakeStaticRow(50), // 
 					},
 				};
 				mainGrid.Children.Add(InfoButton, 0, 0);
-
+				mainGrid.Children.Add(IconLabel, 0, 1);
 				mainGrid.Children.Add(LoginButton, 0, 2);
 				mainGrid.Children.Add(SignupButton, 0, 3);
+				mainGrid.Children.Add(DisclaimerLabel, 0, 4);
 
 				return mainGrid;
+			}
+		}
+
+		private XLabel DisclaimerLabel
+		{
+			get
+			{
+				if (disclaimerLabel != null) return disclaimerLabel;
+
+				disclaimerLabel = new XLabel
+				{
+					Text = "Any information provided is only stored locally",
+					Style = ResourceHelper.LabelCaptionStyle,
+					VerticalTextAlignment = TextAlignment.Center,
+					HorizontalTextAlignment = TextAlignment.Center,
+				};
+
+				return disclaimerLabel;
+			}
+		}
+
+		/// <summary>
+		/// Placeholder for an actual icon
+		/// </summary>
+		private XLabel IconLabel
+		{
+			get
+			{
+				if (iconLabel != null) return iconLabel;
+
+				iconLabel = new XLabel
+				{
+					Style = ResourceHelper.LabelH3Style,
+					Text = "Chores App",
+					VerticalTextAlignment = TextAlignment.Center,
+					HorizontalTextAlignment = TextAlignment.Center,
+				};
+
+				return iconLabel;
 			}
 		}
 
@@ -78,18 +133,9 @@ namespace ChoresApp.Pages.Login
 				loginButton = new ChButton(ButtonTransKeyEnum.LogIn)
 				{
 					Style = ResourceHelper.ButtonContainedStyle,
+					HorizontalOptions = LayoutOptions.Center,
 				};
 				loginButton.SetBinding(ChButton.CommandProperty, nameof(LandingPageVM.LoginCommand));
-
-				//loginButton.Clicked += delegate
-				//{
-				//	var page = new ChPageWrapper
-				//	{
-				//		Content = new LoginPage(true),
-				//	};
-
-				//	page.Nav();
-				//};
 
 				return loginButton;
 			}
@@ -99,11 +145,12 @@ namespace ChoresApp.Pages.Login
 		{
 			get
 			{
-				if (signupButton != null) return loginButton;
+				if (signupButton != null) return signupButton;
 
 				signupButton = new ChButton(ButtonTransKeyEnum.SignUp)
 				{
 					Style = ResourceHelper.ButtonOutlinedStyle,
+					HorizontalOptions = LayoutOptions.Center,
 				};
 				signupButton.SetBinding(ChButton.CommandProperty, nameof(LandingPageVM.SignUpCommand));
 

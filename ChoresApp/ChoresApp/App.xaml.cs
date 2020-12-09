@@ -1,4 +1,6 @@
-﻿using ChoresApp.Helpers;
+﻿using ChoresApp.Data;
+using ChoresApp.Data.Models;
+using ChoresApp.Helpers;
 using ChoresApp.Pages;
 using ChoresApp.Resources;
 using System;
@@ -25,6 +27,8 @@ namespace ChoresApp
 
 			TranslationHelper.InitTest();
 
+			SessionModel = new SessionModel();
+
 			CheckFiles();
 
 			//var mainPage = new MainPage();
@@ -43,8 +47,10 @@ namespace ChoresApp
 
 		// Properties ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+		public SessionModel SessionModel { get; private set; }
+
 		// Events & Handlers ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-		
+
 		/// <summary>
 		/// Yeah, so this never happens on UWP or Android
 		/// to-do
@@ -59,7 +65,9 @@ namespace ChoresApp
 		// Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		private void CheckFiles()
 		{
-			//FileHelper.TryCreateFile(FileHelper.LogFilename);
+			// to do - remove bc is test code
+			FileHelper.TryCreateFile(DatabaseKeys.Session);
+			//FileHelper.TryCreateUserFile(DatabaseKeys.Session);
 		}
 
 		protected override void OnStart() { }

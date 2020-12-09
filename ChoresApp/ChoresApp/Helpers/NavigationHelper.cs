@@ -6,6 +6,7 @@ using Rg.Plugins.Popup.Pages;
 using Rg.Plugins.Popup.Services;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -106,18 +107,26 @@ namespace ChoresApp.Helpers
 			await PopupInstance.PopAsync(_animate);
 		}
 
+
+		public static async void TryPopPage(ChPageBase _page)
+		{
+			var top = _page.Navigation.NavigationStack.Last();
+
+			if (top != null && top is ChPageWrapper rawr)
+			{
+				if (rawr.Content == _page)
+				{
+					await _page.Navigation.PopAsync();
+				}
+			}
+		}
+
+
 		public static async void PushAlert(ChPopupAlertConfig _popupConfig)
 		{
 			var alert = new ChPopupAlert(_popupConfig);
 			await PopupInstance.PushAsync(alert);
 		}
-
-		public static async void PushPopup(PopupPage _popup, bool _animate = true)
-		{
-			await PopupInstance.PushAsync(_popup, _animate);
-		}
-
-
 
 		public static void PushPage(Page _page)
 		{
@@ -131,19 +140,12 @@ namespace ChoresApp.Helpers
 				Content = _page,
 			};
 
-			//if (MainThread.IsMainThread)
-			//{
-			//	contentPage.Navigation.PushAsync(contentPage);
-			//}
-			//else
-			//{
-			//	MainThread.BeginInvokeOnMainThread(() =>
-			//	{
-			//		contentPage.Navigation.PushAsync(contentPage);
-			//	});
-			//}
-
 			await App.Current.MainPage.Navigation.PushAsync(contentPage);
+		}
+
+		public static async void PushPopup(PopupPage _popup, bool _animate = true)
+		{
+			await PopupInstance.PushAsync(_popup, _animate);
 		}
 
 		public static void PushSnack(string _message, double _duration = 0.5)

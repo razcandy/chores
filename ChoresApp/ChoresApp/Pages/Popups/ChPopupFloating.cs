@@ -26,9 +26,7 @@ namespace ChoresApp.Pages.Popups
 					VerticalOptions = LayoutOptions.Center,
 					HorizontalOptions = LayoutOptions.CenterAndExpand,
 					Margin = 20,
-					//Padding = new Thickness(24, 8, 24, 8),
 					Padding = 8,
-					BackgroundColor = ResourceHelper.SurfaceColor,
 				};
 
 				return mainFrame;

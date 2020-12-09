@@ -13,13 +13,20 @@ namespace ChoresApp.Resources
         public const double HeaderHeight = 50;
         public const double FooterHeight = 50;
         public const int DefaultCornerRadius = 3;
-        public const int DefaultButtonHeight = 50;
+        public const int DefaultButtonHeight = 36;
+        public const int DefaultButtonWidth = 100; // min
+
+        public const double DesktopFieldWidth = 250;
 
         // Fields ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         public static string DefaultDateTimeFormat = "yyyy/MM/dd";
         public static string DefaultTimeSpanFormat = @"hh\:mm";
 
         // Properties ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+        //~~ Numbers ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        public static double IconDefaultOpacity => GetDouble(nameof(ThemeBase.IconDefaultOpacity));
+        public static double IconSelectedOpacity => GetDouble(nameof(ThemeBase.IconSelectedOpacity));
 
         //~~ Colors ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         public static Color BackgroundColor => GetColor(nameof(ThemeBase.BackgroundColor));
@@ -36,7 +43,10 @@ namespace ChoresApp.Resources
         public static Style ButtonTextStyle => GetStyle(nameof(ThemeBase.ButtonTextStyle));
 
         //~~~~ Label Styles ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        //public static Style LabelFieldHelperTextStyle => GetStyle(nameof(ThemeBase.LabelFieldHelperTextStyle));
+        public static Style LabelH1Style => GetStyle(nameof(ThemeBase.LabelH1Style));
+        public static Style LabelH2Style => GetStyle(nameof(ThemeBase.LabelH2Style));
+        public static Style LabelH3Style => GetStyle(nameof(ThemeBase.LabelH3Style));
+        public static Style LabelH4Style => GetStyle(nameof(ThemeBase.LabelH4Style));
 
         public static Style LabelH5Style => GetStyle(nameof(ThemeBase.LabelH5Style));
         public static Style LabelH6Style => GetStyle(nameof(ThemeBase.LabelH6Style));
@@ -53,6 +63,8 @@ namespace ChoresApp.Resources
         // Events & Handlers ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
         // Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        private static double GetDouble(string _key) => GetResourceOrDefault<double>(_key);
+        
         private static Color GetColor(string _key) => GetResourceOrDefault<Color>(_key);
 
         private static T GetResourceOrDefault<T>(string _key)
@@ -86,9 +98,6 @@ namespace ChoresApp.Resources
 
         public static bool IsDarkTheme() => CurrentAppTheme == AppTheme.Dark;
         public static bool IsLightTheme() => CurrentAppTheme == AppTheme.Light;
-
-        //private static ResourceDictionary LoadDarkTheme() => new ThemeDark().Load();
-        //private static ResourceDictionary LoadLightTheme() => new ThemeLight().Load();
 
         private static void LoadDarkTheme()
 		{

@@ -49,7 +49,7 @@ namespace ChoresApp.Pages.Popups
 					RowDefinitions =
 					{
 						UIHelper.MakeStaticRow(40),
-						UIHelper.MakeStaticRow(40),
+						UIHelper.MakeStaticRow(ResourceHelper.DefaultButtonHeight),
 					},
 					ColumnDefinitions =
 					{

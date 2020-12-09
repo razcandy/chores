@@ -8,36 +8,63 @@ namespace ChoresApp.Pages.Login
 {
 	public class LoginPageVM : ChPageBaseVM
 	{
-		private static string needToLogin = "Have an account?";
-		private static string needToSignup = "Don't have an account?";
-
 		// Fields ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		private bool isLoginMode = true;
+		private bool isNameErrored;
 		private bool isPasswordErrored;
+		private bool isPrimaryActionEnabled;
 		private bool isUsernameErrored;
+		private string name;
 		private string password;
 		private string passwordHelperText;
-		private string switchButtonText = "Switch";
-		private string switchLabelText;
 		private string username;
-
-		private bool inLoginMode = true;
 
 		// Constructors ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		public LoginPageVM() : base() => Init();
 
 		public LoginPageVM(bool _inLoginMode) : base()
 		{
-			inLoginMode = _inLoginMode;
+			isLoginMode = _inLoginMode;
 			Init();
 		}
 
 		// Properties ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-		public RelayCommand InfoCommand { get; private set; }
+		public RelayCommand BackCommand { get; private set; }
+
+		public bool IsLoginMode
+		{
+			get => isLoginMode;
+			set
+			{
+				if (isLoginMode != value)
+				{
+					Set(ref isLoginMode, value);
+				}
+			}
+		}
+
+		public bool IsNameErrored
+		{
+			get => isNameErrored;
+			private set => Set(ref isNameErrored, value);
+		}
 
 		public bool IsPasswordErrored
 		{
 			get => isPasswordErrored;
 			private set => Set(ref isPasswordErrored, value);
+		}
+
+		public bool IsPrimaryActionEnabled
+		{
+			get => isPrimaryActionEnabled;
+			private set
+			{
+				if (isPrimaryActionEnabled != value)
+				{
+					Set(ref isPrimaryActionEnabled, value);
+				}
+			}
 		}
 
 		public bool IsUsernameErrored
@@ -46,7 +73,18 @@ namespace ChoresApp.Pages.Login
 			private set => Set(ref isUsernameErrored, value);
 		}
 
-		public string PageTitle => inLoginMode ? "Log In" : "Sign Up";
+		public string Name
+		{
+			get => name;
+			set
+			{
+				Set(ref name, value);
+				ValidateName();
+			}
+		}
+
+		public TitleTransKeyEnum PageTitleTransKey
+			=> IsLoginMode ? TitleTransKeyEnum.LogIn : TitleTransKeyEnum.SignUp;
 
 		public string Password
 		{
@@ -55,6 +93,7 @@ namespace ChoresApp.Pages.Login
 			{
 				Set(ref password, value);
 				ValidatePassword();
+				ResolveIsPrimaryActionEnabled();
 			}
 		}
 
@@ -66,29 +105,18 @@ namespace ChoresApp.Pages.Login
 
 		public ButtonTransKeyEnum PrimaryActionTransKey
 		{
-			get => inLoginMode ? ButtonTransKeyEnum.LogIn : ButtonTransKeyEnum.SignUp;
+			get => IsLoginMode ? ButtonTransKeyEnum.LogIn : ButtonTransKeyEnum.SignUp;
 		}
 
-		public string SwitchButtonText
+		public ButtonTransKeyEnum SwitchButtonTransKey
 		{
-			get => switchButtonText;
-			private set
-			{
-				switchButtonText = value;
-				RaisePropertyChanged();
-			}
+			get => IsLoginMode ? ButtonTransKeyEnum.SignUp : ButtonTransKeyEnum.LogIn;
 		}
 
-		public string SwitchLabelText
+		public MessageTransKeyEnum SwitchLabelTransKey
 		{
-			get => inLoginMode ? needToSignup : needToLogin;
+			get => IsLoginMode ? MessageTransKeyEnum.NeedToSignUp : MessageTransKeyEnum.NeedToLogin;
 		}
-
-		//public string SwitchLabelText
-		//{
-		//	get => switchLabelText;
-		//	private set => Set(ref switchLabelText, value);
-		//}
 
 		public RelayCommand SwitchCommand { get; private set; }
 
@@ -99,6 +127,7 @@ namespace ChoresApp.Pages.Login
 			{
 				Set(ref username, value);
 				ValidateUsername();
+				ResolveIsPrimaryActionEnabled();
 			}
 		}
 
@@ -107,26 +136,64 @@ namespace ChoresApp.Pages.Login
 		// Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		private void Init()
 		{
-			InfoCommand = new RelayCommand(InfoAction);
+			BackCommand = new RelayCommand(Back);
 			SwitchCommand = new RelayCommand(SwitchAction);
 		}
 
-		private void InfoAction()
+		private void Back()
 		{
 
+		}
+
+		private void ResolveIsPrimaryActionEnabled()
+		{
+			//if (IsLoginMode)
+			//{
+			//	IsPrimaryActionEnabled = !IsUsernameErrored && !IsPasswordErrored
+			//		&& Username != null && Password != null;
+			//}
+			//else
+			//{
+			//	IsPrimaryActionEnabled = !IsUsernameErrored && !IsPasswordErrored
+			//		&& Username != null && Password != null
+			//		&& !IsNameErrored && Name != null;
+			//}
+
+			var isEnabled = !IsUsernameErrored && !IsPasswordErrored
+					&& Username != null && Password != null;
+
+			if (!IsLoginMode)
+			{
+				isEnabled &= (!IsNameErrored && Name != null);
+			}
+
+			IsPrimaryActionEnabled = isEnabled;
 		}
 
 		private void SwitchAction()
 		{
-			//Username = null;
-			//Password = null;
+			IsPrimaryActionEnabled = false;
+			Username = null;
+			Password = null;
+			Name = null;
 
-			//inLoginMode = !inLoginMode;
-			//RaisePropertyChanged(nameof(PrimaryActionTransKey));
-			//RaisePropertyChanged(nameof(SwitchLabelText));
-			//RaisePropertyChanged(nameof(PageTitle));
+			IsLoginMode = !IsLoginMode;
+			RaisePropertyChanged(nameof(PrimaryActionTransKey));
+			RaisePropertyChanged(nameof(SwitchButtonTransKey));
+			RaisePropertyChanged(nameof(SwitchLabelTransKey));
+			RaisePropertyChanged(nameof(PageTitleTransKey));
+		}
 
-			NavigationHelper.PushPage(new LoginPage());
+		private void ValidateName()
+		{
+			var isErrored = false;
+
+			if (Name != null && Name == string.Empty)
+			{
+				isErrored = true;
+			}
+
+			IsNameErrored = isErrored;
 		}
 
 		private void ValidatePassword()
@@ -139,7 +206,6 @@ namespace ChoresApp.Pages.Login
 			}
 
 			PasswordHelperText = isErrored ? "Invalid password" : null;
-
 			IsPasswordErrored = isErrored;
 		}
 

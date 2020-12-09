@@ -2,6 +2,7 @@
 using ChoresApp.Controls.Fields;
 using ChoresApp.Controls.Natives;
 using ChoresApp.Helpers;
+using ChoresApp.Helpers.Converters;
 using ChoresApp.Resources;
 using System;
 using System.Collections.Generic;
@@ -15,7 +16,11 @@ namespace ChoresApp.Pages.Login
 		// Fields ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		private Grid mainGrid;
 		private ScrollView mainScroll;
+		private ChEntry nameEntry;
 		private ChButton switchButton;
+		private XLabel switchLabel;
+		private XLabel titleLabel;
+		private ChButton primaryActionButton;
 		private ChEntry usernameEntry;
 		private ChPasswordEntry passwordEntry;
 
@@ -23,13 +28,13 @@ namespace ChoresApp.Pages.Login
 		public LoginPage() : base()
 		{
 			BindingContext = new LoginPageVM();
-			Content = MainGrid;
+			Init();
 		}
 
 		public LoginPage(bool _inLoginMode) : base()
 		{
 			BindingContext = new LoginPageVM(_inLoginMode);
-			Content = MainGrid;
+			Init();
 		}
 
 		// Properties ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -42,17 +47,22 @@ namespace ChoresApp.Pages.Login
 				mainGrid = new Grid
 				{
 					RowSpacing = 0,
+					ColumnSpacing = 0,
 					RowDefinitions =
 					{
-						UIHelper.MakeStaticRow(30), // info
 						UIHelper.MakeStarRow(),
 						UIHelper.MakeStaticRow(50), // switch button
 					},
+					ColumnDefinitions =
+					{
+						UIHelper.MakeStarColumn(2),
+						UIHelper.MakeStarColumn(1),
+					},
 				};
-				mainGrid.Children.Add(BackButton, 0, 0);
-				//mainGrid.Children.Add(TitleLabel, 0, 0);
-				mainGrid.Children.Add(MainScroll, 0, 1);
-				mainGrid.Children.Add(SwitchButton, 0, 2);
+				mainGrid.Children.Add(MainScroll, 0, 2, 0, 1);
+				mainGrid.Children.Add(BackButton, 0, 1, 0, 1);
+				mainGrid.Children.Add(SwitchLabel, 0, 1, 1, 2);
+				mainGrid.Children.Add(SwitchButton, 1, 2, 1, 2);
 
 				return mainGrid;
 			}
@@ -72,6 +82,8 @@ namespace ChoresApp.Pages.Login
 						Orientation = StackOrientation.Vertical,
 						Children =
 						{
+							TitleLabel,
+							NameEntry,
 							UsernameEntry,
 							PasswordEntry,
 							PrimaryActionButton,
@@ -92,30 +104,39 @@ namespace ChoresApp.Pages.Login
 
 				backButton = new ChImageButton
 				{
-					HeightRequest = 30,
+					HeightRequest = ResourceHelper.DefaultIconSize,
+					WidthRequest = ResourceHelper.DefaultIconSize,
 					IconSource = ImageHelper.Back,
 					HorizontalOptions = LayoutOptions.Start,
+					VerticalOptions = LayoutOptions.Start,
 					IsSelectable = true,
+				};
+
+				backButton.Clicked += delegate
+				{
+					NavigationHelper.TryPopPage(this);
 				};
 
 				return backButton;
 			}
 		}
 
-		private XLabel titleLabel;
-		private XLabel TitleLabel
+		private ChEntry NameEntry
 		{
 			get
 			{
-				if (titleLabel != null) return titleLabel;
+				if (nameEntry != null) return nameEntry;
 
-				titleLabel = new XLabel
+				nameEntry = new ChEntry
 				{
-					Style = ResourceHelper.LabelH5Style,
+					TitleTransKey = TitleTransKeyEnum.Name,
 				};
-				titleLabel.SetBinding(XLabel.TextProperty, nameof(LoginPageVM.PageTitle));
+				nameEntry.SetBinding(ChEntry.TextProperty, nameof(LoginPageVM.Name));
+				nameEntry.SetBinding(ChEntry.IsErroredProperty, nameof(LoginPageVM.IsNameErrored));
+				nameEntry.SetBinding(IsVisibleProperty, nameof(LoginPageVM.IsLoginMode),
+					converter: new InverseBoolConverter());
 
-				return titleLabel;
+				return nameEntry;
 			}
 		}
 
@@ -131,13 +152,12 @@ namespace ChoresApp.Pages.Login
 					HorizontalOptions = LayoutOptions.CenterAndExpand,
 				};
 				switchButton.SetBinding(ChButton.CommandProperty, nameof(LoginPageVM.SwitchCommand));
-				switchButton.SetBinding(ChButton.TextProperty, nameof(LoginPageVM.SwitchButtonText));
+				switchButton.SetBinding(ChButton.TranslationKeyProperty, nameof(LoginPageVM.SwitchButtonTransKey));
 
 				return switchButton;
 			}
 		}
 
-		private XLabel switchLabel;
 		private XLabel SwitchLabel
 		{
 			get
@@ -146,14 +166,33 @@ namespace ChoresApp.Pages.Login
 
 				switchLabel = new XLabel
 				{
+					Style = ResourceHelper.LabelBody2Style,
+					HorizontalTextAlignment = TextAlignment.End,
+					VerticalTextAlignment = TextAlignment.Center,
 				};
-				switchLabel.SetBinding(XLabel.TextProperty, nameof(LoginPageVM.SwitchLabelText));
+				switchLabel.SetBinding(XLabel.TranslationKeyProperty, nameof(LoginPageVM.SwitchLabelTransKey));
 
 				return switchLabel;
 			}
 		}
 
-		private ChButton primaryActionButton;
+		private XLabel TitleLabel
+		{
+			get
+			{
+				if (titleLabel != null) return titleLabel;
+
+				titleLabel = new XLabel
+				{
+					Style = ResourceHelper.LabelH5Style,
+					HorizontalOptions = LayoutOptions.Center,
+				};
+				titleLabel.SetBinding(XLabel.TranslationKeyProperty, nameof(LoginPageVM.PageTitleTransKey));
+
+				return titleLabel;
+			}
+		}
+
 		private ChButton PrimaryActionButton
 		{
 			get
@@ -164,9 +203,8 @@ namespace ChoresApp.Pages.Login
 				{
 					Style =	ResourceHelper.ButtonContainedStyle,
 				};
-				//primaryActionButton.SetBinding(ChTextButton.TextProperty, nameof(LoginPageVM.PrimaryActionButtonText));
-
 				primaryActionButton.SetBinding(ChButton.TranslationKeyProperty, nameof(LoginPageVM.PrimaryActionTransKey));
+				primaryActionButton.SetBinding(IsEnabledProperty, nameof(LoginPageVM.IsPrimaryActionEnabled));
 
 				return primaryActionButton;
 			}
@@ -180,7 +218,7 @@ namespace ChoresApp.Pages.Login
 
 				usernameEntry = new ChEntry
 				{
-					Title = "username",
+					TitleTransKey = TitleTransKeyEnum.Username,
 				};
 				usernameEntry.SetBinding(ChEntry.TextProperty, nameof(LoginPageVM.Username));
 				usernameEntry.SetBinding(ChEntry.IsErroredProperty, nameof(LoginPageVM.IsUsernameErrored));
@@ -197,7 +235,7 @@ namespace ChoresApp.Pages.Login
 
 				passwordEntry = new ChPasswordEntry
 				{
-					Title = "password",
+					TitleTransKey = TitleTransKeyEnum.Password,
 				};
 				passwordEntry.SetBinding(ChPasswordEntry.TextProperty, nameof(LoginPageVM.Password));
 				passwordEntry.SetBinding(ChPasswordEntry.IsErroredProperty, nameof(LoginPageVM.IsPasswordErrored));
@@ -207,26 +245,18 @@ namespace ChoresApp.Pages.Login
 			}
 		}
 
-		private XLabel disclaimerLabel;
-		private XLabel DisclaimerLabel
-		{
-			get
-			{
-				if (disclaimerLabel != null) return disclaimerLabel;
-
-				disclaimerLabel = new XLabel
-				{
-					Text = "Information given is only stored locally",
-					Style = ResourceHelper.LabelCaptionStyle,
-				};
-
-				return disclaimerLabel;
-			}
-		}
-
 		// Events & Handlers ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 		// Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		private void Init()
+		{
+			if (Device.Idiom == TargetIdiom.Desktop)
+			{
+				MainScroll.WidthRequest = ResourceHelper.DesktopFieldWidth;
+				MainScroll.HorizontalOptions = LayoutOptions.Center;
+			}
 
+			Content = MainGrid; // last
+		}
 	}
 }
