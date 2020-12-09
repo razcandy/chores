@@ -125,7 +125,7 @@ namespace ChoresApp.Debug
 						Username = "razcandy",
 					};
 
-					ChDatabaseHelper.Upsert(session);
+					DatabaseHelper.Upsert(session);
 				};
 
 				return button2;

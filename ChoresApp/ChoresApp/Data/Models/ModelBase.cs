@@ -12,13 +12,7 @@ namespace ChoresApp.Data.Models
 		public ModelBase() { }
 
 		// Properties ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-		//public abstract string Id { get; }
-
-		/// <summary>
-		/// Database name
-		/// </summary>
-		public abstract string Name { get; }
+		public abstract string Id { get; }
 
 		// Events & Handlers ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

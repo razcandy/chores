@@ -1,4 +1,5 @@
-﻿using ChoresApp.Helpers;
+﻿using ChoresApp.Data.Models;
+using ChoresApp.Helpers;
 using GalaSoft.MvvmLight.Command;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,8 @@ namespace ChoresApp.Pages.Login
 		private string password;
 		private string passwordHelperText;
 		private string username;
+
+		private SessionModel sessionModel;
 
 		// Constructors ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		public LoginPageVM() : base() => Init();
@@ -80,6 +83,8 @@ namespace ChoresApp.Pages.Login
 			{
 				Set(ref name, value);
 				ValidateName();
+				ResolveIsPrimaryActionEnabled();
+				sessionModel.Name = name;
 			}
 		}
 
@@ -94,6 +99,7 @@ namespace ChoresApp.Pages.Login
 				Set(ref password, value);
 				ValidatePassword();
 				ResolveIsPrimaryActionEnabled();
+				sessionModel.Password = password;
 			}
 		}
 
@@ -102,6 +108,8 @@ namespace ChoresApp.Pages.Login
 			get => passwordHelperText;
 			private set => Set(ref passwordHelperText, value);
 		}
+
+		public RelayCommand PrimaryActionCommand { get; private set; }
 
 		public ButtonTransKeyEnum PrimaryActionTransKey
 		{
@@ -128,6 +136,7 @@ namespace ChoresApp.Pages.Login
 				Set(ref username, value);
 				ValidateUsername();
 				ResolveIsPrimaryActionEnabled();
+				sessionModel.Username = username;
 			}
 		}
 
@@ -136,8 +145,10 @@ namespace ChoresApp.Pages.Login
 		// Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		private void Init()
 		{
+			sessionModel = new SessionModel();
 			BackCommand = new RelayCommand(Back);
 			SwitchCommand = new RelayCommand(SwitchAction);
+			PrimaryActionCommand = new RelayCommand(PrimaryAction);
 		}
 
 		private void Back()
@@ -145,20 +156,40 @@ namespace ChoresApp.Pages.Login
 
 		}
 
+		private async void PrimaryAction()
+		{
+			if (!IsPrimaryActionEnabled) return;
+
+			if (IsLoginMode)
+			{
+				var ret = await LoginHelper.TryLogIn(sessionModel);
+
+				if (ret.Success)
+				{
+					// go to home and close page
+				}
+				else
+				{
+					// show error message
+				}
+			}
+			else
+			{
+				var ret = await LoginHelper.TryCreateUser(sessionModel);
+
+				if (ret.Success)
+				{
+					// go to home and close page
+				}
+				else
+				{
+					// show error message
+				}
+			}
+		}
+
 		private void ResolveIsPrimaryActionEnabled()
 		{
-			//if (IsLoginMode)
-			//{
-			//	IsPrimaryActionEnabled = !IsUsernameErrored && !IsPasswordErrored
-			//		&& Username != null && Password != null;
-			//}
-			//else
-			//{
-			//	IsPrimaryActionEnabled = !IsUsernameErrored && !IsPasswordErrored
-			//		&& Username != null && Password != null
-			//		&& !IsNameErrored && Name != null;
-			//}
-
 			var isEnabled = !IsUsernameErrored && !IsPasswordErrored
 					&& Username != null && Password != null;
 
@@ -200,7 +231,7 @@ namespace ChoresApp.Pages.Login
 		{
 			var isErrored = false;
 
-			if (Password != null && Password == string.Empty)
+			if (Password != null && !LoginHelper.IsPasswordValid(Password))
 			{
 				isErrored = true;
 			}
@@ -213,7 +244,7 @@ namespace ChoresApp.Pages.Login
 		{
 			var isErrored = false;
 
-			if (Username != null && Username == string.Empty)
+			if (Username != null && !LoginHelper.IsUsernameValid(Username))
 			{
 				isErrored = true;
 			}

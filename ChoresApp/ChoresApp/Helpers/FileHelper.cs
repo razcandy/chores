@@ -1,4 +1,8 @@
-﻿using System;
+﻿using ChoresApp.Data;
+using ChoresApp.Data.Models;
+using ChoresApp.Resources;
+using LiteDB;
+using System;
 using System.IO;
 
 namespace ChoresApp.Helpers
@@ -7,11 +11,9 @@ namespace ChoresApp.Helpers
 	{
 		// Fields ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		private static string directory;
-		private static string userDirectory;
-		private static string userSuffix;
 
 		// Properties ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-		private static string Directory
+		public static string Directory
 		{
 			get
 			{
@@ -21,59 +23,74 @@ namespace ChoresApp.Helpers
 			}
 		}
 
-		public static string UserDirectory
-		{
-			get
-			{
-				if (!userDirectory.IsNullOrEmpty()) return userDirectory;
-				userDirectory = Directory + UserSuffix;
-				return userDirectory;
-			}
-		}
+		public static string UserDataDirectory => Directory + FileKeys.UserDataFolderName + "\\";
 
-		private static string UserSuffix
-		{
-			get
-			{
-				if (!userSuffix.IsNullOrEmpty()) return userDirectory;
-				userSuffix = "DEBUG\\";
-				return userSuffix;
-			}
-		}
+		public static string UserDirectory { get; private set; }
 
 		// Events & Handlers ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 		// Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-		public static void CreateFile(string _filename)
+		private static bool DoesFileExist(string _directory, string _filename)
 		{
-			if (_filename.IsNullOrEmpty()) return;
+			if (_directory.IsNullOrEmpty() || _filename.IsNullOrEmpty()) return false;
 
-			File.Create(Directory + _filename).Close();
+			return File.Exists(_directory + _filename);
 		}
 
-		public static bool DoesFileExist(string _filename)
+		private static bool TryCreateFile(string _directory, string _filename)
 		{
-			if (_filename.IsNullOrEmpty()) return false;
+			if (_directory.IsNullOrEmpty() || _filename.IsNullOrEmpty()) return false;
 
-			var fullFilename = Directory + _filename;
-			var tmp = File.Exists(fullFilename);
+			if (DoesFileExist(_directory, _filename)) return false;
 
-			return tmp;
-		}
-
-		public static bool TryCreateFile(string _filename)
-		{
-			if (_filename.IsNullOrEmpty()) return false;
-
-			if (DoesFileExist(_filename)) return false;
-
-			File.Create(Directory + _filename).Close();
+			File.Create(_directory + _filename).Close();
 
 			return true;
 		}
 
-		public static bool TryCreateUserFile(string _filename)
-			=> TryCreateFile(UserSuffix + _filename);
+		public static void AppStartup()
+		{
+			CreateDirectory(FileKeys.UserDataFolderName);
+		}
+
+		public static bool DoesFileExist(string _filename)
+			=> DoesFileExist(Directory, _filename);
+
+		public static void CreateDirectory(string _suffix)
+		{
+			if (_suffix.IsNullOrEmpty()) return;
+
+			System.IO.Directory.CreateDirectory(Directory + _suffix);
+		}
+
+		public static void CreateUserDirectory(string _username, bool _setAsCurrentUser = true)
+		{
+			if (_username.IsNullOrEmpty()) return;
+
+			var suffix = FileKeys.UserDataFolderName + "\\" + _username + "\\";
+			CreateDirectory(suffix);
+
+			if (_setAsCurrentUser)
+			{
+				UserDirectory = Directory + suffix;
+			}
+		}
+
+		public static bool DoesUserDirectoryExist(string _username)
+		{
+			if (_username.IsNullOrEmpty()) return false;
+
+			return System.IO.Directory.Exists(UserDataDirectory + _username);
+		}
+
+		public static bool DoesUserDirectoryExist(SessionModel _session)
+			=> DoesUserDirectoryExist(_session.Username);
+
+		public static bool TryCreateFile(string _filename)
+			=> TryCreateFile(Directory, _filename);
+
+		//public static bool TryCreateUserFile(string _filename)
+		//	=> TryCreateFile(UserDirectory, _filename);
 
 		/// <summary>
 		/// Summary from System.IO.File.cs:

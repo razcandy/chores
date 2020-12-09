@@ -4,6 +4,8 @@ using ChoresApp.Helpers;
 using ChoresApp.Pages;
 using ChoresApp.Resources;
 using System;
+using System.Linq;
+using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.PlatformConfiguration;
@@ -29,20 +31,9 @@ namespace ChoresApp
 
 			SessionModel = new SessionModel();
 
-			CheckFiles();
+			FileHelper.AppStartup();
 
-			//var mainPage = new MainPage();
-			//MainPage = mainPage;
-
-			var mainPage = new MainPage();
-			MainPage = new NavigationPage(mainPage);
-
-			NavigationHelper.InitStacks(mainPage);
-
-			// Events
-			//Current.RequestedThemeChanged += OnRequestedThemeChanged;
-
-			LogHelper.LogInfo("App Launched", typeof(App).ToString());
+			StartAsync();
 		}
 
 		// Properties ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -63,11 +54,45 @@ namespace ChoresApp
 		}
 
 		// Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-		private void CheckFiles()
+		private async Task GetSetGlobalModel()
 		{
-			// to do - remove bc is test code
-			FileHelper.TryCreateFile(DatabaseKeys.Session);
-			//FileHelper.TryCreateUserFile(DatabaseKeys.Session);
+			var dir = FileHelper.Directory + DatabaseKeys.Global;
+
+			var res = await DatabaseHelper.GetNFor<GlobalModel>(1, dir);
+
+			var globalModel = new GlobalModel();
+
+			if (res.IsNullOrEmpty())
+			{
+				await DatabaseHelper.Upsert(globalModel, dir);
+			}
+			else
+			{
+				globalModel = res.First();
+			}
+
+			GlobalData.GlobalModel = globalModel;
+		}
+
+		private async void StartAsync()
+		{
+			await GetSetGlobalModel();
+
+			LoginHelper.CreateDefaultUser();
+			await LoginHelper.TryAutoLogIn();
+
+			//var mainPage = new MainPage();
+			//MainPage = mainPage;
+
+			var mainPage = new MainPage();
+			MainPage = new NavigationPage(mainPage);
+
+			NavigationHelper.InitStacks(mainPage);
+
+			// Events
+			//Current.RequestedThemeChanged += OnRequestedThemeChanged;
+
+			LogHelper.LogInfo("App Launched", typeof(App).ToString());
 		}
 
 		protected override void OnStart() { }

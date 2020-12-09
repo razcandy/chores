@@ -1,4 +1,4 @@
-using ChoresApp.Resources.Fonts;
+using ChoresApp.Resources;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 

@@ -1,4 +1,4 @@
-﻿using ChoresApp.Resources.Fonts;
+﻿using ChoresApp.Resources;
 using System;
 using System.Collections.Generic;
 using System.Text;

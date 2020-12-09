@@ -202,9 +202,11 @@ namespace ChoresApp.Pages.Login
 				primaryActionButton = new ChButton
 				{
 					Style =	ResourceHelper.ButtonContainedStyle,
+					IsEnabled = false,
 				};
 				primaryActionButton.SetBinding(ChButton.TranslationKeyProperty, nameof(LoginPageVM.PrimaryActionTransKey));
-				primaryActionButton.SetBinding(IsEnabledProperty, nameof(LoginPageVM.IsPrimaryActionEnabled));
+				primaryActionButton.SetBinding(ChButton.IsEnabledProperty, nameof(LoginPageVM.IsPrimaryActionEnabled));
+				primaryActionButton.SetBinding(ChButton.CommandProperty, nameof(LoginPageVM.PrimaryActionCommand));
 
 				return primaryActionButton;
 			}

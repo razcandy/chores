@@ -2,7 +2,6 @@
 using ChoresApp.Controls.Natives;
 using ChoresApp.Helpers;
 using ChoresApp.Resources;
-using ChoresApp.Resources.Fonts;
 using System;
 using System.Collections.Generic;
 using System.Text;
