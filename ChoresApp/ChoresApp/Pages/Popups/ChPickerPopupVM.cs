@@ -2,23 +2,19 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ChoresApp.Data.Models
+namespace ChoresApp.Pages.Popups
 {
-	public class SessionModel : ModelBase
+	public class ChPickerPopupVM : ChPopupFloatingVM
 	{
 		// Fields ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 		// Constructors ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-		public SessionModel() : base() { }
+		public ChPickerPopupVM() : base()
+		{
+
+		}
 
 		// Properties ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-		public override string Id => Username;
-		public string Name { get; set; }
-		public string Password { get; set; }
-		//public bool StayLoggedIn { get; set; } = true;
-		public bool StayLoggedIn { get; set; }
-		public bool UseDarkTheme { get; set; } = true;
-		public string Username { get; set; }
 
 		// Events & Handlers ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

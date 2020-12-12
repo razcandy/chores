@@ -1,4 +1,5 @@
 ﻿using ChoresApp.Helpers;
+using ChoresApp.Pages.Popups;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -60,5 +61,15 @@ namespace ChoresApp.Controls.Fields
 		}
 
 		// Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+		private void OpenPopup()
+		{
+			var popupVM = new ChPickerPopupVM
+			{
+				//TitleTransKey = TitleTransKeyEnum,
+			};
+
+			NavigationHelper.PushPopup(new ChPickerPopup(popupVM));
+		}
 	}
 }

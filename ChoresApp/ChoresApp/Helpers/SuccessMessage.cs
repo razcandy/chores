@@ -2,23 +2,22 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ChoresApp.Data.Models
+namespace ChoresApp.Helpers
 {
-	public class SessionModel : ModelBase
+	/// <summary>
+	/// Class to help return a success/failure with a relevant message
+	/// </summary>
+	public class SuccessMessage
 	{
 		// Fields ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 		// Constructors ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-		public SessionModel() : base() { }
+		public SuccessMessage() { }
 
 		// Properties ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-		public override string Id => Username;
-		public string Name { get; set; }
-		public string Password { get; set; }
-		//public bool StayLoggedIn { get; set; } = true;
-		public bool StayLoggedIn { get; set; }
-		public bool UseDarkTheme { get; set; } = true;
-		public string Username { get; set; }
+		public bool IsSuccess { get; set; }
+		public string Message { get; set; }
+		public MessageTransKeyEnum TranslationKey { get; set; }
 
 		// Events & Handlers ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

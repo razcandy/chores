@@ -1,7 +1,9 @@
 ﻿using ChoresApp.Data;
 using ChoresApp.Data.Models;
 using ChoresApp.Helpers;
+using ChoresApp.Modules.Login;
 using ChoresApp.Pages;
+using ChoresApp.Pages.Home;
 using ChoresApp.Resources;
 using System;
 using System.Linq;
@@ -32,6 +34,16 @@ namespace ChoresApp
 			SessionModel = new SessionModel();
 
 			FileHelper.AppStartup();
+
+			//StartAsync();
+
+			//var mainPage = new HomePage();
+			//NavigationHelper.InitStacks(mainPage);
+			//MainPage = new NavigationPage(mainPage);
+			//return;
+
+			MainPage = new NavigationPage(new ChPageWrapper());
+			MainPage.Appearing += MainPage_Appearing;
 
 			StartAsync();
 		}
@@ -81,18 +93,84 @@ namespace ChoresApp
 			LoginHelper.CreateDefaultUser();
 			await LoginHelper.TryAutoLogIn();
 
+			//if (GlobalData.IsUserLoggedIn)
+			//{
+			//	var mainPage = new MainPage();
+			//	MainPage = new NavigationPage(mainPage);
+
+			//	NavigationHelper.InitStacks(mainPage);
+			//}
+			//else
+			//{
+			//	var rawr = new ChPageWrapper
+			//	{
+			//		Content = new LandingPage(),
+			//	};
+
+			//	MainPage = new NavigationPage(rawr);
+			//}
+
+			//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+			//var rawr = new ChPageWrapper
+			//{
+			//	Content = new LandingPage(),
+			//};
+
+			//MainPage = new NavigationPage(rawr);
+
+
+			//if (GlobalData.IsUserLoggedIn)
+			//{
+			//	MainPage.Appearing += MainPage_Appearing;
+
+			//	//var mainPage = new MainPage();
+			//	//NavigationHelper.InitStacks(mainPage);
+			//	////NavigationHelper.PushPage(mainPage);
+
+			//	//await NavigationHelper.PushPageAsync(mainPage);
+			//}
+
+			//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 			//var mainPage = new MainPage();
-			//MainPage = mainPage;
+			//MainPage = new NavigationPage(mainPage);
 
-			var mainPage = new MainPage();
-			MainPage = new NavigationPage(mainPage);
-
-			NavigationHelper.InitStacks(mainPage);
+			//NavigationHelper.InitStacks(mainPage);
 
 			// Events
 			//Current.RequestedThemeChanged += OnRequestedThemeChanged;
 
+			//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+			//MainPage.Appearing += MainPage_Appearing;
+
+			//MainPage_Appearing(null, EventArgs.Empty);
+
+			//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 			LogHelper.LogInfo("App Launched", typeof(App).ToString());
+		}
+
+		private async void MainPage_Appearing(object sender, EventArgs e)
+		{
+			var isMainThread = MainThread.IsMainThread;
+
+			if (GlobalData.IsUserLoggedIn)
+			{
+				var homePage = new HomePage();
+				NavigationHelper.InitStacks(homePage);
+				await NavigationHelper.PushPageAsync(homePage);
+			}
+			else
+			{
+				var landingPage = new LandingPage();
+				await NavigationHelper.PushPageAsync(new ChPageWrapper
+				{
+					Content = landingPage,
+				}
+				);
+			}
 		}
 
 		protected override void OnStart() { }

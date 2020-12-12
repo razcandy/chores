@@ -1,11 +1,14 @@
 ﻿using ChoresApp.Data.Models;
 using ChoresApp.Helpers;
+using ChoresApp.Pages;
+using ChoresApp.Pages.Popups;
+using ChoresApp.Pages.Popups.Alert;
 using GalaSoft.MvvmLight.Command;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace ChoresApp.Pages.Login
+namespace ChoresApp.Modules.Login
 {
 	public class LoginPageVM : ChPageBaseVM
 	{
@@ -160,31 +163,29 @@ namespace ChoresApp.Pages.Login
 		{
 			if (!IsPrimaryActionEnabled) return;
 
+			var sm = new SuccessMessage();
+
 			if (IsLoginMode)
 			{
-				var ret = await LoginHelper.TryLogIn(sessionModel);
-
-				if (ret.Success)
-				{
-					// go to home and close page
-				}
-				else
-				{
-					// show error message
-				}
+				sm = await LoginHelper.TryLogIn(sessionModel);
 			}
 			else
 			{
-				var ret = await LoginHelper.TryCreateUser(sessionModel);
+				sm = await LoginHelper.TryCreateUser(sessionModel);
+			}
 
-				if (ret.Success)
+			if (sm.IsSuccess)
+			{
+				await NavigationHelper.PushHomePage();
+			}
+			else
+			{
+				var alertVM = new ChPopupAlertVM
 				{
-					// go to home and close page
-				}
-				else
-				{
-					// show error message
-				}
+					MessageTransKey = sm.TranslationKey,
+				};
+
+				NavigationHelper.PushAlert(alertVM);
 			}
 		}
 

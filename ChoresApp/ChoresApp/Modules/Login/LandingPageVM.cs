@@ -1,11 +1,12 @@
 ﻿using ChoresApp.Helpers;
+using ChoresApp.Pages;
 using ChoresApp.Pages.Popups;
 using GalaSoft.MvvmLight.Command;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace ChoresApp.Pages.Login
+namespace ChoresApp.Modules.Login
 {
 	public class LandingPageVM : ChContentPageVM
 	{

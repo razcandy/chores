@@ -43,7 +43,7 @@ namespace ChoresApp.Resources
             var connectionString = FileHelper.Directory + DatabaseKeys.Global;
 
             await DatabaseHelper.Upsert(GlobalModel, connectionString);
+            IsUserLoggedIn = true;
         }
-
     }
 }

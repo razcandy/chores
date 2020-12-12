@@ -1,28 +1,32 @@
-﻿using System;
+﻿using ChoresApp.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace ChoresApp.Data.Models
+namespace ChoresApp.Pages.Popups.Alert
 {
-	public class SessionModel : ModelBase
+	public class ChPopupAlertVM : ChPopupFloatingVM
 	{
 		// Fields ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		private MessageTransKeyEnum messageTransKey;
 
 		// Constructors ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-		public SessionModel() : base() { }
+		public ChPopupAlertVM() : base() => Init();
 
 		// Properties ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-		public override string Id => Username;
-		public string Name { get; set; }
-		public string Password { get; set; }
-		//public bool StayLoggedIn { get; set; } = true;
-		public bool StayLoggedIn { get; set; }
-		public bool UseDarkTheme { get; set; } = true;
-		public string Username { get; set; }
+
+		public MessageTransKeyEnum MessageTransKey
+		{
+			get => messageTransKey;
+			set => Set(ref messageTransKey, value);
+		}
 
 		// Events & Handlers ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 		// Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
+		private void Init()
+		{
+			TitleTransKey = TitleTransKeyEnum.Error;
+		}
 	}
 }

@@ -28,15 +28,20 @@ namespace ChoresApp.Helpers
 			buttonsTransCache.Add(ButtonTransKeyEnum.LogIn.ToUpper(), "LOG IN");
 			buttonsTransCache.Add(ButtonTransKeyEnum.SignUp.ToUpper(), "SIGN UP");
 			buttonsTransCache.Add(ButtonTransKeyEnum.Continue.ToUpper(), "CONTINUE");
+			buttonsTransCache.Add(ButtonTransKeyEnum.OK.ToUpper(), "OK");
 
 			titlesTransCache.Add(TitleTransKeyEnum.Username.ToUpper(), "Username");
 			titlesTransCache.Add(TitleTransKeyEnum.Password.ToUpper(), "Password");
 			titlesTransCache.Add(TitleTransKeyEnum.Name.ToUpper(), "Name");
 			titlesTransCache.Add(TitleTransKeyEnum.LogIn.ToUpper(), "Log In");
 			titlesTransCache.Add(TitleTransKeyEnum.SignUp.ToUpper(), "Sign Up");
+			titlesTransCache.Add(TitleTransKeyEnum.Error.ToUpper(), "Error");
 
 			messagesTransCache.Add(MessageTransKeyEnum.NeedToLogin.ToUpper(), "Have an account?");
 			messagesTransCache.Add(MessageTransKeyEnum.NeedToSignUp.ToUpper(), "Don't have an account?");
+			messagesTransCache.Add(MessageTransKeyEnum.InvalidCred.ToUpper(), "Invalid credentials");
+			messagesTransCache.Add(MessageTransKeyEnum.UserAlreadyExists.ToUpper(), "User with provided username already exists");
+			messagesTransCache.Add(MessageTransKeyEnum.NoUserFound.ToUpper(), "No user found with provided username");
 		}
 
 		private static string GetTranslationOrDefault(Enum _enumKey, Dictionary<string, string> _cache)
@@ -77,6 +82,7 @@ namespace ChoresApp.Helpers
 		LogIn,
 		SignUp,
 		Continue,
+		OK,
 	}
 
 	public enum TitleTransKeyEnum
@@ -87,6 +93,7 @@ namespace ChoresApp.Helpers
 		Name,
 		LogIn,
 		SignUp,
+		Error,
 	}
 
 	public enum MessageTransKeyEnum
@@ -94,5 +101,8 @@ namespace ChoresApp.Helpers
 		EnumDefault,
 		NeedToLogin,
 		NeedToSignUp,
+		InvalidCred,
+		UserAlreadyExists,
+		NoUserFound,
 	}
 }

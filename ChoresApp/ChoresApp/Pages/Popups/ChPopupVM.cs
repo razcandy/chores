@@ -1,28 +1,22 @@
-﻿using System;
+﻿using ChoresApp.Data;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace ChoresApp.Data.Models
+namespace ChoresApp.Pages.Popups
 {
-	public class SessionModel : ModelBase
+	public class ChPopupVM : ChViewModelBase
 	{
 		// Fields ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 		// Constructors ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-		public SessionModel() : base() { }
+		public ChPopupVM() : base() => Init();
 
 		// Properties ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-		public override string Id => Username;
-		public string Name { get; set; }
-		public string Password { get; set; }
-		//public bool StayLoggedIn { get; set; } = true;
-		public bool StayLoggedIn { get; set; }
-		public bool UseDarkTheme { get; set; } = true;
-		public string Username { get; set; }
 
 		// Events & Handlers ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 		// Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
+		private void Init() { }
 	}
 }

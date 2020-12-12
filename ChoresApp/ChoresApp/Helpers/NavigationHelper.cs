@@ -1,6 +1,8 @@
 ﻿using ChoresApp.Debug;
 using ChoresApp.Pages;
+using ChoresApp.Pages.Home;
 using ChoresApp.Pages.Popups;
+using ChoresApp.Pages.Popups.Alert;
 using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.Pages;
 using Rg.Plugins.Popup.Services;
@@ -8,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
@@ -24,7 +27,7 @@ namespace ChoresApp.Helpers
 		private static Stack<ChPageBase> nav2Stack = new Stack<ChPageBase>();
 		private static Stack<ChPageBase> nav3Stack = new Stack<ChPageBase>();
 		private static Stack<ChPageBase> debugStack = new Stack<ChPageBase>();
-		private static ContentView mainPageContainer;
+		private static ContentView homePageContainer;
 
 		// Events & Handlers ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -49,21 +52,21 @@ namespace ChoresApp.Helpers
 			}
 		}
 
-		public static void InitStacks(MainPage _mainPage)
+		public static void InitStacks(HomePage _homePage)
 		{
-			homeStack.Push(_mainPage.HomeContent);
-			nav1Stack.Push(_mainPage.Nav1Content);
-			nav2Stack.Push(_mainPage.Nav2Content);
-			nav3Stack.Push(_mainPage.Nav3Content);
+			homeStack.Push(_homePage.HomeContent);
+			nav1Stack.Push(_homePage.Nav1Content);
+			nav2Stack.Push(_homePage.Nav2Content);
+			nav3Stack.Push(_homePage.Nav3Content);
 
 #if DEBUG
 			debugStack.Push(new DebugPage());
 #endif
 
-			mainPageContainer = _mainPage.PageContent;
+			homePageContainer = _homePage.PageContent;
 
-			mainPageContainer.Content = _mainPage.HomeContent;
-			_mainPage.HomeContent.SendAppearing();
+			homePageContainer.Content = _homePage.HomeContent;
+			_homePage.HomeContent.SendAppearing();
 
 		}
 
@@ -81,7 +84,7 @@ namespace ChoresApp.Helpers
 			var oldPage = ResolveStack(currentStack).Peek();
 			oldPage.SendDisappearing();
 			targetPage.SendAppearing();
-			mainPageContainer.Content = targetPage;
+			homePageContainer.Content = targetPage;
 			currentStack = _targetStack;
 		}
 
@@ -97,7 +100,7 @@ namespace ChoresApp.Helpers
 			targetStack.Pop().SendDestructed();
 			var top = targetStack.Peek();
 			top.SendAppearing();
-			mainPageContainer.Content = top;
+			homePageContainer.Content = top;
 		}
 
 		public static void PopFromCurrentStack() => PopFromStack(currentStack);
@@ -121,17 +124,34 @@ namespace ChoresApp.Helpers
 			}
 		}
 
-
-		public static async void PushAlert(ChPopupAlertConfig _popupConfig)
+		public static async void PushAlert(ChPopupAlertVM _popupVM)
 		{
-			var alert = new ChPopupAlert(_popupConfig);
+			var alert = new ChPopupAlert(_popupVM);
 			await PopupInstance.PushAsync(alert);
+		}
+
+		public static async Task PushHomePage()
+		{
+			var top = Navigator.NavigationStack.Last();
+
+			var home = new HomePage();
+			InitStacks(home);
+			await Navigator.PushAsync(home);
+
+			Navigator.RemovePage(top);
 		}
 
 		public static void PushPage(Page _page)
 		{
-			_page.Navigation.PushAsync(_page);
+			Navigator.PushAsync(_page);
 		}
+
+		public static async Task PushPageAsync(Page _page)
+		{
+			await Navigator.PushAsync(_page);
+		}
+
+		private static INavigation Navigator => App.Current.MainPage.Navigation;
 
 		public static async void PushPage(ChPageBase _page)
 		{
@@ -170,7 +190,7 @@ namespace ChoresApp.Helpers
 			{
 				oldPage.SendDisappearing();
 				_page.SendAppearing();
-				mainPageContainer.Content = _page;
+				homePageContainer.Content = _page;
 			}
 		}
 	}

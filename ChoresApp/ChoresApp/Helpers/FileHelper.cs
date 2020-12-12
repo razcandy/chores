@@ -1,8 +1,5 @@
-﻿using ChoresApp.Data;
-using ChoresApp.Data.Models;
+﻿using ChoresApp.Data.Models;
 using ChoresApp.Resources;
-using LiteDB;
-using System;
 using System.IO;
 
 namespace ChoresApp.Helpers
@@ -12,18 +9,20 @@ namespace ChoresApp.Helpers
 		// Fields ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		private static string directory;
 
+		public const string Dir = @"/";
+
 		// Properties ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		public static string Directory
 		{
 			get
 			{
 				if (!directory.IsNullOrEmpty()) return directory;
-				directory = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\";
+				directory = Xamarin.Essentials.FileSystem.AppDataDirectory + Dir;
 				return directory;
 			}
 		}
 
-		public static string UserDataDirectory => Directory + FileKeys.UserDataFolderName + "\\";
+		public static string UserDataDirectory => Directory + FileKeys.UserDataFolderName + Dir;
 
 		public static string UserDirectory { get; private set; }
 
@@ -57,7 +56,7 @@ namespace ChoresApp.Helpers
 			=> DoesFileExist(Directory, _filename);
 
 		public static void CreateDirectory(string _suffix)
-		{
+		{ 
 			if (_suffix.IsNullOrEmpty()) return;
 
 			System.IO.Directory.CreateDirectory(Directory + _suffix);
@@ -67,7 +66,7 @@ namespace ChoresApp.Helpers
 		{
 			if (_username.IsNullOrEmpty()) return;
 
-			var suffix = FileKeys.UserDataFolderName + "\\" + _username + "\\";
+			var suffix = FileKeys.UserDataFolderName + Dir + _username + Dir;
 			CreateDirectory(suffix);
 
 			if (_setAsCurrentUser)

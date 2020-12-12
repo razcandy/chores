@@ -1,13 +1,14 @@
 ﻿using ChoresApp.Controls.Buttons;
 using ChoresApp.Controls.Natives;
 using ChoresApp.Helpers;
+using ChoresApp.Pages;
 using ChoresApp.Resources;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using Xamarin.Forms;
 
-namespace ChoresApp.Pages.Login
+namespace ChoresApp.Modules.Login
 {
 	public class LandingPage : ChContentPage
 	{

@@ -1,4 +1,4 @@
-﻿namespace ChoresApp.Pages.Login
+﻿namespace ChoresApp.Pages
 {
 	public class ChContentPageVM
 	{

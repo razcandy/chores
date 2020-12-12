@@ -1,12 +1,10 @@
 ﻿using ChoresApp.Data.Models;
+using ChoresApp.Helpers;
 using ChoresApp.Resources;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace ChoresApp.Helpers
+namespace ChoresApp.Modules.Login
 {
 	public static class LoginHelper
 	{
@@ -48,60 +46,85 @@ namespace ChoresApp.Helpers
 		{
 			var username = GlobalData.GlobalModel.LastUsername;
 
-			if (!GlobalData.GlobalModel.AutoLogin || username.IsNullOrEmpty())
+			if (!GlobalData.GlobalModel.AutoLogin || username.IsNullOrEmpty()
+				|| !FileHelper.DoesUserDirectoryExist(username))
 			{
 				return false;
 			}
 
-			if (!FileHelper.DoesUserDirectoryExist(username))
-			{
-				return false;
-			}
-
-			var connectionString = FileHelper.UserDataDirectory + username + "\\" + DatabaseKeys.Session;
-
+			var connectionString = FileHelper.UserDataDirectory + username + FileHelper.Dir + DatabaseKeys.Session;
 			var user = await DatabaseHelper.QueryOnPrimaryKey<SessionModel>(username, connectionString);
 
-			if (user != null)
-			{
-				await GlobalData.SetUserSession(user);
-				GlobalData.IsUserLoggedIn = true;
-			}
+			if (user == null) return false;
+
+			await GlobalData.SetUserSession(user);
 
 			return true;
 		}
 
-		public static async Task<(bool Success, string Message)> TryCreateUser(SessionModel _session)
+		public static async Task<SuccessMessage> TryCreateUser(SessionModel _session)
 		{
+			var sm = new SuccessMessage();
+
 			if (_session == null || !IsPasswordValid(_session.Password)
 				|| !IsUsernameValid(_session.Username)
-				|| _session.Name.IsNullOrEmpty()) return (false, "Invalid");
+				|| _session.Name.IsNullOrEmpty())
+			{
+				sm.TranslationKey = MessageTransKeyEnum.InvalidCred;
+				return sm;
+			}
 
 			if (FileHelper.DoesUserDirectoryExist(_session))
 			{
-				return (false, "User already exists");
+				sm.TranslationKey = MessageTransKeyEnum.UserAlreadyExists;
+				return sm;
 			}
 
 			FileHelper.CreateUserDirectory(_session.Username);
 			await DatabaseHelper.Upsert(_session);
 			await GlobalData.SetUserSession(_session);
-			GlobalData.IsUserLoggedIn = true;
+			sm.IsSuccess = true;
 
-			return (true, string.Empty);
+			return sm;
 		}
 
-		public static async Task<(bool Success, string Message)> TryLogIn(SessionModel _session)
+		public static async Task<SuccessMessage> TryLogIn(SessionModel _session)
 		{
-			if (_session == null || !IsPasswordValid(_session.Password)
-				|| !IsUsernameValid(_session.Username)) return (false, "Invalid");
+			var sm = new SuccessMessage();
 
-			if (!FileHelper.DoesUserDirectoryExist(_session)) return (false, "No user found");
+			if (_session == null || !IsPasswordValid(_session.Password)
+				|| !IsUsernameValid(_session.Username))
+			{
+				sm.TranslationKey = MessageTransKeyEnum.InvalidCred;
+				return sm;
+			}
+
+			if (!FileHelper.DoesUserDirectoryExist(_session))
+			{
+				sm.TranslationKey = MessageTransKeyEnum.NoUserFound;
+				return sm;
+			}
 
 			// query database and match password
+			var connectionString = FileHelper.UserDataDirectory + _session.Username + FileHelper.Dir + DatabaseKeys.Session;
+			var user = await DatabaseHelper.QueryOnPrimaryKey<SessionModel>(_session.Username, connectionString);
 
-			GlobalData.IsUserLoggedIn = true;
+			if (user == null)
+			{
+				// this shouldn't happen
+				return sm;
+			}
 
-			return (true, string.Empty);
+			if (user.Password != _session.Password)
+			{
+				sm.TranslationKey = MessageTransKeyEnum.InvalidCred;
+				return sm;
+			}
+
+			await GlobalData.SetUserSession(user);
+			sm.IsSuccess = true;
+
+			return sm;
 		}
 	}
 }
