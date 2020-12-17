@@ -34,6 +34,7 @@ namespace ChoresApp.Controls.Fields
 
 				nativeEntry.Focused += NativeEntry_Focused;
 				nativeEntry.Unfocused += NativeEntry_Unfocused;
+				nativeEntry.Completed += NativeEntry_Completed;
 
 				return nativeEntry;
 			}
@@ -64,14 +65,16 @@ namespace ChoresApp.Controls.Fields
 		);
 
 		// Events & Handlers ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		private void NativeEntry_Completed(object sender, EventArgs e) => Completed?.Invoke(this, e);
+
 		private void NativeEntry_Focused(object sender, FocusEventArgs e)
 		{
-			OnFocused();
+			NativeControlFocused();
 		}
 
 		private void NativeEntry_Unfocused(object sender, FocusEventArgs e)
 		{
-			OnUnFocused();
+			NativeControlUnfocused();
 		}
 
 		private static void OnTextPropertyChanged(BindableObject bindable, object oldValue, object newValue)
@@ -94,6 +97,8 @@ namespace ChoresApp.Controls.Fields
 		{
 			Text = string.Empty;
 		}
+
+		public event EventHandler Completed;
 
 		// Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		private void Init()
@@ -125,6 +130,7 @@ namespace ChoresApp.Controls.Fields
 
 			NativeEntry.Focused -= NativeEntry_Focused;
 			NativeEntry.Unfocused -= NativeEntry_Unfocused;
+			NativeEntry.Completed -= NativeEntry_Completed;
 		}
 	}
 }

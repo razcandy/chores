@@ -64,12 +64,12 @@ namespace ChoresApp.Controls.Fields
 		// Events & Handlers ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		private void NativeDatePicker_Unfocused(object sender, FocusEventArgs e)
 		{
-			OnUnFocused();
+			NativeControlUnfocused();
 		}
 
 		private void NativeDatePicker_Focused(object sender, FocusEventArgs e)
 		{
-			OnFocused();
+			NativeControlFocused();
 		}
 
 		protected override void TouchCaptured(object sender, EventArgs e)

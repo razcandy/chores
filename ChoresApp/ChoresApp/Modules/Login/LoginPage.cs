@@ -17,6 +17,7 @@ namespace ChoresApp.Modules.Login
 		// Fields ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		private Grid mainGrid;
 		private ScrollView mainScroll;
+		private ChImageButton backButton;
 		private ChEntry nameEntry;
 		private ChButton switchButton;
 		private XLabel switchLabel;
@@ -96,7 +97,6 @@ namespace ChoresApp.Modules.Login
 			}
 		}
 
-		private ChImageButton backButton;
 		private ChImageButton BackButton
 		{
 			get
@@ -244,11 +244,20 @@ namespace ChoresApp.Modules.Login
 				passwordEntry.SetBinding(ChPasswordEntry.IsErroredProperty, nameof(LoginPageVM.IsPasswordErrored));
 				passwordEntry.SetBinding(ChPasswordEntry.HelperTextProperty, nameof(LoginPageVM.PasswordHelperText));
 
+				passwordEntry.Completed += PasswordEntry_Completed;
+
 				return passwordEntry;
 			}
 		}
 
 		// Events & Handlers ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		private void PasswordEntry_Completed(object sender, EventArgs e)
+		{
+			if (BindingContext is LoginPageVM vm)
+			{
+				vm.PrimaryActionCommand.Execute(null);
+			}
+		}
 
 		// Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		private void Init()

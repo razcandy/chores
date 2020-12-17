@@ -7,7 +7,6 @@ namespace ChoresApp.Controls.Fields
 		Activated,
 		Errored,
 		Focused,
-		Hover,
 		Disabled,
 	}
 }

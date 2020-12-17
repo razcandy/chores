@@ -58,12 +58,12 @@ namespace ChoresApp.Controls.Fields
 		// Events & Handlers ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		private void NativeTimePicker_Focused(object sender, FocusEventArgs e)
 		{
-			OnFocused();
+			NativeControlFocused();
 		}
 
 		private void NativeTimePicker_Unfocused(object sender, FocusEventArgs e)
 		{
-			OnUnFocused();
+			NativeControlUnfocused();
 		}
 
 		private static void OnTimePropertyChanged(BindableObject bindable, object oldValue, object newValue)

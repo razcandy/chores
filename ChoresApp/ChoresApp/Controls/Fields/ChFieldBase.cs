@@ -17,7 +17,6 @@ namespace ChoresApp.Controls.Fields
         private const double multiplier = 1;
 
         protected const double MainContentDefaultHeight = 28 * multiplier;
-        //protected const int MainContentRowIndex = 2;
 
         private static Color underlineDefaultColor = Color.DarkGray;
 
@@ -38,11 +37,7 @@ namespace ChoresApp.Controls.Fields
         public ChFieldBase(ChFieldState _startingState)
         {
             Init();
-        }
-
-        private void Init()
-        {
-            Content = MainGrid;
+            State = _startingState;
         }
 
         // Properties ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -58,10 +53,10 @@ namespace ChoresApp.Controls.Fields
                     ColumnSpacing = 0,
                     RowDefinitions =
 					{
-                        UIHelper.MakeStaticRow(8 * multiplier), // top space
+                        UIHelper.MakeStaticRow(8 * multiplier), // above frame space
                         UIHelper.MakeStaticRow(8 * multiplier), // top space
                         MainContentRow, // main content
-                        UIHelper.MakeStaticRow(16 * multiplier), // bottom space
+                        UIHelper.MakeStaticRow(8 * multiplier), // bottom space
                         UIHelper.MakeStaticRow(16 * multiplier), // helper text
                     },
                     ColumnDefinitions =
@@ -81,16 +76,11 @@ namespace ChoresApp.Controls.Fields
                 mainGrid.Children.Add(TrailingIcon, 2, 3, 1, 4);
                 mainGrid.Children.Add(TitleLabelSmall, 1, 2, 0, 2);
                 mainGrid.Children.Add(NativeControl, 1, 2, 2, 3);
-                //mainGrid.Children.Add(TitleLabel, 1, 2, 1, 4);
                 mainGrid.Children.Add(HelperTextLabel, 1, numColumns, numRows - 1, numRows);
 
                 if (ShowBigTitleLabel)
 				{
-                    mainGrid.Children.Add(TitleLabel, 1, 2, 1, 4);
-                }
-                else
-				{
-                    TitleLabelSmall.IsVisible = true;
+                    mainGrid.Children.Add(TitleLabel, 1, 2, 2, 3);
                 }
 
                 if (ShowValueLabel)
@@ -102,7 +92,7 @@ namespace ChoresApp.Controls.Fields
             }
         }
 
-		private Frame BackgroundFrame
+        protected Frame BackgroundFrame
         {
             get
             {
@@ -125,7 +115,7 @@ namespace ChoresApp.Controls.Fields
             }
         }
 
-        private XLabel HelperTextLabel
+        protected XLabel HelperTextLabel
         {
             get
             {
@@ -143,7 +133,7 @@ namespace ChoresApp.Controls.Fields
             }
         }
 
-        private XLabel TitleLabel
+        protected XLabel TitleLabel
         {
             get
             {
@@ -154,6 +144,7 @@ namespace ChoresApp.Controls.Fields
 					BindingContext = this,
                     InputTransparent = true,
                     Style = ResourceHelper.LabelSubtitle1Style,
+                    VerticalTextAlignment = TextAlignment.Center,
                 };
                 titleLabel.SetBinding(Label.TextProperty, nameof(Title));
 
@@ -161,7 +152,7 @@ namespace ChoresApp.Controls.Fields
             }
         }
 
-        private XLabel TitleLabelSmall
+        protected XLabel TitleLabelSmall
         {
             get
             {
@@ -181,14 +172,16 @@ namespace ChoresApp.Controls.Fields
                 };
                 titleLabelSmall.SetBinding(Label.TextProperty, nameof(Title));
 
+                if (!ShowBigTitleLabel) titleLabelSmall.IsVisible = true;
+
                 return titleLabelSmall;
             }
         }
 
-		/// <summary>
-		/// Label to be used if the natived control is hidden
-		/// </summary>
-		private XLabel ValueLabel
+        /// <summary>
+        /// Label to be used if the natived control is hidden
+        /// </summary>
+        protected XLabel ValueLabel
         {
             get
             {
@@ -219,7 +212,6 @@ namespace ChoresApp.Controls.Fields
         }
 
         protected abstract View NativeControl { get; }
-
         protected virtual bool ShowBigTitleLabel => true;
         protected virtual bool ShowValueLabel => false;
 
@@ -358,7 +350,8 @@ namespace ChoresApp.Controls.Fields
             returnType: typeof(string),
             declaringType: typeof(ChFieldBase),
             defaultValue: null,
-            defaultBindingMode: BindingMode.OneWayToSource
+            defaultBindingMode: BindingMode.OneWayToSource,
+            propertyChanged: OnValuePropertyChanged
         );
 
         // Events & Handlers ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -390,6 +383,12 @@ namespace ChoresApp.Controls.Fields
             field.Title = TranslationHelper.GetTranslationOrDefault(newTransKey);
         }
 
+        private static void OnValuePropertyChanged(BindableObject bindable, object oldValue, object newValue)
+		{
+            var field = (ChFieldBase)bindable;
+            field.ResolveTitleLabelVisibility();
+        }
+
         private static void IsValidatedPropertyChanged(BindableObject bindable, object oldValue, object newValue)
         {
             ((ChFieldBase)bindable).ResolveTrailingIconSources();
@@ -400,41 +399,43 @@ namespace ChoresApp.Controls.Fields
         protected virtual void TrailingIcon_Tapped(object sender, EventArgs e) { }
 
         // Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        private void Init()
+        {
+            VisualStateManager.SetVisualStateGroups(BackgroundFrame, ChFieldBaseVisualStates.GetBackgroundFrameStates());
+            VisualStateManager.SetVisualStateGroups(TitleLabelSmall, ChFieldBaseVisualStates.GetTitleLabelStates());
+            VisualStateManager.SetVisualStateGroups(TitleLabel, ChFieldBaseVisualStates.GetTitleLabelStates());
+            VisualStateManager.SetVisualStateGroups(HelperTextLabel, ChFieldBaseVisualStates.GetHelperTextLabelStates());
 
-        private void BoldUnderline(Color _color) => UpdateUnderline(2, _color);
-        private void UnBoldUnderline() => UpdateUnderline(1, underlineDefaultColor);
+            VisualStateManager.GoToState(BackgroundFrame, ChFieldState.Inactive.ToString());
+            VisualStateManager.GoToState(TitleLabelSmall, ChFieldState.Inactive.ToString());
+            VisualStateManager.GoToState(TitleLabel, ChFieldState.Inactive.ToString());
+            VisualStateManager.GoToState(HelperTextLabel, ChFieldState.Inactive.ToString());
 
-  //      private void UpdateUnderline(double _height, Color _color)
-		//{
-  //          if (Underline.Height != _height)
-  //          {
-  //              Underline.HeightRequest = _height;
-  //          }
+            Content = MainGrid;
+        }
 
-  //          if (Underline.BackgroundColor != _color)
-  //          {
-  //              Underline.BackgroundColor = _color;
-  //          }
-  //      }
+        private void ResolveTitleLabelVisibility()
+        {
+            if (!ShowBigTitleLabel) return;
 
-        private void UpdateUnderline(double _height, Color _color)
-		{
-            // to do - add a border width prop
-            BackgroundFrame.BorderColor = _color;
-		}
+            if (State == ChFieldState.Focused)
+            {
+                TitleLabel.IsVisible = false;
+                TitleLabelSmall.IsVisible = true;
+                return;
+            }
 
-        private void HideNativeField()
-		{
-            if (TitleLabel.IsVisible)
-			{
-
-			}
-		}
-
-        private void ShowNativeField()
-		{
-
-		}
+            if (ValueString.IsNullOrEmpty())
+            {
+                TitleLabel.IsVisible = true;
+                TitleLabelSmall.IsVisible = false;
+            }
+            else
+            {
+                TitleLabel.IsVisible = false;
+                TitleLabelSmall.IsVisible = true;
+            }
+        }
 
         private void ResolveTrailingIconSources()
 		{
@@ -452,58 +453,22 @@ namespace ChoresApp.Controls.Fields
             }
 		}
 
-        private void SetActive()
-		{
-            if (TitleLabel.IsVisible)
-			{
-                TitleLabel.IsVisible = false;
-            }
+        private void SetStates(ChFieldState _state)
+        {
+            var stateString = _state.ToString();
 
-            if (!TitleLabelSmall.IsVisible)
-			{
-                TitleLabelSmall.IsVisible = true;
-            }
-
-            //if (!NativeControl.IsVisible)
-            //{
-            //    NativeControl.IsVisible = true;
-            //}
+            VisualStateManager.GoToState(BackgroundFrame, stateString);
+            VisualStateManager.GoToState(TitleLabelSmall, stateString);
+            VisualStateManager.GoToState(TitleLabel, stateString);
+            VisualStateManager.GoToState(HelperTextLabel, stateString);
         }
-
-        private void SetInactive()
-		{
-            if (TitleLabelSmall.IsVisible)
-            {
-                TitleLabelSmall.IsVisible = false;
-            }
-
-            //if (NativeControl.IsVisible)
-            //{
-            //    NativeControl.IsVisible = false;
-            //}
-
-            if (!TitleLabel.IsVisible)
-            {
-                TitleLabel.IsVisible = true;
-            }
-        }
-
-        private void UpdateLabelColor(Color _color)
-		{
-            if (TitleLabel.TextColor != _color)
-			{
-                TitleLabel.TextColor = _color;
-                TitleLabelSmall.TextColor = _color;
-			}
-		}
-
-        
 
         protected void UpdateForState()
 		{
-			switch (State)
+            SetStates(State);
+
+            switch (State)
 			{
-                // not focused, but value is filled
 				case ChFieldState.Activated:
                     OnActivated();
                     break;
@@ -513,7 +478,7 @@ namespace ChoresApp.Controls.Fields
                     break;
 
 				case ChFieldState.Focused:
-                    OnFocused(); //?
+                    OnFocused();
                     break;
 				
 				case ChFieldState.Disabled:
@@ -521,7 +486,6 @@ namespace ChoresApp.Controls.Fields
                     break;
 
                 case ChFieldState.Inactive:
-                case ChFieldState.Hover: // to-do
                 default:
                     OnInactivated();
                     break;
@@ -534,55 +498,52 @@ namespace ChoresApp.Controls.Fields
 
         protected virtual void OnInactivated()
 		{
-            UpdateLabelColor(ResourceHelper.DefaultTextColor);
-            HideNativeField();
-            UnBoldUnderline();
         }
 
         protected virtual void OnActivated()
 		{
-            UpdateLabelColor(ResourceHelper.PrimaryColor);
-            SetActive();
-            BoldUnderline(ResourceHelper.PrimaryColor);
         }
 
         protected virtual void OnErrored()
 		{
-            UpdateLabelColor(ResourceHelper.ErrorColor);
-            //SetActive();
-            BoldUnderline(ResourceHelper.ErrorColor);
         }
 
         protected virtual void OnFocused()
         {
-            if (State == ChFieldState.Errored) return;
-
-            UpdateLabelColor(ResourceHelper.PrimaryColor);
-            SetActive();
-            BoldUnderline(ResourceHelper.PrimaryColor);
-
-            //State = CHFieldState.Focused;
-            state = ChFieldState.Focused;
         }
 
-        protected virtual void OnUnFocused()
+        protected virtual void OnUnfocused()
         {
-            if (State == ChFieldState.Errored) return;
-
-            UpdateLabelColor(ResourceHelper.DefaultTextColor);
-
-            if (string.IsNullOrEmpty(ValueString))
-            {
-                SetInactive();
-            }
-
-            UnBoldUnderline();
         }
 
         protected virtual void OnDisabled()
-		{
+        {
             // think about disabled and empty & disabled and filled
-            UnBoldUnderline();
+        }
+
+        protected void NativeControlFocused()
+        {
+            if (State == ChFieldState.Errored) return;
+
+            State = ChFieldState.Focused;
+
+            ResolveTitleLabelVisibility();
+        }
+
+        protected void NativeControlUnfocused()
+        {
+            if (State == ChFieldState.Errored) return;
+
+            if (string.IsNullOrEmpty(ValueString))
+            {
+                State = ChFieldState.Inactive;
+            }
+            else
+            {
+                State = ChFieldState.Activated;
+            }
+
+            ResolveTitleLabelVisibility();
         }
     }
 }

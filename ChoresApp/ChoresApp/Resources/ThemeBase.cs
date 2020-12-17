@@ -70,6 +70,22 @@ namespace ChoresApp.Resources
             }
         }
 
+        public Style ButtonEmptyStyle
+        {
+            get
+            {
+                return new Style(typeof(Button))
+                {
+                    Setters =
+                    {
+                        new Setter { Property = Button.BackgroundColorProperty, Value = Color.Transparent },
+                        new Setter { Property = Button.BorderColorProperty, Value = Color.Transparent },
+                        new Setter { Property = Button.TextColorProperty, Value = Color.Transparent },
+                    },
+                };
+            }
+        }
+
         public Style ButtonOutlinedStyle
         {
             get
@@ -473,6 +489,7 @@ namespace ChoresApp.Resources
             rd.Add(nameof(LabelOverlineStyle), LabelOverlineStyle);
 
             rd.Add(nameof(ButtonContainedStyle), ButtonContainedStyle);
+            rd.Add(nameof(ButtonEmptyStyle), ButtonEmptyStyle);
             rd.Add(nameof(ButtonOutlinedStyle), ButtonOutlinedStyle);
             rd.Add(nameof(ButtonTextStyle), ButtonTextStyle);
 

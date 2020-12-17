@@ -70,7 +70,7 @@ namespace ChoresApp.Pages.Home
             NavigationPage.SetHasNavigationBar(this, false);
             NavigationPage.SetHasBackButton(this, false);
 
-            HomeContent = new TestPage();
+            HomeContent = new ChFieldsTestPage();
             Nav1Content = new LoginPage();
             Nav2Content = new LandingPage();
             Nav3Content = new TestPage();

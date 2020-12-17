@@ -1,5 +1,7 @@
-﻿using ChoresApp.Helpers;
+﻿using ChoresApp.Controls.Buttons;
+using ChoresApp.Helpers;
 using ChoresApp.Pages.Popups;
+using ChoresApp.Resources;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -42,17 +44,44 @@ namespace ChoresApp.Controls.Fields
 			}
 		}
 
-		protected override View NativeControl => NativePicker;
+		private ChButton rawr;
+
+		private ChButton Rawr
+		{
+			get
+			{
+				if (rawr != null) return rawr;
+
+				rawr = new ChButton
+				{
+					Style = ResourceHelper.ButtonEmptyStyle,
+				};
+				rawr.Focused += NativePicker_Focused;
+				rawr.Unfocused += NativePicker_Unfocused;
+				rawr.Clicked += Rawr_Clicked;
+
+				return rawr;
+			}
+		}
+
+		private void Rawr_Clicked(object sender, EventArgs e)
+		{
+			OpenPopup();
+		}
+
+		protected override View NativeControl => Rawr;
+		protected override bool ShowBigTitleLabel => false;
+		protected override bool ShowValueLabel => true;
 
 		// Events & Handlers ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		private void NativePicker_Focused(object sender, FocusEventArgs e)
 		{
-			OnFocused();
+			NativeControlFocused();
 		}
 
 		private void NativePicker_Unfocused(object sender, FocusEventArgs e)
 		{
-			OnUnFocused();
+			NativeControlUnfocused();
 		}
 
 		protected override void TouchCaptured(object sender, EventArgs e)

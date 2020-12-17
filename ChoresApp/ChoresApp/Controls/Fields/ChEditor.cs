@@ -46,17 +46,17 @@ namespace ChoresApp.Controls.Fields
             get => NativeEditor.AutoSize == EditorAutoSizeOption.TextChanges;
             set
 			{
-                NativeEditor.AutoSize = value ? EditorAutoSizeOption.TextChanges : EditorAutoSizeOption.Disabled;
-
                 if (value)
 				{
                     NativeEditor.AutoSize = EditorAutoSizeOption.TextChanges;
                     MainContentRow.Height = new GridLength(1, GridUnitType.Auto);
+                    TitleLabel.VerticalOptions = LayoutOptions.FillAndExpand;
                 }
                 else
 				{
                     NativeEditor.AutoSize = EditorAutoSizeOption.Disabled;
                     MainContentRow.Height = expandedMainContentHeight;
+                    TitleLabel.VerticalOptions = LayoutOptions.Start;
                 }
             }
         }
@@ -79,12 +79,12 @@ namespace ChoresApp.Controls.Fields
         // Events & Handlers ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         private void NativeEditor_Focused(object sender, FocusEventArgs e)
         {
-            OnFocused();
+            NativeControlFocused();
         }
 
         private void NativeEditor_Unfocused(object sender, FocusEventArgs e)
         {
-            OnUnFocused();
+            NativeControlUnfocused();
         }
         
         private static void OnTextPropertyChanged(BindableObject bindable, object oldValue, object newValue)
@@ -101,7 +101,7 @@ namespace ChoresApp.Controls.Fields
 		// Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		private void Init()
 		{
-            MainContentRow.Height = expandedMainContentHeight;
+            AutoSize = false;
         }
 
 		protected override void Cleanup()

@@ -39,6 +39,7 @@ namespace ChoresApp.Resources
         //~~ Styles ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         //~~~~ Button Styles ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         public static Style ButtonContainedStyle => GetStyle(nameof(ThemeBase.ButtonContainedStyle));
+        public static Style ButtonEmptyStyle => GetStyle(nameof(ThemeBase.ButtonEmptyStyle));
         public static Style ButtonOutlinedStyle => GetStyle(nameof(ThemeBase.ButtonOutlinedStyle));
         public static Style ButtonTextStyle => GetStyle(nameof(ThemeBase.ButtonTextStyle));
 
