@@ -492,34 +492,19 @@ namespace ChoresApp.Controls.Fields
 			}
 		}
 
-        protected virtual void Cleanup()
-		{
-		}
+        protected virtual void Cleanup() { }
 
-        protected virtual void OnInactivated()
-		{
-        }
+        protected virtual void OnInactivated() { }
 
-        protected virtual void OnActivated()
-		{
-        }
+        protected virtual void OnActivated() { }
 
-        protected virtual void OnErrored()
-		{
-        }
+        protected virtual void OnErrored() { }
 
-        protected virtual void OnFocused()
-        {
-        }
+        protected virtual void OnFocused() { }
 
-        protected virtual void OnUnfocused()
-        {
-        }
+        protected virtual void OnUnfocused() { }
 
-        protected virtual void OnDisabled()
-        {
-            // think about disabled and empty & disabled and filled
-        }
+        protected virtual void OnDisabled() { }
 
         protected void NativeControlFocused()
         {

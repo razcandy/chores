@@ -17,7 +17,7 @@ namespace ChoresApp.Pages.Test
         private ChDatePicker datePicker;
         private ChEditor editor;
         private ChEntry entry;
-        private ChPicker picker;
+        private ChPicker<string> picker;
         private ChTimePicker timePicker;
         private Grid buttonGrid;
 
@@ -108,17 +108,24 @@ namespace ChoresApp.Pages.Test
             }
 		}
 
-        private ChPicker Picker
+        private ChPicker<string> Picker
 		{
             get
 			{
                 if (picker != null) return picker;
 
-                picker = new ChPicker
+                picker = new ChPicker<string>
                 {
-                    //Title = "Picker",
                     TitleTransKey = TitleTransKeyEnum.Test_Picker,
                     HelperText = "help me",
+                    ItemsSource = new List<string>
+					{
+                        "Rawr 0",
+                        "Rawr 1",
+                        "Rawr 2",
+                    },
+                    GetItemTitleFunc = (i) => i,
+                    IsMultiSelect = true,
                 };
 
                 return picker;

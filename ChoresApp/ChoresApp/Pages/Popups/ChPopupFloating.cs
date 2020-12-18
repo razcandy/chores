@@ -15,6 +15,9 @@ namespace ChoresApp.Pages.Popups
 
 		// Fields ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		private Grid mainGrid;
+		private Grid footerGrid;
+		private ChButton primaryButton;
+		private ChButton secondaryButton;
 		private Frame mainFrame;
 		private XLabel subtitleLabel;
 		private XLabel titleLabel;
@@ -87,7 +90,6 @@ namespace ChoresApp.Pages.Popups
 			}
 		}
 
-		private Grid footerGrid;
 		private Grid FooterGrid
 		{
 			get
@@ -110,7 +112,6 @@ namespace ChoresApp.Pages.Popups
 			}
 		}
 
-		private ChButton primaryButton;
 		private ChButton PrimaryButton
 		{
 			get
@@ -129,7 +130,6 @@ namespace ChoresApp.Pages.Popups
 			}
 		}
 
-		private ChButton secondaryButton;
 		private ChButton SecondaryButton
 		{
 			get

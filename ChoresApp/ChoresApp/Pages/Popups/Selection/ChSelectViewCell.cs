@@ -1,14 +1,11 @@
 ﻿using ChoresApp.Controls.Natives;
 using ChoresApp.Helpers;
 using ChoresApp.Resources;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Xamarin.Forms;
 
 namespace ChoresApp.Pages.Popups.Selection
 {
-	public class ChSelectViewCell : ViewCell
+	public class ChSelectViewCell<T> : ViewCell
 	{
 		// Fields ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		private Grid mainGrid;
@@ -72,7 +69,7 @@ namespace ChoresApp.Pages.Popups.Selection
 					HorizontalOptions = LayoutOptions.CenterAndExpand,
 					VerticalOptions = LayoutOptions.CenterAndExpand,
 				};
-				checkBox.SetBinding(CheckBox.IsCheckedProperty, nameof(ChSelectViewCellVM.IsSelected));
+				checkBox.SetBinding(CheckBox.IsCheckedProperty, nameof(ChSelectViewCellVM<dynamic>.IsSelected));
 
 				return checkBox;
 			}
@@ -87,8 +84,9 @@ namespace ChoresApp.Pages.Popups.Selection
 				titleLabel = new XLabel
 				{
 					Style = ResourceHelper.LabelSubtitle1Style,
+					VerticalTextAlignment = TextAlignment.Center,
 				};
-				titleLabel.SetBinding(XLabel.TextProperty, nameof(ChSelectViewCellVM.Title));
+				titleLabel.SetBinding(XLabel.TextProperty, nameof(ChSelectViewCellVM<dynamic>.Title));
 
 				return titleLabel;
 			}
@@ -105,7 +103,7 @@ namespace ChoresApp.Pages.Popups.Selection
 					HorizontalOptions = LayoutOptions.CenterAndExpand,
 					VerticalOptions = LayoutOptions.CenterAndExpand,
 				};
-				radioButton.SetBinding(RadioButton.IsCheckedProperty, nameof(ChSelectViewCellVM.IsSelected));
+				radioButton.SetBinding(RadioButton.IsCheckedProperty, nameof(ChSelectViewCellVM<dynamic>.IsSelected));
 
 				return radioButton;
 			}
@@ -118,7 +116,7 @@ namespace ChoresApp.Pages.Popups.Selection
 		{
 			base.OnTapped();
 
-			if (BindingContext is ChSelectViewCellVM vm)
+			if (BindingContext is ChSelectViewCellVM<T> vm)
 			{
 				vm.OnTapped();
 			}

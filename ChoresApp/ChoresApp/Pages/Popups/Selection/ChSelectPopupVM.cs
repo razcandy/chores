@@ -7,37 +7,53 @@ using System.Text;
 
 namespace ChoresApp.Pages.Popups.Selection
 {
-	public class ChSelectPopupVM : ChPopupFloatingVM
+	public class ChSelectPopupVM<T> : ChPopupFloatingVM 
 	{
 		// Fields ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-		private ObservableCollection<ChSelectViewCellVM> itemSource = new ObservableCollection<ChSelectViewCellVM>();
+		private ObservableCollection<ChSelectViewCellVM<T>> itemSource = new ObservableCollection<ChSelectViewCellVM<T>>();
 
 		// Constructors ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-		public ChSelectPopupVM() : base()
+		public ChSelectPopupVM(IEnumerable<T> _dataSource, IEnumerable<T> _selectedItems,
+			Func<T, string> _getItemTitleFunc) : base()
 		{
-			Test();
+			GetItemTitleFunc = _getItemTitleFunc;
+
+			if (_dataSource.HasItems())
+			{
+				var vms = _dataSource.Select(x => new ChSelectViewCellVM<T>(x, GetItemTitleFunc));
+				ItemSource = new ObservableCollection<ChSelectViewCellVM<T>>(vms);
+
+				if (_selectedItems.HasItems())
+				{
+					ItemSource.ForEach(i => {
+						if (_selectedItems.Contains(i.Data))
+						{
+							i.IsSelected = true;
+						}
+					});
+				}
+			}
+
 			Init();
 		}
 
 		// Properties ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		public Func<T, string> GetItemTitleFunc { get; private set; }
 
 		public bool IsMultiselect { get; set; }
 
-		public ObservableCollection<ChSelectViewCellVM> ItemSource
+		public ObservableCollection<ChSelectViewCellVM<T>> ItemSource
 		{
 			get => itemSource;
-			private set
-			{
-				Set(ref itemSource, value);
-			}
+			private set => Set(ref itemSource, value);
 		}
 
-		public Action<IEnumerable<ChSelectViewCellVM>> SelectionConfirmedAction;
+		public Action<IEnumerable<T>> SelectionConfirmedAction;
 
 		// Events & Handlers ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		private void ItemIsSelectedChanged(object sender, bool e)
 		{
-			if (!(sender is ChSelectViewCellVM cellVM)) return;
+			if (!(sender is ChSelectViewCellVM<T> cellVM)) return;
 
 			if (!IsMultiselect && cellVM.IsSelected)
 			{
@@ -48,12 +64,13 @@ namespace ChoresApp.Pages.Popups.Selection
 			}
 		}
 
-		public event EventHandler<IEnumerable<ChSelectViewCellVM>> SelectionConfirmed;
+		public event EventHandler<IEnumerable<T>> SelectionConfirmed;
 
 		// Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		private void Init()
 		{
 			ItemSource.ForEach(i => i.IsSelectedChanged += ItemIsSelectedChanged);
+			SecondaryButtonTransKey = Helpers.ButtonTransKeyEnum.Cancel;
 		}
 
 		private void Cleanup()
@@ -61,46 +78,12 @@ namespace ChoresApp.Pages.Popups.Selection
 			ItemSource.ForEach(i => i.IsSelectedChanged -= ItemIsSelectedChanged);
 		}
 
-		private void Test()
-		{
-			SecondaryButtonTransKey = Helpers.ButtonTransKeyEnum.Cancel;
-
-			ItemSource.Add(new ChSelectViewCellVM
-			{
-				Title = "Rawr 0",
-			});
-
-			ItemSource.Add(new ChSelectViewCellVM
-			{
-				Title = "Rawr 1",
-			});
-
-			ItemSource.Add(new ChSelectViewCellVM
-			{
-				Title = "Rawr 2",
-			});
-
-			ItemSource.Add(new ChSelectViewCellVM
-			{
-				Title = "Rawr 3",
-			});
-
-			ItemSource.Add(new ChSelectViewCellVM
-			{
-				Title = "Rawr 4",
-			});
-
-			ItemSource.Add(new ChSelectViewCellVM
-			{
-				Title = "Rawr 5",
-			});
-		}
-
 		protected override void PrimaryButtonAction()
 		{
-			var selected = ItemSource.Where(i => i.IsSelected);
+			var selected = ItemSource.Where(i => i.IsSelected)?.Select(i => i.Data)
+				?? new List<T>();
 
-			SelectionConfirmed?.Invoke(this, ItemSource.Where(i => i.IsSelected));
+			SelectionConfirmed?.Invoke(this, selected);
 			SelectionConfirmedAction?.Invoke(selected);
 		}
 	}

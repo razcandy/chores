@@ -121,7 +121,7 @@ namespace ChoresApp
             };
 			sl.Children.Add(timePicker);
 
-			var pick = new ChPicker
+			var pick = new ChPicker<string>
             {
                 Title = "Picker Title",
             };

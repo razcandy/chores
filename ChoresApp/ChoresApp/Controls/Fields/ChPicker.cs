@@ -11,7 +11,7 @@ using Xamarin.Forms;
 
 namespace ChoresApp.Controls.Fields
 {
-	public class ChPicker : ChFieldBase
+	public class ChPicker<T> : ChFieldBase
 	{
 		// Fields ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		private ChButton pickerButton;
@@ -20,8 +20,6 @@ namespace ChoresApp.Controls.Fields
 		public ChPicker() : base()
 		{
 			TrailingIconSource = ImageHelper.PickerArrow;
-
-			var rawr = new Picker();
 		}
 
 		// Properties ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -35,8 +33,6 @@ namespace ChoresApp.Controls.Fields
 				{
 					Style = ResourceHelper.ButtonEmptyStyle,
 				};
-				pickerButton.Focused += PickerButton_Focused;
-				pickerButton.Unfocused += PickerButton_Unfocused;
 				pickerButton.Clicked += PickerButton_Clicked;
 
 				return pickerButton;
@@ -47,23 +43,56 @@ namespace ChoresApp.Controls.Fields
 		protected override bool ShowBigTitleLabel => false;
 		protected override bool ShowValueLabel => true;
 
-		public bool IsMultiSelect { get; set; } = true;
-		public IList<object> ItemsSource { get; set; }
+		public Func<T, string> GetItemTitleFunc { get; set; } = (s) => "<title>";
+		public bool IsMultiSelect { get; set; }
+
+		public IList<T> ItemsSource
+		{
+			get => (IList<T>)GetValue(ItemsSourceProperty);
+			set => SetValue(ItemsSourceProperty, value);
+		}
+
+		public static readonly BindableProperty ItemsSourceProperty = BindableProperty.Create
+		(
+			propertyName: nameof(ItemsSource),
+			returnType: typeof(IList<T>),
+			declaringType: typeof(ChPicker<T>),
+			defaultValue: null,
+			defaultBindingMode: BindingMode.OneWay
+		);
+
+		public IList<T> SelectedItems
+		{
+			get => (IList<T>)GetValue(SelectedItemsProperty);
+			set => SetValue(SelectedItemsProperty, value);
+		}
+
+		public static readonly BindableProperty SelectedItemsProperty = BindableProperty.Create
+		(
+			propertyName: nameof(SelectedItems),
+			returnType: typeof(IList<T>),
+			declaringType: typeof(ChPicker<T>),
+			defaultValue: null,
+			defaultBindingMode: BindingMode.TwoWay,
+			propertyChanged: SelectedItemsPropertyChanged
+		);
 
 		// Events & Handlers ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		private void PickerButton_Clicked(object sender, EventArgs e)
 		{
+			NativeControlFocused();
 			OpenPopup();
 		}
 
-		private void PickerButton_Focused(object sender, FocusEventArgs e)
-		{
-			NativeControlFocused();
-		}
-
-		private void PickerButton_Unfocused(object sender, FocusEventArgs e)
+		private void Popup_Disappearing(object sender, EventArgs e)
 		{
 			NativeControlUnfocused();
+		}
+
+		private static void SelectedItemsPropertyChanged(BindableObject bindable, object oldValue, object newValue)
+		{
+			var pick = (ChPicker<T>)bindable;
+			pick.ResolveValueString();
 		}
 
 		protected override void TouchCaptured(object sender, EventArgs e)
@@ -74,25 +103,40 @@ namespace ChoresApp.Controls.Fields
 		// Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		private void OpenPopup()
 		{
-			var popupVM = new ChSelectPopupVM
+			var popupVM = new ChSelectPopupVM<T>(ItemsSource, SelectedItems, GetItemTitleFunc)
 			{
 				TitleTransKey = TitleTransKey,
 				IsMultiselect = IsMultiSelect,
-				SelectionConfirmedAction = ParseSelection, 
+				SelectionConfirmedAction = SetSelected,
 			};
 
-			NavigationHelper.PushPopup(new ChSelectPopup(popupVM));
+			var popup = new ChSelectPopup<T>(popupVM);
+			popup.Disappearing += Popup_Disappearing;
+
+			NavigationHelper.PushPopup(popup);
 		}
 
-		private void ParseSelection(IEnumerable<ChSelectViewCellVM> _selected)
+		private void ResolveValueString()
 		{
-			if (_selected.IsNullOrEmpty())
+			if (SelectedItems.HasItems())
 			{
-				ValueString = string.Empty;
+				ValueString = string.Join(", ", SelectedItems.Select(x => GetItemTitleFunc.Invoke(x)));
 			}
 			else
 			{
-				ValueString = string.Join(", ", _selected.Select(x => x.Title));
+				ValueString = string.Empty;
+			}
+		}
+
+		private void SetSelected(IEnumerable<T> _selected)
+		{
+			if (_selected.IsNullOrEmpty())
+			{
+				SelectedItems = new List<T>();
+			}
+			else
+			{
+				SelectedItems = new List<T>(_selected);
 			}
 		}
 
@@ -100,8 +144,6 @@ namespace ChoresApp.Controls.Fields
 		{
 			base.Cleanup();
 
-			pickerButton.Focused -= PickerButton_Focused;
-			pickerButton.Unfocused -= PickerButton_Unfocused;
 			pickerButton.Clicked -= PickerButton_Clicked;
 		}
 	}

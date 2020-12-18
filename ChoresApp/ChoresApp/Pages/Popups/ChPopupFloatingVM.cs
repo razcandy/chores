@@ -47,8 +47,6 @@ namespace ChoresApp.Pages.Popups
 			set => Set(ref secondaryButtonTransKey, value);
 		}
 
-		//public Action PrimaryButtonAction { get; set; } = () => { };
-
 		// Events & Handlers ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 		// Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

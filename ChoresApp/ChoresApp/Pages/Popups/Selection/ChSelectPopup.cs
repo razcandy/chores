@@ -1,64 +1,50 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Xamarin.Essentials;
+﻿using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace ChoresApp.Pages.Popups.Selection
 {
-	public class ChSelectPopup : ChPopupFloating
+	public class ChSelectPopup<T> : ChPopupFloating
 	{
 		// Fields ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		private DataTemplate itemTemplate;
+		private ListView selectView;
 
 		// Constructors ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-		public ChSelectPopup(ChSelectPopupVM _vm) : base(_vm)
+		public ChSelectPopup(ChSelectPopupVM<T> _vm) : base(_vm)
 		{
-			if (_vm.IsMultiselect)
-			{
-				itemTemplate = new DataTemplate(() => new ChSelectViewCell(true));
-
-			}
-			else
-			{
-				itemTemplate = new DataTemplate(() => new ChSelectViewCell(false));
-			}
+			itemTemplate = new DataTemplate(() => new ChSelectViewCell<T>(_vm.IsMultiselect));
 
 			if (DeviceInfo.Idiom == DeviceIdiom.Desktop)
 			{
-				TestView.WidthRequest = 300;
-				TestView.HeightRequest = 300;
-				TestView.HorizontalOptions = LayoutOptions.Center;
-				TestView.VerticalOptions = LayoutOptions.Center;
+				SelectView.WidthRequest = 300;
+				SelectView.HeightRequest = 300;
+				SelectView.HorizontalOptions = LayoutOptions.Center;
+				SelectView.VerticalOptions = LayoutOptions.Center;
 			}
 			else
 			{
-				TestView.VerticalOptions = LayoutOptions.Center;
+				SelectView.VerticalOptions = LayoutOptions.Center;
 			}
 
-			Content = TestView;
+			Content = SelectView;
 		}
 
 		// Properties ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-		private ListView testView;
-
-		private ListView TestView
+		private ListView SelectView
 		{
 			get
 			{
-				if (testView != null) return testView;
+				if (selectView != null) return selectView;
 
-				testView = new ListView
+				selectView = new ListView
 				{
-					//ItemTemplate = new DataTemplate(typeof(ChSelectViewCell)),
 					ItemTemplate = itemTemplate,
 					SelectionMode = ListViewSelectionMode.None,
 					HasUnevenRows = false,
 				};
-				testView.SetBinding(ListView.ItemsSourceProperty, nameof(ChSelectPopupVM.ItemSource));
+				selectView.SetBinding(ListView.ItemsSourceProperty, nameof(ChSelectPopupVM<T>.ItemSource));
 
-				return testView;
+				return selectView;
 			}
 		}
 
