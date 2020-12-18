@@ -5,19 +5,18 @@ using ChoresApp.Pages.Popups.Selection;
 using ChoresApp.Resources;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using Xamarin.Forms;
 
 namespace ChoresApp.Controls.Fields
 {
-	public class ChPicker : ChFieldBase
+	public abstract class ChPickerTest<T> : ChFieldBase
 	{
 		// Fields ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		private ChButton pickerButton;
 
 		// Constructors ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-		public ChPicker() : base()
+		public ChPickerTest() : base()
 		{
 			TrailingIconSource = ImageHelper.PickerArrow;
 
@@ -47,8 +46,8 @@ namespace ChoresApp.Controls.Fields
 		protected override bool ShowBigTitleLabel => false;
 		protected override bool ShowValueLabel => true;
 
-		public bool IsMultiSelect { get; set; } = true;
-		public IList<object> ItemsSource { get; set; }
+		public bool IsMultiSelect { get; set; }
+		public IList<T> ItemsSource { get; set; }
 
 		// Events & Handlers ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		private void PickerButton_Clicked(object sender, EventArgs e)
@@ -78,7 +77,7 @@ namespace ChoresApp.Controls.Fields
 			{
 				TitleTransKey = TitleTransKey,
 				IsMultiselect = IsMultiSelect,
-				SelectionConfirmedAction = ParseSelection, 
+				SelectionConfirmedAction = ParseSelection,
 			};
 
 			NavigationHelper.PushPopup(new ChSelectPopup(popupVM));
@@ -92,7 +91,7 @@ namespace ChoresApp.Controls.Fields
 			}
 			else
 			{
-				ValueString = string.Join(", ", _selected.Select(x => x.Title));
+				//_selected.ForEach()
 			}
 		}
 
@@ -104,5 +103,7 @@ namespace ChoresApp.Controls.Fields
 			pickerButton.Unfocused -= PickerButton_Unfocused;
 			pickerButton.Clicked -= PickerButton_Clicked;
 		}
+
+		protected abstract Func<T, string> GetTitleForItems { get; set; }
 	}
 }

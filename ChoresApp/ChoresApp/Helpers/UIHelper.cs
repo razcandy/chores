@@ -21,11 +21,12 @@ namespace ChoresApp.Helpers
             return new BoxView
             {
                 BackgroundColor = Color.Black,
-                Opacity = 1,
+                Opacity = 0.25,
                 Margin = 0,
                 HeightRequest = _thickness,
                 HorizontalOptions = LayoutOptions.FillAndExpand,
-                VerticalOptions = LayoutOptions.End,
+                VerticalOptions = LayoutOptions.Center,
+                InputTransparent = true,
             };
         }
 
@@ -34,11 +35,12 @@ namespace ChoresApp.Helpers
             return new BoxView
             {
                 BackgroundColor = Color.Black,
-                Opacity = 1,
+                Opacity = 0.25,
                 Margin = 0,
                 WidthRequest = _thickness,
                 HorizontalOptions = LayoutOptions.Center,
                 VerticalOptions = LayoutOptions.FillAndExpand,
+                InputTransparent = true,
             };
         }
 

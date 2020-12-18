@@ -47,7 +47,7 @@ namespace ChoresApp.Pages.Popups
 			set => Set(ref secondaryButtonTransKey, value);
 		}
 
-		public Action PrimaryButtonAction { get; set; } = () => { };
+		//public Action PrimaryButtonAction { get; set; } = () => { };
 
 		// Events & Handlers ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -58,7 +58,7 @@ namespace ChoresApp.Pages.Popups
 			SecondaryButtonCommand = new RelayCommand(SecondaryButtonAction);
 		}
 
-		//protected virtual void PrimaryButtonAction() { }
+		protected virtual void PrimaryButtonAction() { }
 		protected virtual void SecondaryButtonAction() { }
 	}
 }

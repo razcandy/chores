@@ -360,7 +360,6 @@ namespace ChoresApp.Resources
 		}
 
         //~~ Default Styles ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
         protected Style LabelDefaultStyle
         {
             get
@@ -399,6 +398,21 @@ namespace ChoresApp.Resources
                 var defaultStyle = ButtonTextStyle;
                 defaultStyle.ApplyToDerivedTypes = true;
                 return defaultStyle;
+			}
+		}
+
+        protected Style CheckboxDefaultStyle
+		{
+            get
+			{
+                return new Style(typeof(CheckBox))
+                {
+                    ApplyToDerivedTypes = true,
+                    Setters =
+					{
+                        new Setter {Property = CheckBox.ColorProperty, Value = PrimaryColor },
+					},
+                };
 			}
 		}
 
@@ -501,6 +515,7 @@ namespace ChoresApp.Resources
             rd.Add(ButtonDefaultStyle);
             rd.Add(FrameDefaultStyle);
             rd.Add(ImageDefaultStyle);
+            rd.Add(CheckboxDefaultStyle);
 
             return rd;
         }

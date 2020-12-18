@@ -116,7 +116,8 @@ namespace ChoresApp.Pages.Test
 
                 picker = new ChPicker
                 {
-                    Title = "Picker",
+                    //Title = "Picker",
+                    TitleTransKey = TitleTransKeyEnum.Test_Picker,
                     HelperText = "help me",
                 };
 

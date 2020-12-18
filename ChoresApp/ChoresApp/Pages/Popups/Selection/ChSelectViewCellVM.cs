@@ -1,42 +1,49 @@
-﻿using System;
+﻿using ChoresApp.Data;
+using System;
 using System.Collections.Generic;
 using System.Text;
-using Xamarin.Forms;
 
-namespace ChoresApp.Pages.Popups
+namespace ChoresApp.Pages.Popups.Selection
 {
-	public class ChPickerPopup : ChPopupFloating
+	public class ChSelectViewCellVM : ChViewModelBase
 	{
 		// Fields ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		private bool isSelected;
+		private string title;
 
 		// Constructors ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-		public ChPickerPopup(ChPickerPopupVM _vm) : base(_vm)
+		public ChSelectViewCellVM() : base()
 		{
-			Content = TestView;
+
 		}
-
+		
 		// Properties ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-		private ListView testView;
-
-		private ListView TestView
+		public bool IsSelected
 		{
-			get
+			get => isSelected;
+			set
 			{
-				if (testView != null) return testView;
-
-				testView = new ListView
+				if (value != isSelected)
 				{
-
-				};
-
-				return testView;
+					Set(ref isSelected, value);
+					IsSelectedChanged?.Invoke(this, isSelected);
+				}
 			}
 		}
 
+		public string Title
+		{
+			get => title;
+			set => Set(ref title, value);
+		}
+
 		// Events & Handlers ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		public event EventHandler<bool> IsSelectedChanged;
 
 		// Methods ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
+		public void OnTapped()
+		{
+			IsSelected = !IsSelected;
+		}
 	}
 }

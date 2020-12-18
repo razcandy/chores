@@ -38,7 +38,7 @@ namespace ChoresApp.Pages.Popups.Alert
 					HorizontalOptions = LayoutOptions.Start,
 					VerticalOptions = LayoutOptions.Center,
 					Opacity = 0.9,
-					Padding = new Thickness(24-MainFramePadding, 0, 24-MainFramePadding, 0),
+					Padding = new Thickness(24-mainFramePadding.Left, 0, 24- mainFramePadding.Right, 0),
 				};
 				messageLabel.SetBinding(XLabel.TranslationKeyProperty, nameof(ChPopupAlertVM.MessageTransKey));
 

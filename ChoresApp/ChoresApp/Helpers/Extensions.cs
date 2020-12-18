@@ -19,14 +19,35 @@ namespace ChoresApp.Helpers
 			return string.IsNullOrEmpty(_value);
 		}
 
-		public static bool IsNullOrEmpty<T>(this IEnumerable<T> _source)
+		// IEnumerable Extensions ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		
+		public static IEnumerable<T> Except<T>(this IEnumerable<T> _source, T _exception)
 		{
-			return _source == null || _source.Count() == 0;
+			//if (_source == null) return _source;
+
+			//if (_exception == null) return _source;
+
+			return _source.Except(new List<T> { _exception });
+		}
+
+		public static void ForEach<T>(this IEnumerable<T> _source, Action<T> _action)
+		{
+			if (_source == null || _action == null) return;
+
+			foreach (var item in _source)
+			{
+				_action.Invoke(item);
+			}
 		}
 
 		public static bool HasItems<T>(this IEnumerable<T> _source)
 		{
 			return _source != null && _source.Count() > 0;
+		}
+
+		public static bool IsNullOrEmpty<T>(this IEnumerable<T> _source)
+		{
+			return _source == null || _source.Count() == 0;
 		}
 	}
 }

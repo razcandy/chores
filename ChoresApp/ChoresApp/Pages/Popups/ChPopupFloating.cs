@@ -12,13 +12,14 @@ namespace ChoresApp.Pages.Popups
 	public class ChPopupFloating : ChPopupBase
 	{
 		// Constants ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-		protected const double MainFramePadding = 8;
 
 		// Fields ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		private Grid mainGrid;
 		private Frame mainFrame;
 		private XLabel subtitleLabel;
 		private XLabel titleLabel;
+
+		protected static Thickness mainFramePadding = new Thickness(8, 0);
 
 		// Constructors ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		public ChPopupFloating() : base() => Init();
@@ -63,6 +64,20 @@ namespace ChoresApp.Pages.Popups
 				mainGrid.Children.Add(MainContentWrapper, 0, rowCount);
 				rowCount++;
 
+				if (UseDividers)
+				{
+					var top = UIHelper.MakeHorizontalDivider();
+					top.VerticalOptions = LayoutOptions.Start;
+					top.Margin = new Thickness(-mainFramePadding.HorizontalThickness, 0);
+
+					var bottom = UIHelper.MakeHorizontalDivider();
+					bottom.VerticalOptions = LayoutOptions.End;
+					bottom.Margin = new Thickness(-mainFramePadding.HorizontalThickness, 0);
+
+					mainGrid.Children.Add(top, 0, rowCount-1);
+					mainGrid.Children.Add(bottom, 0, rowCount-1);
+				}
+
 				// footer
 				mainGrid.RowDefinitions.Add(UIHelper.MakeStaticRow(ResourceHelper.DefaultButtonHeight));
 				mainGrid.Children.Add(Footer, 0, rowCount);
@@ -105,7 +120,6 @@ namespace ChoresApp.Pages.Popups
 				primaryButton = new ChButton
 				{
 					Style = ResourceHelper.ButtonTextStyle,
-					HorizontalOptions = LayoutOptions.CenterAndExpand,
 				};
 				primaryButton.SetBinding(ChButton.CommandProperty, nameof(ChPopupFloatingVM.PrimaryButtonCommand));
 				primaryButton.SetBinding(ChButton.TranslationKeyProperty, nameof(ChPopupFloatingVM.PrimaryButtonTransKey));
@@ -160,6 +174,7 @@ namespace ChoresApp.Pages.Popups
 				titleLabel = new XLabel
 				{
 					Style = ResourceHelper.LabelH6Style,
+					VerticalTextAlignment = TextAlignment.Center,
 				};
 				titleLabel.SetBinding(XLabel.TranslationKeyProperty, nameof(ChPopupFloatingVM.TitleTransKey));
 
@@ -178,7 +193,7 @@ namespace ChoresApp.Pages.Popups
 					VerticalOptions = LayoutOptions.Center,
 					HorizontalOptions = LayoutOptions.CenterAndExpand,
 					Margin = 20,
-					Padding = MainFramePadding,
+					Padding = mainFramePadding,
 					Content = MainGrid,
 				};
 
@@ -194,9 +209,9 @@ namespace ChoresApp.Pages.Popups
 
 		protected ContentView MainContentWrapper = new ContentView();
 
-		protected virtual bool ShowSubtitle => false;
 		protected virtual View Footer => FooterGrid;
-
+		protected virtual bool ShowSubtitle => false;
+		protected virtual bool UseDividers => false;
 
 		// Events & Handlers ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		private void PrimaryButton_Clicked(object sender, EventArgs e)

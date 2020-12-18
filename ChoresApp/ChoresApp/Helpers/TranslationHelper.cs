@@ -36,6 +36,7 @@ namespace ChoresApp.Helpers
 			titlesTransCache.Add(TitleTransKeyEnum.LogIn.ToUpper(), "Log In");
 			titlesTransCache.Add(TitleTransKeyEnum.SignUp.ToUpper(), "Sign Up");
 			titlesTransCache.Add(TitleTransKeyEnum.Error.ToUpper(), "Error");
+			titlesTransCache.Add(TitleTransKeyEnum.Test_Picker.ToUpper(), "Picker~");
 
 			messagesTransCache.Add(MessageTransKeyEnum.NeedToLogin.ToUpper(), "Have an account?");
 			messagesTransCache.Add(MessageTransKeyEnum.NeedToSignUp.ToUpper(), "Don't have an account?");
@@ -94,6 +95,9 @@ namespace ChoresApp.Helpers
 		LogIn,
 		SignUp,
 		Error,
+
+		// test
+		Test_Picker,
 	}
 
 	public enum MessageTransKeyEnum
